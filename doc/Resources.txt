@@ -7,6 +7,7 @@ Competitors:
 Tech Stack Tutorials and Docs:
 - https://developer.android.com/docs (Android Docs)
 - https://www.git-tower.com/blog/git-cheat-sheet/ (Git cheat sheet)
+- https://binfalse.de/2015/10/05/javadoc-cheats-sheet/ (javadoc cheat sheet)
 - https://firebase.google.com/docs/firestore (Firestore Docs)
 - https://developers.google.com/maps/documentation/android-sdk/intro (Google Maps SDK docs)
 
