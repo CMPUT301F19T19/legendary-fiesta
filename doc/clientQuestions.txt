@@ -1,0 +1,7 @@
+- What emotional states are possible? (Competitors have Happy, Sad, Neutral, Excited, Afraid, Lonely, Depressed, Tired, Romantic, Add your own, number scale)
+
+- What login capabilities are necessary?
+
+- What does this mean? - As a participant, I want to ask another participant to follow their most recent mood event.
+
+- What is the difference between a user and a participant?
