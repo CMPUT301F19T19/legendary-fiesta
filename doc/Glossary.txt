@@ -2,9 +2,9 @@ User -
 
 Participant - 
 
-Mood Event - 
+Mood Event - A specific occurance of a mood state. Contains date, time, emotional state, reason?, situation?, photo?, location?
 
-Mood State -
+Mood State - Possible mood that you can have 
 
-Following -
+Following - 
 
