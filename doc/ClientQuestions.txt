@@ -5,3 +5,5 @@
 - What does this mean? - As a participant, I want to ask another participant to follow their most recent mood event.
 
 - What is the difference between a user and a participant?
+
+- Should we allow the user to accept/reject a follow request?
