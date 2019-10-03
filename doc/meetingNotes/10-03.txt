@@ -1,1 +1,29 @@
 Meeting Notes for Today:
+
+Project Manager Stuff: Tom
+UI/UX: Lefan and Than
+
+Are we allowed to use external libraries?
+
+Went over standards.txt
+Explained CI, Testing, etc.
+
+Went over git merging standards
+
+Decided to use javadoc commenting
+
+Weekly meetings Thursday at 2 for 1 hour
+
+Scrum in labs
+
+Moving the boards from Trello to Github
+
+Did the glossary as much as possible
+
+Zixhing is doing initial project setup.
+
+Next Week:
+- Assign Story Points
+- Assign initial tasks
+- Storyboard UI
+- Do Object-Oriented design plan
