@@ -3,9 +3,12 @@ These are the standards we want to stick to for development.
 Number of spaces = 4
 
 Pull Requests:
-- Never Commit directly to Master
+- Never Commit directly to Master, unless doing documentation
 - Don't merge your own pull requests
 - Ping the slack whenever you put out a pull request
+
+Slack:
+- Check it regularly and respond often
 
 Approving Pull Requests:
 - Merge other's pull requests early and often
