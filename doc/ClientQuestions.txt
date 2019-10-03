@@ -7,3 +7,9 @@
 - What is the difference between a user and a participant?
 
 - Should we allow the user to accept/reject a follow request?
+
+- How should the app icon look like? 
+
+- Does the client have any colour/design preferences?
+
+- What should be the name of the app?
