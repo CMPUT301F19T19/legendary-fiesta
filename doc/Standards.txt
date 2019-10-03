@@ -1,0 +1,21 @@
+These are the standards we want to stick to for development.
+
+Number of spaces = 4
+
+Pull Requests:
+- Never Commit directly to Master
+- Don't merge your own pull requests
+- Ping the slack whenever you put out a pull request
+
+Approving Pull Requests:
+- Merge other's pull requests early and often
+- Comments on small nitpick stuff are usually not important
+- Keep comments constructive
+- Make sure you read the code, that it compiles, and that you have actually tested the app with the new code before you approve it
+
+Tests:
+- Please write tests for your code
+- Pull requests should contain tests for code that they add
+- 75% test coverage should be the minimum goal
+- Manually test the app in addition to written tests, particularly to ensure the UI is not wonky
+
