@@ -10,6 +10,20 @@ Pull Requests:
 Slack:
 - Check it regularly and respond often
 
+Commits:
+- Make the commit messages meaningfull
+- Commit often
+
+Boards:
+- Keep boards up to date
+
+Commenting:
+- Use javadoc style
+
+UI:
+- Android x
+- Material UI
+
 Approving Pull Requests:
 - Merge other's pull requests early and often
 - Comments on small nitpick stuff are usually not important
