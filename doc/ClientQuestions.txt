@@ -6,10 +6,17 @@
 
 - What is the difference between a user and a participant?
 
-- Should we allow the user to accept/reject a follow request?
+
+UI questions:
 
 - How should the app icon look like? 
 
+- What should be the name of the app?
+
 - Does the client have any colour/design preferences?
 
-- What should be the name of the app?
+- Does the client want to be able to change the theme of the app?
+
+- Does the client want to filter his mood events by only emotional state? How about date, time, etc?
+
+- Does the client also want to be able to filter his following list? 
