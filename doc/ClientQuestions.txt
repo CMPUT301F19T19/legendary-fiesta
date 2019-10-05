@@ -20,3 +20,5 @@ UI questions:
 - Does the client want to filter his mood events by only emotional state? How about date, time, etc?
 
 - Does the client also want to be able to filter his following list? 
+
+- Does the client want to have a profile picture?
