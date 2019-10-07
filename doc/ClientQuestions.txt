@@ -1,10 +1,19 @@
 - What emotional states are possible? (Competitors have Happy, Sad, Neutral, Excited, Afraid, Lonely, Depressed, Tired, Romantic, Add your own, number scale)
+"All emotional states look resealable. You don't have to implement all emotions but you'll need to at least cover the basics (e.g. happy, angry, sad, neutral)."
+Ken mentioned in class that we should at least cover 7 - 8 basic emotions. Also citing 'The Paradox of Choice'. 
 
 - What login capabilities are necessary?
+"Your app should at least have a way to sign up for an account and a way to log in with it. You'll need to associate it with Firestore, which support authentication with email, google, facebook and more [OAuth Service Providers].
+The topic of FireStore will be covered next week in the lab. You can ask this again on the forum, I will ask Ken about this question in TA meetings on Wednesday".
 
 - What does this mean? - As a participant, I want to ask another participant to follow their most recent mood event.
 
+- What should following another users events consist of? Is it event based or user based? If user based how many of a users events does a follower get to see?
+"It should be based instead of event based. The follower should be able to see the most recent event (so at most one event) of the user that's being followed."
+
 - What is the difference between a user and a participant?
+"A user is a more generalized term. A participant is a specific kind of user, i.e. users that are participating in using the app. There could be other types of users such as admin, but we don't have any user stories associated
+with this role right now".
 
 
 UI questions:
