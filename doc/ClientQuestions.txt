@@ -10,15 +10,14 @@
 UI questions:
 
 - How should the app icon look like? 
-
 - What should be the name of the app?
-
 - Does the client have any colour/design preferences?
+TA: "Up to you guys"
 
 - Does the client want to be able to change the theme of the app?
-
 - Does the client want to filter his mood events by only emotional state? How about date, time, etc?
-
 - Does the client also want to be able to filter his following list? 
-
 - Does the client want to have a profile picture?
+TA: "Up to you guys but it's a nice-to-have feature"
+
+
