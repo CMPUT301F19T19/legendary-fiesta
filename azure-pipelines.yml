@@ -5,6 +5,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: DownloadSecureFile@1
+  name: gmsToken
+  inputs:
+    secureFile: 'google-services.json'
+- bash: mv $(gmsToken.secureFilePath) '$(Build.SourcesDirectory)/app/'
 - task: Gradle@2
   inputs:
     workingDirectory: ''
