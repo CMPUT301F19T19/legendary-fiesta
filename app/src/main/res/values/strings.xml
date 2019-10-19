@@ -5,4 +5,6 @@
     <string name="navbar_add_post">Add Mood Event</string>
     <string name="navbar_friends">Friends</string>
     <string name="navbar_profile">Profile</string>
+    <string name="login_error_toast">Unable to sign you in: %d</string>
+    <string name="login_error_cancelled">You need to sign in to use this app</string>
 </resources>
