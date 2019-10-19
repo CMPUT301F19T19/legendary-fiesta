@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="color_happy">#F9D5BB</color>
+    <color name="color_angry">#F66767</color>
+    <color name="color_scared">#AC8DAF</color>
+    <color name="color_sad">#005580</color>
+    <color name="color_disgusted">#85ADAD</color>
+    <color name="color_surprised">#FBC1BC</color>
+    <color name="color_neutral">#BFBFBF</color>
 </resources>
