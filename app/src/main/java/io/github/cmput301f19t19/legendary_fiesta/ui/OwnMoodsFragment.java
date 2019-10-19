@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
-public class OwnListFragment extends Fragment {
+public class OwnMoodsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
