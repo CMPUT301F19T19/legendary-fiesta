@@ -1,14 +1,14 @@
-package com.example.navbar.ui.addpost;
+package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.os.Bundle;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-        import androidx.fragment.app.Fragment;
+import androidx.fragment.app.Fragment;
 
-import com.example.navbar.R;
+import io.github.cmput301f19t19.legendary_fiesta.R;
 
 public class AddPostFragment extends Fragment {
 
