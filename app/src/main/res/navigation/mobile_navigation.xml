@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_own_list">
+
+    <fragment
+        android:id="@+id/navigation_own_list"
+        android:name="io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment"
+        android:label="@string/navbar_my_list"
+        tools:layout="@layout/fragment_own_moods" />
+
+    <fragment
+        android:id="@+id/navigation_friends_moods"
+        android:name="io.github.cmput301f19t19.legendary_fiesta.ui.FriendsMoodsFragment"
+        android:label="@string/navbar_friends_list"
+        tools:layout="@layout/fragment_friends_moods" />
+
+    <fragment
+        android:id="@+id/navigation_add_post"
+        android:name="io.github.cmput301f19t19.legendary_fiesta.ui.AddPostFragment"
+        android:label="@string/navbar_add_post"
+        tools:layout="@layout/fragment_add_post" />
+
+    <fragment
+        android:id="@+id/navigation_friends"
+        android:name="io.github.cmput301f19t19.legendary_fiesta.ui.FriendsFragment"
+        android:label="@string/navbar_friends"
+        tools:layout="@layout/fragment_friends" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="io.github.cmput301f19t19.legendary_fiesta.ui.ProfileFragment"
+        android:label="@string/navbar_profile"
+        tools:layout="@layout/fragment_profile" />
+
+</navigation>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">legendary-fiesta</string>
+    <string name="navbar_my_list">My Moods</string>
+    <string name="navbar_friends_list">Friends\' Moods</string>
+    <string name="navbar_add_post">Add Mood Event</string>
+    <string name="navbar_friends">Friends</string>
+    <string name="navbar_profile">Profile</string>
 </resources>
