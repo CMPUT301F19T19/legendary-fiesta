@@ -43,9 +43,11 @@ public class LoginActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                // Parse user information to the MainActivity (John is an example)
+                // TODO: Attach needed information to the intent
                 startActivity(
                         new Intent(this, MainActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("USER_NAME", "John")
                 );
             } else {
                 // Sign in failed. If response is null the user canceled the
