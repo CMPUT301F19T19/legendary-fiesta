@@ -20,6 +20,16 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+- task: Gradle@2
+  displayName: Run unit tests
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'testDebugUnitTest'
+- task: Gradle@2
 - task: CopyFiles@2
   displayName: Copy APK files
   inputs:
