@@ -9,21 +9,21 @@
     <item
         android:id="@+id/navigation_friends_moods"
         android:icon="@drawable/friends_mood_events"
-        android:title="@string" />
+        android:title="@string/navbar_friends_list" />
 
     <item
         android:id="@+id/navigation_add_post"
         android:icon="@drawable/add_post"
-        android:title="Add Post" />
+        android:title="@string/navbar_add_post" />
 
     <item
         android:id="@+id/navigation_friends"
         android:icon="@drawable/friends_list"
-        android:title="Friends" />
+        android:title="@string/navbar_friends" />
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/profile_page"
-        android:title="Profile" />
+        android:title="@string/navbar_profile" />
 
 </menu>
