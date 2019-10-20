@@ -1,9 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
-import com.google.type.LatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -39,9 +40,9 @@ public class MoodEvent {
      * @param photo Optional photo byte array
      * @param location Optional location
      */
-    public MoodEvent(Mood mood, String user, @Nullable String description, Date date,
-                     @Nullable SocialCondition condition, @Nullable byte[] photo,
-                     @ Nullable LatLng location) {
+    public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
+                     @Nonnull Date date, @Nullable SocialCondition condition,
+                     @Nullable byte[] photo, @ Nullable LatLng location) {
         this.mood = mood;
         this.user = user;
         this.description = description;
@@ -68,6 +69,9 @@ public class MoodEvent {
     }
 
     public void setDescription(String description) {
+        if (description.length() > 20) {
+            throw new IllegalArgumentException("Description too long");
+        }
         this.description = description;
     }
 
