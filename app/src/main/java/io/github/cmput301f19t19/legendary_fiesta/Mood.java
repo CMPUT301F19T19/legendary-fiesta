@@ -5,6 +5,11 @@ package io.github.cmput301f19t19.legendary_fiesta;
  * Contains getters for iconId, colorId, and nameId for a mood based on type
  */
 public class Mood {
+
+    /**
+     * An enum which represents a possible type of mood
+     * Used to construct moods and associate colors, icons, and names with them
+     */
     public enum moodType {
         NEUTRAL,
         HAPPY,
@@ -21,8 +26,7 @@ public class Mood {
 
     /**
      * Constructor for a mood instance
-     * @param type
-     * Mood.moodType enum for choosing the mood to build
+     * @param type Mood.moodType enum for choosing the mood to build
      */
     public Mood (moodType type) {
         switch (type) {
@@ -65,27 +69,21 @@ public class Mood {
     }
 
     /**
-     * Returns the iconId of this mood based on type
-     * @return
-     * Int iconId of the selected mood type
+     * @return Int iconId of the selected mood type
      */
     public int getIconId() {
         return this.iconId;
     }
 
     /**
-     * Returns the colorId of this mood based on type
-     * @return
-     * Int colorId of the selected mood type
+     * @return Int colorId of the selected mood type
      */
     public int getColorId() {
         return this.colorId;
     }
 
     /**
-     * Returns the nameId of this mood based on type
-     * @return
-     * Int nameId of the selected mood type
+     * @return Int nameId of the selected mood type
      */
     public int getNameId() {
         return this.nameId;
