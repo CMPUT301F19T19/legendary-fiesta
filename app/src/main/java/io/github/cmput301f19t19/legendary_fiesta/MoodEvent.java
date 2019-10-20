@@ -106,14 +106,14 @@ public class MoodEvent {
     }
 
     /**
-     * @return SocialCondition enum of the MoodEvent
+     * @return MoodEvent.SocialCondition enum of the MoodEvent
      */
     public SocialCondition getCondition() {
         return condition;
     }
 
     /**
-     * @param condition SocialCondition enum of the MoodEvent
+     * @param condition MoodEvent.SocialCondition enum of the MoodEvent
      */
     public void setCondition(SocialCondition condition) {
         this.condition = condition;
