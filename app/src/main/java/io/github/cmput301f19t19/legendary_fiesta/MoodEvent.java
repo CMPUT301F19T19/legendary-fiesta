@@ -50,4 +50,60 @@ public class MoodEvent {
         this.photo = photo;
         this.location = location;
     }
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public SocialCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(SocialCondition condition) {
+        this.condition = condition;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public LatLng getLocation() {
+        return location;
+    }
+
+    public void setLocation(LatLng location) {
+        this.location = location;
+    }
+
+    public void save() {
+        // TODO: send all info to firebase to update a mood event
+    }
 }
