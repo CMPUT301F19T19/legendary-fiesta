@@ -42,7 +42,7 @@ public class MoodEvent {
      */
     public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable SocialCondition condition,
-                     @Nullable byte[] photo, @ Nullable LatLng location) {
+                     @Nullable byte[] photo, @Nullable LatLng location) {
         this.mood = mood;
         this.user = user;
         this.description = description;
