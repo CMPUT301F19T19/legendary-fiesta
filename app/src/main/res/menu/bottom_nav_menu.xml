@@ -4,12 +4,12 @@
     <item
         android:id="@+id/navigation_own_list"
         android:icon="@drawable/my_mood_events"
-        android:title="My Moods" />
+        android:title="@string/navbar_my_list" />
 
     <item
         android:id="@+id/navigation_friends_moods"
         android:icon="@drawable/friends_mood_events"
-        android:title="Friend's Moods" />
+        android:title="@string" />
 
     <item
         android:id="@+id/navigation_add_post"
