@@ -6,11 +6,13 @@ pool:
 
 steps:
 - task: DownloadSecureFile@1
+  displayName: Download Token
   name: gmsToken
   inputs:
     secureFile: 'google-services.json'
 - bash: mv $(gmsToken.secureFilePath) '$(Build.SourcesDirectory)/app/'
 - task: Gradle@2
+  displayName: Build the Gradle project
   inputs:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
@@ -19,11 +21,18 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
 - task: CopyFiles@2
+  displayName: Copy APK files
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)/app/build/outputs/apk/'
     contents: '**/*.apk'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
+  displayName: Upload APK files to artifact storage
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: apk
+- bash: ./.ci/push_javadoc.sh
+  displayName: Generate Javadoc
+  env:
+    PUSH_CRED: $(PUSH_CRED)
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
