@@ -12,6 +12,9 @@ import javax.annotation.Nullable;
  */
 public class MoodEvent {
 
+    /**
+     * An enum representing the possible social conditions that a MoodEvent occurred in
+     */
     public enum SocialCondition {
         SINGLE,
         PAIR,
@@ -26,9 +29,6 @@ public class MoodEvent {
     private SocialCondition condition;
     private byte[] photo;
     private LatLng location;
-
-    // TODO: Photo
-    // TODO: Location
 
     /**
      * Constructor for mood event
@@ -52,61 +52,104 @@ public class MoodEvent {
         this.location = location;
     }
 
-    public Mood getMood() {
-        return mood;
-    }
-
+    /**
+     * @return String username of the User that had the MoodEvent
+     */
     public String getUser() {
         return user;
     }
 
+    /**
+     * @return Mood of the MoodEvent
+     */
+    public Mood getMood() {
+        return mood;
+    }
+
+    /**
+     * @param mood Mood that the MoodEvent should have
+     */
     public void setMood(Mood mood) {
         this.mood = mood;
     }
 
+    /**
+     * @return The 20 char or less String description of the MoodEvent
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    /**
+     * @param description String description of the MoodEvent (length <= 20)
+     * @throws IllegalArgumentException if String too long
+     */
+    public void setDescription(String description) throws IllegalArgumentException {
         if (description.length() > 20) {
             throw new IllegalArgumentException("Description too long");
         }
         this.description = description;
     }
 
+    /**
+     * @return Date that the MoodEvent occurred
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     * @param date Date that the MoodEvent occurred
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
+    /**
+     * @return SocialCondition enum of the MoodEvent
+     */
     public SocialCondition getCondition() {
         return condition;
     }
 
+    /**
+     * @param condition SocialCondition enum of the MoodEvent
+     */
     public void setCondition(SocialCondition condition) {
         this.condition = condition;
     }
 
+    /**
+     * @return byte[] photo of the MoodEvent
+     */
     public byte[] getPhoto() {
         return photo;
     }
 
+    /**
+     * @param photo byte[] photo of the MoodEvent
+     */
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
+    /**
+     * @return maps LatLng of the location of the MoodEvent
+     */
     public LatLng getLocation() {
         return location;
     }
 
+    /**
+     * @param location maps LatLng of the location of the MoodEvent
+     */
     public void setLocation(LatLng location) {
         this.location = location;
     }
 
+    /**
+     * Called to save any changes to the MoodEvent to firebase
+     */
     public void save() {
         // TODO: send all info to firebase to update a mood event
     }
