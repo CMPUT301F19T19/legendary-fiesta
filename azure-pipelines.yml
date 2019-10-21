@@ -29,7 +29,6 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'testDebugUnitTest'
-- task: Gradle@2
 - task: CopyFiles@2
   displayName: Copy APK files
   inputs:
