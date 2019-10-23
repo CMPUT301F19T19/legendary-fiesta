@@ -29,9 +29,6 @@ public class OwnMoodsFragment extends Fragment {
         mView = root;
 
         setUpSpinner();
-        // Information from FireBase
-        //TextView textView = root.findViewById(R.id.text_my_moods);
-        //textView.setText(requireActivity().getIntent().getStringExtra("USER_NAME"));
         return root;
     }
 
