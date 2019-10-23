@@ -25,6 +25,12 @@
         android:textColorHighlight="@color/color_surprised"
         android:textSize="18sp" />
 
+    <Spinner
+        android:id="@+id/filter_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0" />
+
     <ListView
         android:id="@+id/mood_list"
         android:layout_width="match_parent"
@@ -32,9 +38,4 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
-    <Spinner
-        android:id="@+id/filter_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0" />
 </LinearLayout>
