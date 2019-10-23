@@ -7,7 +7,7 @@
     <string name="navbar_profile">Profile</string>
     <string name="login_error_toast">Unable to sign you in: %d</string>
     <string name="login_error_cancelled">You need to sign in to use this app</string>
-    
+
     <string-array name="filter">
         <item>Neutral</item>
         <item>Happy</item>
@@ -18,4 +18,12 @@
         <item>Sad</item>
         <item>None</item>
     </string-array>
+
+    <string name="mood_neutral">Neutral</string>
+    <string name="mood_happy">Happy</string>
+    <string name="mood_angry">Angry</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_disgusted">Disgusted</string>
+    <string name="mood_scared">Scared</string>
+    <string name="mood_surprised">Surprised</string>
 </resources>

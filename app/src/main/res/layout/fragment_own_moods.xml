@@ -6,7 +6,6 @@
     android:background="@drawable/background"
     android:orientation="vertical">
 
-
     <Button
         android:id="@+id/show_on_map_button"
         android:layout_width="match_parent"

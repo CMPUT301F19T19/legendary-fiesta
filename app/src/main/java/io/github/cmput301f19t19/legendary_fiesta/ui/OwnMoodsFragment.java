@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,7 +29,9 @@ public class OwnMoodsFragment extends Fragment {
         mView = root;
 
         setUpSpinner();
-
+        // Information from FireBase
+        //TextView textView = root.findViewById(R.id.text_my_moods);
+        //textView.setText(requireActivity().getIntent().getStringExtra("USER_NAME"));
         return root;
     }
 
