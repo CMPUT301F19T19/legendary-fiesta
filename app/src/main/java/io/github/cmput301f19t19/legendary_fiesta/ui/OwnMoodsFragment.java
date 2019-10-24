@@ -24,6 +24,7 @@ public class OwnMoodsFragment extends Fragment {
     private View mView; //reference to associated view, initialized in onCreateView
 
     Spinner filterSpinner;
+    String selectedFilter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +51,22 @@ public class OwnMoodsFragment extends Fragment {
     private void setUpFilterSpinner(){
         filterSpinner = mView.findViewById(R.id.filter_spinner);
 
-       
-
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(mActivity, R.array.filter,
                 android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(spinnerAdapter);
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 }
