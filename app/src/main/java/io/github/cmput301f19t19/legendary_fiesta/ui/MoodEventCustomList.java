@@ -56,7 +56,8 @@ public class MoodEventCustomList extends ArrayAdapter<MoodEvent>{
 
         //set time
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-
+        String timeString = timeFormat.format(date);
+        displayed_time.setText(timeString);
 
         return view;
     }
