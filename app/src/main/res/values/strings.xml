@@ -33,6 +33,10 @@
     <string name="mood_scared">Scared</string>
     <string name="mood_surprised">Surprised</string>
     <string name="login_sign_in">Sign In</string>
-    <string name="login_logging_in">Signing In...</string>
+    <string name="login_logging_in">Signing In…</string>
     <string name="login_sign_up">Sign Up</string>
+    <string name="login_username">Username</string>
+    <string name="login_bio">Bio</string>
+    <string name="login_date">Birthday</string>
+    <string name="login_invalid_date">The date is invalid</string>
 </resources>
