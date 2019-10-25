@@ -7,4 +7,44 @@
     android:background="@drawable/background"
     tools:context=".LoginActivity">
 
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/btn_sign_in" android:layout_marginBottom="48dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:text="@string/login_sign_in"
+            android:onClick="showLogin"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="0dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_sign_in" android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp" android:visibility="invisible"
+            android:id="@+id/login_signup_form">
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/login_username"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/login_dob" android:onClick="selectDate" android:focusableInTouchMode="false"
+                android:cursorVisible="false" android:longClickable="false" android:linksClickable="false"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/login_bio"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/login_signup"
+                android:text="@string/login_sign_up" android:visibility="visible" android:onClick="addNewUser"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
