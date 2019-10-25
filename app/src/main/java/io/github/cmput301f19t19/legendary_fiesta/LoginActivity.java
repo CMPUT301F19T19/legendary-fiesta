@@ -19,17 +19,22 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 2;
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     private static final List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.GoogleBuilder().build(),
             new AuthUI.IdpConfig.EmailBuilder().build()
     );
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
     private String uid;
+    private View progressOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         View button = findViewById(R.id.btn_sign_in);
+        progressOverlay = findViewById(R.id.progress_overlay);
         showLogin(button);
     }
 
     private void launchMainActivity(User profile) {
+        // re-enable the sign in button
+        View button = findViewById(R.id.btn_sign_in);
+        showProgressOverlay(false);
+        button.setEnabled(true);
         // Parse user information to the MainActivity
         startActivity(
                 new Intent(this, MainActivity.class)
@@ -50,13 +60,19 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * show/hide the sign up form
+     *
      * @param show whether to show the sign up form
      */
     private void showSignup(boolean show) {
         View signup = findViewById(R.id.login_signup_form);
         View signupButton = findViewById(R.id.btn_sign_in);
+        showProgressOverlay(false);
         signup.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-        signupButton.setVisibility(show ? View.INVISIBLE: View.VISIBLE);
+        signupButton.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void showProgressOverlay(boolean show) {
+        progressOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -65,17 +81,26 @@ public class LoginActivity extends AppCompatActivity {
      * @param v submit button
      */
     public void addNewUser(View v) {
+        final View submit_button = findViewById(R.id.login_signup);
         EditText name = findViewById(R.id.login_username);
         EditText birthDate = findViewById(R.id.login_dob);
         EditText bio = findViewById(R.id.login_bio);
         final User user; // to use the User object in a callback, it needs to be `final`
         final String userName = name.getText().toString();
         final String description = bio.getText().toString();
+        submit_button.setEnabled(false);
+        showProgressOverlay(true);
         String birthDateString = birthDate.getText().toString();
-        final Date birth = null;
+        Date birth = null;
 
         if (!birthDateString.isEmpty()) {
-            // TODO: convert date
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.CANADA);
+            try {
+                birth = dateFormat.parse(birthDateString);
+            } catch (ParseException ignored) {
+                submit_button.setEnabled(true);
+                Toast.makeText(this, R.string.login_invalid_date, Toast.LENGTH_LONG).show();
+            }
         }
 
         user = new User(userName, birth, description);
@@ -84,6 +109,8 @@ public class LoginActivity extends AppCompatActivity {
         firebaseHelper.checkUserExists(userName, new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot document) {
+                submit_button.setEnabled(true);
+                showProgressOverlay(false);
                 if (!document.isEmpty()) {
                     // An user with the specified username already exists
                     Log.d("FeelsLog", "addNewUser: duplicates");
@@ -150,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
+                showProgressOverlay(true);
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user == null) {  // error when getting the user instance
                     button.setEnabled(true);
