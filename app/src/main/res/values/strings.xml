@@ -32,4 +32,7 @@
     <string name="mood_disgusted">Disgusted</string>
     <string name="mood_scared">Scared</string>
     <string name="mood_surprised">Surprised</string>
+    <string name="login_sign_in">Sign In</string>
+    <string name="login_logging_in">Signing In...</string>
+    <string name="login_sign_up">Sign Up</string>
 </resources>
