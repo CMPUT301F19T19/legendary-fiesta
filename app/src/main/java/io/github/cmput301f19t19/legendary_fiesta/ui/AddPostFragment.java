@@ -34,7 +34,7 @@ public class AddPostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_add_post, container, false);
-
+      
         // Buttons in fragment
         Button dateButton = root.findViewById(R.id.date_picker_button);
         Button timeButton = root.findViewById(R.id.time_picker_button);
