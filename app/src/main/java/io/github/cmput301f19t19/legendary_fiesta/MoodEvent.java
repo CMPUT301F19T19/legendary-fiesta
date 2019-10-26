@@ -1,5 +1,8 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -10,8 +13,7 @@ import javax.annotation.Nullable;
 /**
  * Represents a single mood event
  */
-public class MoodEvent {
-
+public class MoodEvent implements Parcelable {
     /**
      * An enum representing the possible social conditions that a MoodEvent occurred in
      */
@@ -51,6 +53,26 @@ public class MoodEvent {
         this.photo = photo;
         this.location = location;
     }
+
+    protected MoodEvent(Parcel in) {
+        user = in.readString();
+        description = in.readString();
+        photo = in.createByteArray();
+        location = in.readParcelable(LatLng.class.getClassLoader());
+        mood = new Mood(in.readInt());
+    }
+
+    public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
+        @Override
+        public MoodEvent createFromParcel(Parcel in) {
+            return new MoodEvent(in);
+        }
+
+        @Override
+        public MoodEvent[] newArray(int size) {
+            return new MoodEvent[size];
+        }
+    };
 
     /**
      * @return String username of the User that had the MoodEvent
@@ -153,4 +175,19 @@ public class MoodEvent {
     public void save() {
         // TODO: send all info to firebase to update a mood event
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(user);
+        dest.writeString(description);
+        dest.writeByteArray(photo);
+        dest.writeParcelable(location, flags);
+        dest.writeInt(mood.getMoodType());
+    }
+
 }
