@@ -37,7 +37,7 @@ public class TimePickerFragment extends AppCompatDialogFragment implements TimeP
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
-        String selectedTime = new SimpleDateFormat("HH:mm aa", Locale.CANADA).format(calendar.getTime());
+        String selectedTime = new SimpleDateFormat("hh:mm aa", Locale.CANADA).format(calendar.getTime());
 
         // Send date back to the target fragment (e.g. AddPostFragment)
         getTargetFragment().onActivityResult(
