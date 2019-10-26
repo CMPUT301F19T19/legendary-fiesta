@@ -17,11 +17,6 @@ public class FriendsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_friends, container, false);
-
-        // Information from FireBase
-        TextView textView = root.findViewById(R.id.text_friends);
-        textView.setText(requireActivity().getIntent().getStringExtra("USER_NAME"));
-
         return root;
     }
 }

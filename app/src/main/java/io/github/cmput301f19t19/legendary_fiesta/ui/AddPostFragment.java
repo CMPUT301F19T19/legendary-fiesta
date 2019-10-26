@@ -18,11 +18,6 @@ public class AddPostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_add_post, container, false);
-
-        // Information from FireBase
-        TextView textView = root.findViewById(R.id.text_add_post);
-        textView.setText(requireActivity().getIntent().getStringExtra("USER_NAME"));
-
         return root;
     }
 }
