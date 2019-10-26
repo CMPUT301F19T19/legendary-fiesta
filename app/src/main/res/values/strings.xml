@@ -7,6 +7,12 @@
     <string name="navbar_profile">Profile</string>
     <string name="login_error_toast">Unable to sign you in: %d</string>
     <string name="login_error_cancelled">You need to sign in to use this app</string>
+    <string name="add_post_greeting">How are you feeling?</string>
+    <string name="add_post_date_button">Date</string>
+    <string name="add_post_time_button">Time</string>
+    <string name="add_post_cancel_button">Cancel</string>
+    <string name="add_post_done_button">Done</string>
+    <string name="add_post_description_hint">Describe your feeling (Maximum 20 characters).</string>
 
     <string-array name="filter">
         <item>Neutral</item>

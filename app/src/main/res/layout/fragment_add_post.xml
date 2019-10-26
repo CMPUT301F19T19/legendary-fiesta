@@ -1,18 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingLeft="15dp">
+    android:background="@drawable/background">
 
     <TextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
+        android:id="@+id/greetingView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="How are you feeling?"
-        android:paddingTop="20dp"
-        style="@style/WhiteText"
-        />
-</LinearLayout>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_post_greeting"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greetingView">
+
+        <ImageView
+            android:id="@+id/icon_view_neutral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_neutral"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/icon_neutral" />
+
+        <ImageView
+            android:id="@+id/icon_view_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_happy"
+            app:srcCompat="@drawable/icon_happy" />
+
+        <ImageView
+            android:id="@+id/icon_view_surprised"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_surprised"
+            app:srcCompat="@drawable/icon_surprised" />
+
+        <ImageView
+            android:id="@+id/icon_view_angry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_angry"
+            app:srcCompat="@drawable/icon_angry" />
+
+        <ImageView
+            android:id="@+id/icon_view_scared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_scared"
+            app:srcCompat="@drawable/icon_scared"
+            tools:layout_editor_absoluteX="378dp"
+            tools:layout_editor_absoluteY="269dp" />
+
+        <ImageView
+            android:id="@+id/icon_view_disgusted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_disgusted"
+            app:srcCompat="@drawable/icon_disgusted" />
+
+        <ImageView
+            android:id="@+id/icon_view_sad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/mood_sad"
+            app:srcCompat="@drawable/icon_sad" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/date_picker_button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_post_date_button"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/date_edittext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <EditText
+        android:id="@+id/date_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/time_picker_button"
+        app:layout_constraintStart_toEndOf="@+id/date_picker_button"
+        app:layout_constraintTop_toTopOf="@+id/date_picker_button" />
+
+    <Button
+        android:id="@+id/time_picker_button"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/add_post_time_button"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/time_edittext"
+        app:layout_constraintStart_toEndOf="@+id/date_edittext"
+        app:layout_constraintTop_toTopOf="@+id/date_edittext" />
+
+    <EditText
+        android:id="@+id/time_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/time_picker_button"
+        app:layout_constraintTop_toTopOf="@+id/time_picker_button" />
+
+    <EditText
+        android:id="@+id/description_edittext"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/add_post_description_hint"
+        android:inputType="textPersonName"
+        android:textColor="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_picker_button" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_post_cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_post_done_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
