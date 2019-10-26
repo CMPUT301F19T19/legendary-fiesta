@@ -18,6 +18,7 @@ public class FriendsMoodsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_friends_moods, container, false);
+
         return root;
     }
 }
