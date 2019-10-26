@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "io.github.cmput301f19t19.legendary_fiesta"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 29
         multiDexEnabled true
         versionCode 1
@@ -20,6 +20,10 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
