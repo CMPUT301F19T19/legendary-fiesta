@@ -11,4 +11,5 @@
     <color name="color_surprised">#FBC1BC</color>
     <color name="color_neutral">#BFBFBF</color>
     <color name="color_white">#FFFFFFFF</color>
+    <color name="transparent_background">#60FFFFFF</color>
 </resources>

@@ -1,5 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +18,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.lang.reflect.Array;
+
+import io.github.cmput301f19t19.legendary_fiesta.Mood;
+import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 public class OwnMoodsFragment extends Fragment {
@@ -48,9 +54,27 @@ public class OwnMoodsFragment extends Fragment {
      */
     private void setUpFilterSpinner(){
         filterSpinner = mView.findViewById(R.id.filter_spinner);
+        /*
+        * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
+         */
+        ArrayList<String> filterArray = new ArrayList<>();
+        Arrays.asList(Mood.moodType.values()).forEach(mood -> {
+            String moodName = mood.name().toLowerCase();
+            String cap = moodName.substring(0,1).toUpperCase() + moodName.substring(1);
+            filterArray.add(cap);
+        });
+        filterArray.add("None");
 
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(mActivity, R.array.filter,
-                R.layout.spinner_item);
+        /*
+        * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
+         */
+        String[] filterObject = new String[filterArray.size()];
+        filterObject = filterArray.toArray(filterObject);
+
+        /*
+        Create string ArrayAdapter that will be used for filterSpinner
+         */
+        ArrayAdapter<String> spinnerAdapter = new SpinnerArrayAdapter(mActivity, R.layout.spinner_item, filterObject);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
 

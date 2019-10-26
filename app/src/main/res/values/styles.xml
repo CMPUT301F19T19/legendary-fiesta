@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="WhiteText">
+        <item name="android:textSize">@dimen/default_font_size</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:fontFamily">@font/abeezee</item>
+    </style>
+
 </resources>
