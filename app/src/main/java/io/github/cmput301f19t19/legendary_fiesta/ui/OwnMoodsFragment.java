@@ -39,9 +39,7 @@ public class OwnMoodsFragment extends Fragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        /**
-         * get reference to associated activity
-         */
+        // get reference to associated activity
         mActivity = (Activity) context;
     }
 
@@ -56,6 +54,7 @@ public class OwnMoodsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(spinnerAdapter);
 
+        // TODO: Filter function (after Reading Week)
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

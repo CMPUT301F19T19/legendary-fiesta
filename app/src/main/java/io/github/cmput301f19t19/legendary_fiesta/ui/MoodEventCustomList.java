@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
@@ -45,17 +46,17 @@ public class MoodEventCustomList extends ArrayAdapter<MoodEvent>{
         TextView displayed_date = view.findViewById(R.id.date);
         TextView displayed_time = view.findViewById(R.id.time);
 
-        //set emoji
+        // Set emoji
         displayed_emoji.setImageResource(moodEvent.getMood().getIconId());
 
         Date date = moodEvent.getDate();
-        //set date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // Set date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
         String dateString = dateFormat.format(date);
         displayed_date.setText(dateString);
 
-        //set time
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        // Set time
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.CANADA);
         String timeString = timeFormat.format(date);
         displayed_time.setText(timeString);
 
