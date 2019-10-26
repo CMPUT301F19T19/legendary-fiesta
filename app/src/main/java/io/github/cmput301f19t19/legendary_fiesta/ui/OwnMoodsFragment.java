@@ -50,8 +50,8 @@ public class OwnMoodsFragment extends Fragment {
         filterSpinner = mView.findViewById(R.id.filter_spinner);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(mActivity, R.array.filter,
-                android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
 
         // TODO: Filter function (after Reading Week)
