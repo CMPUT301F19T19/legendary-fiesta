@@ -20,10 +20,10 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="@string/add_post_time_button"
-        app:layout_constraintStart_toEndOf="@+id/date_view"
-        app:layout_constraintTop_toTopOf="@+id/date_view" />
+        app:layout_constraintStart_toEndOf="@+id/editText3"
+        app:layout_constraintTop_toTopOf="@+id/editText3" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -96,16 +96,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/date_view"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:textAlignment="textStart"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/date_picker_button"
-        app:layout_constraintTop_toTopOf="@+id/date_picker_button" />
-
-    <TextView
         android:id="@+id/greetingView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -118,15 +108,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/time_view"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toTopOf="@+id/button2" />
 
     <EditText
         android:id="@+id/description_view"
@@ -162,4 +143,22 @@
         android:text="@string/add_post_done_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintStart_toEndOf="@+id/date_picker_button"
+        app:layout_constraintTop_toTopOf="@+id/date_picker_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
