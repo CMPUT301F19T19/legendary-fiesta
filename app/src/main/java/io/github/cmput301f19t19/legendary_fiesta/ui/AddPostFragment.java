@@ -1,16 +1,13 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +16,12 @@ import androidx.fragment.app.Fragment;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
+// TODO: Change icon (imageview) to radio buttons
 public class AddPostFragment extends Fragment {
 
     EditText dateET;
     EditText timeET;
+    EditText descET;
     String selectedDate;
     String selectedTime;
 
@@ -39,10 +38,12 @@ public class AddPostFragment extends Fragment {
         // Buttons in fragment
         Button dateButton = root.findViewById(R.id.date_picker_button);
         Button timeButton = root.findViewById(R.id.time_picker_button);
+        Button cancelButton = root.findViewById(R.id.cancel_button);
 
         // EditTexts in fragment
         dateET = root.findViewById(R.id.date_edittext);
         timeET = root.findViewById(R.id.time_edittext);
+        descET = root.findViewById(R.id.description_edittext);
 
         // Launch DatePicker on Date button press
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,16 @@ public class AddPostFragment extends Fragment {
                 timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
                 // Show TimePickerFragment
                 timeFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Clear entered fields
+                dateET.setText("");
+                timeET.setText("");
+                descET.setText("");
             }
         });
 
