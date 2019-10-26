@@ -22,7 +22,9 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 public class AddPostFragment extends Fragment {
 
     EditText dateET;
+    EditText timeET;
     String selectedDate;
+    String selectedTime;
 
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
@@ -33,7 +35,14 @@ public class AddPostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_add_post, container, false);
+
+        // Buttons in fragment
         Button dateButton = root.findViewById(R.id.date_picker_button);
+        Button timeButton = root.findViewById(R.id.time_picker_button);
+
+        // EditTexts in fragment
+        dateET = root.findViewById(R.id.date_edittext);
+        timeET = root.findViewById(R.id.time_edittext);
 
         // Launch DatePicker on Date button press
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +57,19 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+        // Launch TimePicker on Time button press
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create DatePickerFragment
+                DialogFragment timeFragment = new TimePickerFragment();
+                // Set the target fragment to receive the results and specifying the result code
+                timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
+                // Show TimePickerFragment
+                timeFragment.show(getFragmentManager(), "TimePicker");
+            }
+        });
+
         return root;
     }
 
@@ -59,6 +81,11 @@ public class AddPostFragment extends Fragment {
             selectedDate = data.getStringExtra("SELECTED_DATE");
             // Set date EditText to the selected date
             dateET.setText(selectedDate);
+        } else if (requestCode == TIME_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // Get time from string
+            selectedTime = data.getStringExtra("SELECTED_TIME");
+            // Set time EditText to the selected time
+            timeET.setText(selectedTime);
         }
     }
 }
