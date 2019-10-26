@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;

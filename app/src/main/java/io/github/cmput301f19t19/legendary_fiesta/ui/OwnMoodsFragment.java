@@ -30,7 +30,6 @@ public class OwnMoodsFragment extends Fragment {
     private View mView; //reference to associated view, initialized in onCreateView
 
     Spinner filterSpinner;
-    String selectedFilter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
