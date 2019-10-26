@@ -16,7 +16,7 @@ public class MoodEventTest {
 
     private MoodEvent moodEvent;
     private Date date = new Date();
-    private Mood mood = new Mood(Mood.moodType.NEUTRAL);
+    private Mood mood = new Mood(Mood.NEUTRAL);
     private String user = "TestUser";
     private String description = "TestDescription";
     private MoodEvent.SocialCondition condition = MoodEvent.SocialCondition.SINGLE;
@@ -37,7 +37,7 @@ public class MoodEventTest {
     @Test
     public void setMoodTest() {
         Assert.assertEquals(mood, moodEvent.getMood());
-        Mood happyMood = new Mood(Mood.moodType.HAPPY);
+        Mood happyMood = new Mood(Mood.HAPPY);
         moodEvent.setMood(happyMood);
         Assert.assertEquals(happyMood, moodEvent.getMood());
     }
