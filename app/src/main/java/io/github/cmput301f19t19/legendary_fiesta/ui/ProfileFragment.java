@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 
 public class ProfileFragment extends Fragment {
 
@@ -17,6 +18,13 @@ public class ProfileFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // Information from FireBase
+        TextView textView = root.findViewById(R.id.text_friends_moods);
+        User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+        assert user != null;  // TODO: clean this up later
+        textView.setText(user.getUsername());
+
         return root;
     }
 }
