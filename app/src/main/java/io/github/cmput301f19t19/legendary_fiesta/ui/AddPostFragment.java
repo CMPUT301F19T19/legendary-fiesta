@@ -47,16 +47,13 @@ public class AddPostFragment extends Fragment {
         descET = root.findViewById(R.id.description_edittext);
 
         // Launch DatePicker on Date button press
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment dateFragment = new DatePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
-                // Show DatePickerFragment
-                dateFragment.show(getFragmentManager(), "DatePicker");
-            }
+        dateButton.setOnClickListener(view -> {
+            // Create DatePickerFragment
+            DialogFragment dateFragment = new DatePickerFragment();
+            // Set the target fragment to receive the results and specifying the result code
+            dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
+            // Show DatePickerFragment
+            dateFragment.show(getFragmentManager(), "DatePicker");
         });
 
         // Launch DatePicker on Date button press
@@ -73,18 +70,16 @@ public class AddPostFragment extends Fragment {
         });
 
         // Launch TimePicker on Time button press
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment timeFragment = new TimePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
-                // Show TimePickerFragment
-                timeFragment.show(getFragmentManager(), "TimePicker");
-            }
+        timeButton.setOnClickListener(view -> {
+            // Create DatePickerFragment
+            DialogFragment timeFragment = new TimePickerFragment();
+            // Set the target fragment to receive the results and specifying the result code
+            timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
+            // Show TimePickerFragment
+            timeFragment.show(getFragmentManager(), "TimePicker");
         });
 
+<<<<<<< Updated upstream
         // Launch DatePicker on Date button press
         timeET.setOnClickListener(new View.OnClickListener() {
             @Override
