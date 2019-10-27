@@ -74,7 +74,7 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
              * Get the Mood
              */
             String moodName = objects[position].toUpperCase();
-            Mood.moodType moodType = Mood.moodType.valueOf(moodName);
+            Integer moodType = Mood.MoodTypes.get(moodName);
             Mood mood = new Mood(moodType);
 
             dropDownText.setText(mood.getNameId());

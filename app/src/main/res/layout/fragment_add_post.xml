@@ -20,89 +20,76 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greetingView">
 
-        <ImageView
-            android:id="@+id/icon_view_neutral"
+        <RadioButton
+            android:id="@+id/icon_neutral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_neutral"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/icon_neutral" />
+            android:button="@drawable/icon_neutral_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_happy"
+        <RadioButton
+            android:id="@+id/icon_happy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_happy"
-            app:srcCompat="@drawable/icon_happy" />
+            android:button="@drawable/icon_happy_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_surprised"
+        <RadioButton
+            android:id="@+id/icon_surprised"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_surprised"
-            app:srcCompat="@drawable/icon_surprised" />
+            android:button="@drawable/icon_surprised_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_angry"
+        <RadioButton
+            android:id="@+id/icon_angry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_angry"
-            app:srcCompat="@drawable/icon_angry" />
+            android:button="@drawable/icon_angry_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_scared"
+        <RadioButton
+            android:id="@+id/icon_scared"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_scared"
-            app:srcCompat="@drawable/icon_scared"
-            tools:layout_editor_absoluteX="378dp"
-            tools:layout_editor_absoluteY="269dp" />
+            android:button="@drawable/icon_scared_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_disgusted"
+        <RadioButton
+            android:id="@+id/icon_disgusted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_disgusted"
-            app:srcCompat="@drawable/icon_disgusted" />
+            android:button="@drawable/icon_disgusted_70px" />
 
-        <ImageView
-            android:id="@+id/icon_view_sad"
+        <RadioButton
+            android:id="@+id/icon_sad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/mood_sad"
-            app:srcCompat="@drawable/icon_sad" />
-    </LinearLayout>
+            android:button="@drawable/icon_sad_70px" />
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/date_picker_button"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/add_post_date_button"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/date_edittext"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
         android:id="@+id/date_edittext"

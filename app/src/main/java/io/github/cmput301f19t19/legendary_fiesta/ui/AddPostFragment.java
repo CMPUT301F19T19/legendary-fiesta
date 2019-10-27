@@ -39,6 +39,7 @@ public class AddPostFragment extends Fragment {
         Button dateButton = root.findViewById(R.id.date_picker_button);
         Button timeButton = root.findViewById(R.id.time_picker_button);
         Button cancelButton = root.findViewById(R.id.cancel_button);
+        Button doneButton = root.findViewById(R.id.done_button);
 
         // EditTexts in fragment
         dateET = root.findViewById(R.id.date_edittext);
@@ -47,6 +48,19 @@ public class AddPostFragment extends Fragment {
 
         // Launch DatePicker on Date button press
         dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create DatePickerFragment
+                DialogFragment dateFragment = new DatePickerFragment();
+                // Set the target fragment to receive the results and specifying the result code
+                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
+                // Show DatePickerFragment
+                dateFragment.show(getFragmentManager(), "DatePicker");
+            }
+        });
+
+        // Launch DatePicker on Date button press
+        dateET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Create DatePickerFragment
@@ -71,6 +85,19 @@ public class AddPostFragment extends Fragment {
             }
         });
 
+        // Launch DatePicker on Date button press
+        timeET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create DatePickerFragment
+                DialogFragment dateFragment = new DatePickerFragment();
+                // Set the target fragment to receive the results and specifying the result code
+                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
+                // Show DatePickerFragment
+                dateFragment.show(getFragmentManager(), "DatePicker");
+            }
+        });
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +105,13 @@ public class AddPostFragment extends Fragment {
                 dateET.setText("");
                 timeET.setText("");
                 descET.setText("");
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

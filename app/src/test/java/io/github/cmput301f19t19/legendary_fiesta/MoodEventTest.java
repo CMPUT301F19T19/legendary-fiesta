@@ -16,10 +16,10 @@ public class MoodEventTest {
 
     private MoodEvent moodEvent;
     private Date date = new Date();
-    private Mood mood = new Mood(Mood.moodType.NEUTRAL);
+    private Mood mood = new Mood(Mood.NEUTRAL);
     private String user = "TestUser";
     private String description = "TestDescription";
-    private MoodEvent.SocialCondition condition = MoodEvent.SocialCondition.SINGLE;
+    private Integer condition = MoodEvent.SocialCondition.SINGLE;
     private byte[] photo = "testPhoto".getBytes();
     private LatLng location = new LatLng(100, 100);
 
@@ -37,7 +37,7 @@ public class MoodEventTest {
     @Test
     public void setMoodTest() {
         Assert.assertEquals(mood, moodEvent.getMood());
-        Mood happyMood = new Mood(Mood.moodType.HAPPY);
+        Mood happyMood = new Mood(Mood.HAPPY);
         moodEvent.setMood(happyMood);
         Assert.assertEquals(happyMood, moodEvent.getMood());
     }
@@ -86,7 +86,7 @@ public class MoodEventTest {
     @Test
     public void setConditionTest() {
         Assert.assertEquals(condition, moodEvent.getCondition());
-        MoodEvent.SocialCondition newCondition = MoodEvent.SocialCondition.CROWD;
+        Integer newCondition = MoodEvent.SocialCondition.CROWD;
         moodEvent.setCondition(newCondition);
         Assert.assertEquals(newCondition, moodEvent.getCondition());
     }
