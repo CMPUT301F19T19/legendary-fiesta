@@ -22,6 +22,10 @@ public class AddPostFragment extends Fragment {
     EditText dateET;
     EditText timeET;
     EditText descET;
+    Button dateButton;
+    Button timeButton;
+    Button cancelButton;
+    Button doneButton;
     String selectedDate;
     String selectedTime;
 
@@ -34,12 +38,11 @@ public class AddPostFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_add_post, container, false);
-      
-        // Buttons in fragment
-        Button dateButton = root.findViewById(R.id.date_picker_button);
-        Button timeButton = root.findViewById(R.id.time_picker_button);
-        Button cancelButton = root.findViewById(R.id.cancel_button);
-        Button doneButton = root.findViewById(R.id.done_button);
+
+        dateButton = root.findViewById(R.id.date_picker_button);
+        timeButton = root.findViewById(R.id.time_picker_button);
+        cancelButton = root.findViewById(R.id.cancel_button);
+        doneButton = root.findViewById(R.id.done_button);
 
         // EditTexts in fragment
         dateET = root.findViewById(R.id.date_edittext);
@@ -79,18 +82,14 @@ public class AddPostFragment extends Fragment {
             timeFragment.show(getFragmentManager(), "TimePicker");
         });
 
-<<<<<<< Updated upstream
         // Launch DatePicker on Date button press
-        timeET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment dateFragment = new DatePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
-                // Show DatePickerFragment
-                dateFragment.show(getFragmentManager(), "DatePicker");
-            }
+        timeET.setOnClickListener(view -> {
+            // Create DatePickerFragment
+            DialogFragment dateFragment = new DatePickerFragment();
+            // Set the target fragment to receive the results and specifying the result code
+            dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
+            // Show DatePickerFragment
+            dateFragment.show(getFragmentManager(), "DatePicker");
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
