@@ -85,7 +85,7 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
             try {
                  mood = new Mood(moodType);
             }catch (NullPointerException e){
-                Log.d("Error","Nullpointer exception for Filter " + e);
+                Log.e("FeelsLog", "Exception in Filter ", e);
             }finally {
                 String nameCap = firstLetterCap( context.getResources().getString( mood.getNameId()) ); //convert resource to string;
                 dropDownText.setText(nameCap);
