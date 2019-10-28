@@ -19,15 +19,15 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 // TODO: Change icon (imageview) to radio buttons
 public class AddPostFragment extends Fragment {
 
-    EditText dateET;
-    EditText timeET;
-    EditText descET;
-    Button dateButton;
-    Button timeButton;
-    Button cancelButton;
-    Button doneButton;
-    String selectedDate;
-    String selectedTime;
+    private EditText dateET;
+    private EditText timeET;
+    private EditText descET;
+    private Button dateButton;
+    private Button timeButton;
+    private Button cancelButton;
+    private Button doneButton;
+    private String selectedDate;
+    private String selectedTime;
 
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;

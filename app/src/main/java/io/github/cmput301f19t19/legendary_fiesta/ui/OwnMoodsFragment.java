@@ -57,11 +57,8 @@ public class OwnMoodsFragment extends Fragment {
         * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
          */
         ArrayList<String> filterArray = new ArrayList<>();
-        Mood.MoodTypes.forEach((k, v) -> {
-            String cap = k.substring(0,1).toUpperCase() + k.substring(1);
-            filterArray.add(cap);
-        });
-        filterArray.add("None");
+        Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
+        filterArray.add( getResources().getString(R.string.filter_empty) ); //filter_empty is "None"
 
         /*
         * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
