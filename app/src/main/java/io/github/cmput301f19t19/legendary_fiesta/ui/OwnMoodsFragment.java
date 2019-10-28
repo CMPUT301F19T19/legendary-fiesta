@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class OwnMoodsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
         // get reference to associated activity
         mActivity = (Activity) context;
@@ -51,17 +52,17 @@ public class OwnMoodsFragment extends Fragment {
     /**
      * Mostly a test function to set up the spinner, populate it with a string array from resource.xml
      */
-    private void setUpFilterSpinner(){
+    private void setUpFilterSpinner() {
         filterSpinner = mView.findViewById(R.id.filter_spinner);
         /*
-        * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
+         * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
          */
         ArrayList<String> filterArray = new ArrayList<>();
         Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
-        filterArray.add( getResources().getString(R.string.filter_empty) ); //filter_empty is "None"
+        filterArray.add(getResources().getString(R.string.filter_empty)); //filter_empty is "None"
 
         /*
-        * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
+         * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
          */
         String[] filterObject = new String[filterArray.size()];
         filterObject = filterArray.toArray(filterObject);

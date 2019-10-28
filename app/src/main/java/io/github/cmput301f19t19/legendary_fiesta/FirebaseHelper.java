@@ -1,6 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -26,12 +27,14 @@ public class FirebaseHelper {
     public interface FirebaseCallback<T> {
         /**
          * callback handler for handling success cases, returned the value is stored in `document` variable
+         *
          * @param document depending on the operation, this variable can hold different type of values
          */
         void onSuccess(T document);
 
         /**
          * callback handler for handling failure cases
+         *
          * @param e Exception thrown by the Firebase library
          */
         void onFailure(@NonNull Exception e);
@@ -39,7 +42,8 @@ public class FirebaseHelper {
 
     /**
      * check if the username has already been taken
-     * @param name the username to check
+     *
+     * @param name     the username to check
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void checkUserExists(String name, final FirebaseCallback<QuerySnapshot> callback) {
@@ -57,7 +61,7 @@ public class FirebaseHelper {
     }
 
     /**
-     * @param uid UID generated and tracked by Firebase
+     * @param uid      UID generated and tracked by Firebase
      * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
     public void getUserByUID(String uid, final FirebaseCallback<DocumentSnapshot> callback) {
@@ -76,7 +80,8 @@ public class FirebaseHelper {
 
     /**
      * add an user to the database
-     * @param user user to be added
+     *
+     * @param user     user to be added
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
     public void addUser(User user, final FirebaseCallback<DocumentReference> callback) {
@@ -95,8 +100,9 @@ public class FirebaseHelper {
 
     /**
      * add a mood event to the database
+     *
      * @param moodEvent MoodEvent to be added
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
     public void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<DocumentReference> callback) {
         db.collection("moodEvents").add(moodEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

@@ -60,7 +60,7 @@ public class MoodEventTest {
         Assert.assertEquals(newDescription, moodEvent.getDescription());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void setDescriptionTooLongTest() {
         moodEvent.setDescription("123456789012345678901"); // 21 Chars long
     }

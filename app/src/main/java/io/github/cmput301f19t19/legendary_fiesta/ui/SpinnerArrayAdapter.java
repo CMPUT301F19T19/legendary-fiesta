@@ -39,10 +39,10 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
     For spinner item (layout showed when filter spinner is not clicked
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if(view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false);
         }
 
@@ -58,10 +58,10 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
     /*
     For spinner dropDown_item (layout showed when filter spinner is not clicked
      */
-    public View getSpinnerView_DropDown(int position, View convertView, ViewGroup parent){
+    public View getSpinnerView_DropDown(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if(view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.spinner_dropdown, parent, false);
         }
 
@@ -71,9 +71,9 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         /*
         if None is the object, we can't use Mood to get the information because Mood doesn't have this moodType
          */
-        if(objects[position].equals(context.getResources().getString(R.string.filter_empty) )){
+        if (objects[position].equals(context.getResources().getString(R.string.filter_empty))) {
             dropDownText.setText(R.string.filter_empty);
-        }else{
+        } else {
 
             /*
              * Get the Mood by getting the value of the input filter. For example, Angry will give you 3.
@@ -83,11 +83,11 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
             Mood mood = null;
 
             try {
-                 mood = new Mood(moodType);
-            }catch (NullPointerException e){
+                mood = new Mood(moodType);
+            } catch (NullPointerException e) {
                 Log.e("FeelsLog", "Exception in Filter ", e);
             } finally {
-                String nameCap = firstLetterCap( context.getResources().getString( mood.getNameId()) ); //convert resource to string;
+                String nameCap = firstLetterCap(context.getResources().getString(mood.getNameId())); //convert resource to string;
                 dropDownText.setText(nameCap);
                 icon.setImageResource(mood.getIconId());
             }
@@ -98,8 +98,8 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         return view;
     }
 
-    public String firstLetterCap(String string){
-        String cap = string.substring(0,1).toUpperCase() + string.substring(1).toLowerCase();
+    public String firstLetterCap(String string) {
+        String cap = string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
         return cap;
     }
 }

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         //hide action bar
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
+        if (actionBar != null)
             actionBar.hide();
     }
 

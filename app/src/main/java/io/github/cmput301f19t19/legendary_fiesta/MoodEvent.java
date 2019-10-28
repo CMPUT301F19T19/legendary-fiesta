@@ -24,7 +24,8 @@ public class MoodEvent implements Parcelable {
     public static class SocialCondition {
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
-        public @interface SocialConditionType {}
+        public @interface SocialConditionType {
+        }
 
         public static final int SINGLE = 0;
         public static final int PAIR = 1;
@@ -42,13 +43,14 @@ public class MoodEvent implements Parcelable {
 
     /**
      * Constructor for mood event
-     * @param mood Required mood
-     * @param user Required user
+     *
+     * @param mood        Required mood
+     * @param user        Required user
      * @param description Optional description
-     * @param date Required date
-     * @param condition Optional social condition
-     * @param photo Optional photo byte array
-     * @param location Optional location
+     * @param date        Required date
+     * @param condition   Optional social condition
+     * @param photo       Optional photo byte array
+     * @param location    Optional location
      */
     public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
