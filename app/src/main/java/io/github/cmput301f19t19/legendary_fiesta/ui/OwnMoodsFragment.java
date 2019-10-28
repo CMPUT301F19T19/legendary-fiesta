@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import java.lang.reflect.Array;
@@ -30,16 +31,15 @@ public class OwnMoodsFragment extends Fragment {
     private Activity mActivity; //reference to associated activity class, initialized in onAttach function
     private View mView; //reference to associated view, initialized in onCreateView
 
-    Spinner filterSpinner;
+    private Spinner filterSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_own_moods, container, false);
-        mView = root;
+        mView = inflater.inflate(R.layout.fragment_own_moods, container, false);
 
         setUpFilterSpinner();
-        return root;
+        return mView;
     }
 
     @Override
@@ -74,18 +74,8 @@ public class OwnMoodsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
 
-        // TODO: Filter function (after Reading Week)
-        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        //assign filter selected listener
+        filterSpinner.setOnItemSelectedListener( new FilterEventHandlers());
     }
 
 }
