@@ -16,7 +16,8 @@ public class Mood {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({NEUTRAL, HAPPY, SURPRISED, ANGRY, SCARED, DISGUSTED, SAD})
-    public @interface MoodType {}
+    public @interface MoodType {
+    }
 
     public static final int NEUTRAL = 0;
     public static final int HAPPY = 1;
@@ -27,6 +28,7 @@ public class Mood {
     public static final int SAD = 6;
 
     public static final Map<String, Integer> MoodTypes;
+
     static {
         HashMap<String, Integer> moodTypes = new HashMap<String, Integer>();
         moodTypes.put("NEUTRAL", NEUTRAL);
@@ -46,16 +48,17 @@ public class Mood {
 
     /**
      * Constructor for a mood instance
+     *
      * @param moodType int Integer representing a moodType
-     *      NEUTRAL = 0;
-     *      HAPPY = 1;
-     *      SURPRISED = 2;
-     *      ANGRY = 3;
-     *      SCARED = 4;
-     *      DISGUSTED = 5;
-     *      SAD = 6;
+     *                 NEUTRAL = 0;
+     *                 HAPPY = 1;
+     *                 SURPRISED = 2;
+     *                 ANGRY = 3;
+     *                 SCARED = 4;
+     *                 DISGUSTED = 5;
+     *                 SAD = 6;
      */
-    public Mood (@MoodType int moodType) {
+    public Mood(@MoodType int moodType) {
         this.moodType = moodType;
 
         switch (moodType) {

@@ -31,22 +31,22 @@ public class MyMoodTest {
     public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
-    public void init(){
+    public void init() {
     }
 
     @Test
-    public void LaunchMainActivityTest(){
+    public void LaunchMainActivityTest() {
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void LaunchFragmentTest(){
+    public void LaunchFragmentTest() {
         // check if ownMoodsFragment is showned
         onView(withId(R.id.show_on_map_button)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void MyMoodFilterClickTest(){
+    public void MyMoodFilterClickTest() {
 
         //check filter after clicking None
         onView(withId(R.id.filter_spinner)).check(matches(isDisplayed())).perform(click());
