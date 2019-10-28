@@ -86,7 +86,7 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
                  mood = new Mood(moodType);
             }catch (NullPointerException e){
                 Log.e("FeelsLog", "Exception in Filter ", e);
-            }finally {
+            } finally {
                 String nameCap = firstLetterCap( context.getResources().getString( mood.getNameId()) ); //convert resource to string;
                 dropDownText.setText(nameCap);
                 icon.setImageResource(mood.getIconId());
