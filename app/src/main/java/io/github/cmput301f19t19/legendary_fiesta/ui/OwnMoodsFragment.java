@@ -1,30 +1,23 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import java.lang.reflect.Array;
-
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
-import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
+import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
 public class OwnMoodsFragment extends Fragment {
 
@@ -73,6 +66,10 @@ public class OwnMoodsFragment extends Fragment {
         ArrayAdapter<String> spinnerAdapter = new SpinnerArrayAdapter(mActivity, R.layout.spinner_item, filterObject);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
+
+        //set default selection to None
+        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.filter_empty));
+        filterSpinner.setSelection(defaultIndex);
 
         //assign filter selected listener
         filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
