@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 // TODO: Change icon (imageview) to radio buttons
-public class AddPostFragment extends Fragment implements View.OnClickListener{
+public class AddPostFragment extends Fragment implements View.OnClickListener {
 
     //UI variables
     private TextView dateET;
@@ -28,7 +29,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
     private EditText descET;
     private Button cancelButton;
     private Button doneButton;
-    private RadioButton emotionRadioGroup;
+    private RadioGroup emotionRadioGroup;
 
     private String selectedDate;
     private String selectedTime;
@@ -48,11 +49,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
         //Buttons
         cancelButton = mView.findViewById(R.id.cancel_button);
         doneButton = mView.findViewById(R.id.done_button);
+
         //EditText
         dateET = mView.findViewById(R.id.date_edittext);
         timeET = mView.findViewById(R.id.time_edittext);
         descET = mView.findViewById(R.id.description_edittext);
-
         emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
 
         //set listener to OnClick defined this class
@@ -86,9 +87,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
 
         /*
-        Perform different onClick action depoending on what was click. Determined by comparing view ID
+        Perform different onClick action depending on what was click. Determined by comparing view ID
          */
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.date_edittext:
                 // Create DatePickerFragment
                 DialogFragment dateFragment = new DatePickerFragment();
@@ -122,8 +123,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    private void radioGroupOnClick(){
-
+    public void radioGroupOnClick() {
     }
 
 }
