@@ -123,7 +123,21 @@ public class AddPostFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void radioGroupOnClick() {
+    /*
+    Set up how the radio click will look like when clicked
+    Set up what happens when radio button is clicked
+     */
+    private void radioGroupOnClick() {
+
+        //get selected radio button Id from radio group
+        int selectedId = emotionRadioGroup.getCheckedRadioButtonId();
+
+        //get the view object from the selected id
+        RadioButton selectedButton = mView.findViewById(selectedId);
+
+        //make the selectedButton darker, to show that it is Selected
+
+
     }
 
 }

@@ -12,6 +12,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.cmput301f19t19.legendary_fiesta.ui.AddPostFragment;
+import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.FriendsFragment;
 import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 
@@ -27,30 +29,28 @@ import static org.hamcrest.core.StringEndsWith.endsWith;
 @RunWith(AndroidJUnit4.class)
 public class MyMoodTest {
 
+    private OwnMoodsFragment fragment;
+
     @Rule
-    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
     @Before
     public void init() {
-    }
-
-    @Test
-    public void LaunchMainActivityTest() {
-        onView(withId(R.id.nav_view)).check(matches(isDisplayed()));
+        fragment = new OwnMoodsFragment();
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment, null)
+                .commit();
     }
 
     @Test
     public void LaunchFragmentTest() {
-        // check if ownMoodsFragment is showned
+        // check if ownMoodsFragment is shown
         onView(withId(R.id.show_on_map_button)).check(matches(isDisplayed()));
     }
 
     @Test
     public void MyMoodFilterClickTest() {
 
-        //check filter after clicking None
-        onView(withId(R.id.filter_spinner)).check(matches(isDisplayed())).perform(click());
-        onView(withText("None")).check(matches(isDisplayed())).perform(click());
+        //check that filter start with None as default
         onView(withText(endsWith("None"))).check(matches(isDisplayed()));
 
         //check filter after clicking Angry

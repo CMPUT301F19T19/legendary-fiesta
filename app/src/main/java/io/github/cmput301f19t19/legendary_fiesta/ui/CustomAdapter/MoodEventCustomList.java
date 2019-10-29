@@ -1,4 +1,4 @@
-package io.github.cmput301f19t19.legendary_fiesta.ui;
+package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
