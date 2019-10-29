@@ -53,7 +53,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         doneButton = mView.findViewById(R.id.done_button);
 
         //EditText
-        dateET = mView.findViewById(R.id.date_edittext);
+        dateET = mView.findViewById(R.id.dateEditText);
         timeET = mView.findViewById(R.id.time_edittext);
         descET = mView.findViewById(R.id.description_edittext);
         emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
@@ -92,14 +92,13 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         Perform different onClick action depending on what was click. Determined by comparing view ID
          */
         switch (view.getId()) {
-            case R.id.date_edittext:
+            case R.id.dateEditText:
                 // Create DatePickerFragment
                 DialogFragment dateFragment = new DatePickerFragment();
                 // Set the target fragment to receive the results and specifying the result code
                 dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
                 // Show DatePickerFragment
                 dateFragment.show(getFragmentManager(), "DatePicker");
-                Log.d("Test", "Date text pressed");
                 break;
             case R.id.time_edittext:
                 // Create TimePickerFragment
@@ -114,7 +113,6 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
                 dateET.setText("");
                 timeET.setText("");
                 descET.setText("");
-                Log.d("Test", "Cancel button pressed");
                 break;
             case R.id.done_button:
                 break;
@@ -133,7 +131,6 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         Set up what happens when radio button is clicked
      */
     private void radioGroupOnClick(RadioGroup group) {
-
         //get selected radio button Id from radio group
         int selectedId = group.getCheckedRadioButtonId();
 
@@ -142,16 +139,16 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         If not, make it white
          */
         for(int i = 0; i < group.getChildCount(); i++){
-            //RadioButton button =
+            RadioButton currentButton = (RadioButton) group.getChildAt(i);
+
+            if(currentButton.getId() == selectedId){
+                //make the selectedButton darker, to show that it is Selected
+                currentButton.getBackground().setColorFilter(0x40000000, PorterDuff.Mode.MULTIPLY);
+            }else{
+                //make the unselected buttons white
+                currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            }
         }
-
-        //get the view object from the selected id
-        RadioButton selectedButton = mView.findViewById(selectedId);
-
-        //make the selectedButton darker, to show that it is Selected
-        selectedButton.getBackground().setColorFilter(0x35000000, PorterDuff.Mode.MULTIPLY);
-
-        Log.d("Test", "Radio group pressed");
     }
 
 

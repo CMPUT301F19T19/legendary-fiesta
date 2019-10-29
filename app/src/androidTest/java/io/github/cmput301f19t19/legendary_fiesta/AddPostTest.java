@@ -12,9 +12,12 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.AddPostFragment;
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class AddPostTest {
@@ -32,9 +35,24 @@ public class AddPostTest {
                 .commit();
     }
 
+    /*
+    Test if the correct fragment is displayed
+     */
     @Test
     public void LaunchFragmentTest(){
         onView(withId(R.id.emotionRadioGroup)).check(matches(isDisplayed()));
+        onView(withId(R.id.greetingView)).check(matches(isDisplayed()));
     }
 
+    /*
+    Test if radio buttons is working correctly
+     */
+    @Test
+    public void RadioGroupTest(){
+        onView(withId(R.id.icon_neutral)).perform(click()); //click on neutral icon
+
+        //test for something to happen when neutral icon is clicked
+        onView(withId(R.id.icon_neutral)).check(matches(isChecked()));
+        onView(withId(R.id.icon_angry)).check(matches(not(isChecked())));
+    }
 }
