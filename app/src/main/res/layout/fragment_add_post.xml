@@ -9,24 +9,22 @@
     <TextView
         android:id="@+id/greetingView"
         style="@style/WhiteText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="387dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/add_post_greeting"
         android:textSize="@dimen/default_font_size"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/emotionRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greetingView">
 
@@ -100,36 +98,131 @@
             android:button="@null"
             android:scaleX="0.9"
             android:scaleY="0.9" />
-
     </RadioGroup>
 
-    <Button
-        android:id="@+id/date_picker_button"
+    <LinearLayout
+        android:id="@+id/TextLinearLayout"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_post_date_button"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@+id/date_edittext"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/emotionRadioGroup">
+
+        <TextView
+            android:id="@+id/neutralText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="0"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/mood_neutral"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/happyText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="@string/mood_happy"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/surprisedText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/mood_surprised"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/angryText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:text="@string/mood_angry"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/scaredText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="5dp"
+            android:paddingRight="8dp"
+            android:text="@string/mood_scared"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/disgustedText"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/mood_disgusted"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/disgustedText2"
+            style="@style/WhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="@string/mood_sad"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/date_edittext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:layout_height="40dp"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
         android:inputType="date"
         app:layout_constraintBaseline_toBaselineOf="@+id/date_picker_button"
-        app:layout_constraintEnd_toStartOf="@+id/time_picker_button"
         app:layout_constraintStart_toEndOf="@+id/date_picker_button" />
+
+    <Button
+        android:id="@+id/date_picker_button"
+        android:layout_width="88dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_post_date_button"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout" />
 
     <Button
         android:id="@+id/time_picker_button"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/add_post_time_button"
         android:textSize="13sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/date_edittext"
@@ -139,17 +232,38 @@
         android:id="@+id/time_edittext"
         android:layout_width="99dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:focusable="false"
         android:ems="10"
+        android:focusable="false"
         android:inputType="time"
         app:layout_constraintBaseline_toBaselineOf="@+id/time_picker_button"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_post_cancel_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_post_done_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/description_edittext"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -160,26 +274,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date_picker_button" />
-
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/add_post_cancel_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/done_button"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/add_post_done_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
