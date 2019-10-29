@@ -75,7 +75,7 @@ public class OwnMoodsFragment extends Fragment {
         filterSpinner.setAdapter(spinnerAdapter);
 
         //assign filter selected listener
-        filterSpinner.setOnItemSelectedListener( new FilterEventHandlers());
+        filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
 }
