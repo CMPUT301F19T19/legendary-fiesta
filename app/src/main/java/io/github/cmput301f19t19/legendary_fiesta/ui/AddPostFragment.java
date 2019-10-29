@@ -2,6 +2,8 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ import androidx.fragment.app.Fragment;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 // TODO: Change icon (imageview) to radio buttons
-public class AddPostFragment extends Fragment implements View.OnClickListener {
+public class AddPostFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     //UI variables
     private TextView dateET;
@@ -61,7 +63,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener {
         timeET.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
-        emotionRadioGroup.setOnClickListener(this);
+        emotionRadioGroup.setOnCheckedChangeListener(this);
 
         return mView;
     }
@@ -116,28 +118,41 @@ public class AddPostFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.done_button:
                 break;
-            case R.id.emotionRadioGroup:
-                radioGroupOnClick();
-                break;
         }
 
     }
 
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        radioGroupOnClick(group);
+    }
+
     /*
-    Set up how the radio click will look like when clicked
-    Set up what happens when radio button is clicked
+        Set up how the radio click will look like when clicked
+        Set up what happens when radio button is clicked
      */
-    private void radioGroupOnClick() {
+    private void radioGroupOnClick(RadioGroup group) {
 
         //get selected radio button Id from radio group
-        int selectedId = emotionRadioGroup.getCheckedRadioButtonId();
+        int selectedId = group.getCheckedRadioButtonId();
+
+        /*
+        Loop through the radio buttons in radio group, find the one that's selected and make it darker.
+        If not, make it white
+         */
+        for(int i = 0; i < group.getChildCount(); i++){
+            //RadioButton button =
+        }
 
         //get the view object from the selected id
         RadioButton selectedButton = mView.findViewById(selectedId);
 
         //make the selectedButton darker, to show that it is Selected
+        selectedButton.getBackground().setColorFilter(0x35000000, PorterDuff.Mode.MULTIPLY);
 
-
+        Log.d("Test", "Radio group pressed");
     }
+
 
 }
