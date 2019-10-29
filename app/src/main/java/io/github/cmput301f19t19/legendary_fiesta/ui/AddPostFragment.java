@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,14 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 // TODO: Change icon (imageview) to radio buttons
 public class AddPostFragment extends Fragment implements View.OnClickListener{
 
+    //UI variables
     private TextView dateET;
     private TextView timeET;
     private EditText descET;
     private Button cancelButton;
     private Button doneButton;
+    private RadioButton emotionRadioGroup;
+
     private String selectedDate;
     private String selectedTime;
 
@@ -34,25 +38,31 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
     // Time result identifier
     public static final int TIME_REQUEST_CODE = 99;
 
+    private View mView; //get the fragment view
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_add_post, container, false);
+        mView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
-        cancelButton = root.findViewById(R.id.cancel_button);
-        doneButton = root.findViewById(R.id.done_button);
+        //Buttons
+        cancelButton = mView.findViewById(R.id.cancel_button);
+        doneButton = mView.findViewById(R.id.done_button);
+        //EditText
+        dateET = mView.findViewById(R.id.date_edittext);
+        timeET = mView.findViewById(R.id.time_edittext);
+        descET = mView.findViewById(R.id.description_edittext);
 
-        // EditTexts in fragment
-        dateET = root.findViewById(R.id.date_edittext);
-        timeET = root.findViewById(R.id.time_edittext);
-        descET = root.findViewById(R.id.description_edittext);
+        emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
 
+        //set listener to OnClick defined this class
         dateET.setOnClickListener(this);
         timeET.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
+        emotionRadioGroup.setOnClickListener(this);
 
-        return root;
+        return mView;
     }
 
 
@@ -75,8 +85,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
+        /*
+        Perform different onClick action depoending on what was click. Determined by comparing view ID
+         */
         switch(view.getId()){
-
             case R.id.date_edittext:
                 // Create DatePickerFragment
                 DialogFragment dateFragment = new DatePickerFragment();
@@ -103,7 +115,15 @@ public class AddPostFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.done_button:
                 break;
+            case R.id.emotionRadioGroup:
+                radioGroupOnClick();
+                break;
         }
 
     }
+
+    private void radioGroupOnClick(){
+
+    }
+
 }
