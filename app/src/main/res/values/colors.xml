@@ -12,4 +12,5 @@
     <color name="color_neutral">#BFBFBF</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="transparent_background">#60FFFFFF</color>
+    <color name="button_color">#FF9494</color>
 </resources>

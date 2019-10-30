@@ -17,6 +17,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,5 +55,33 @@ public class AddPostTest {
         //test for something to happen when neutral icon is clicked
         onView(withId(R.id.icon_neutral)).check(matches(isChecked()));
         onView(withId(R.id.icon_angry)).check(matches(not(isChecked())));
+    }
+
+    /*
+    Test if DateEditText works properly
+     */
+    @Test
+    public void DateEditTest(){
+        onView(withId(R.id.dateEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
+        onView(withText("OK")).check(matches(isDisplayed())).perform(click());
+
+        //test for something after clicking ok on today's date
+    }
+
+    /*
+    Test if TimeEditText works properly
+     */
+    @Test
+    public void TimeEditTest(){
+        onView(withId(R.id.timeEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
+        onView(withText("OK")).check(matches(isDisplayed())).perform(click());
+    }
+
+    /*
+    Test for AddPictureButton
+     */
+    @Test
+    public void AddPictureButtonTest(){
+        onView(withId(R.id.addPictureButton)).check(matches(isDisplayed())).perform(click());
     }
 }

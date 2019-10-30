@@ -42,7 +42,7 @@ public class OwnMoodsFragment extends Fragment {
         mActivity = (Activity) context;
     }
 
-    /**
+    /*
      * Mostly a test function to set up the spinner, populate it with a string array from resource.xml
      */
     private void setUpFilterSpinner() {
