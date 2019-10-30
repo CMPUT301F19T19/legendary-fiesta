@@ -139,6 +139,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
     }
 
     private void handleError(String message){
+        //TODO make toast
+        Log.e("Error", message);
     }
 
     @Override
