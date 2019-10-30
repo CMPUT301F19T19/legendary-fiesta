@@ -19,12 +19,12 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 
 import static android.provider.Settings.System.getString;
 
-public class SpinnerArrayAdapter extends ArrayAdapter<String> {
+public class FilterArrayAdapter extends ArrayAdapter<String> {
 
     Context context;
     String[] objects;
 
-    public SpinnerArrayAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
+    public FilterArrayAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
         super(context, resource, objects);
         this.context = context;
         this.objects = objects;
@@ -49,7 +49,6 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         TextView textView = view.findViewById(R.id.filter_text);
         String filterText = "Filter by emotion state: ";
         String capText = firstLetterCap(objects[position]);
-        Log.d("TEST", capText);
         textView.setText(filterText + capText);
 
         return view;
@@ -71,8 +70,8 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         /*
         if None is the object, we can't use Mood to get the information because Mood doesn't have this moodType
          */
-        if (objects[position].equals(context.getResources().getString(R.string.filter_empty))) {
-            dropDownText.setText(R.string.filter_empty);
+        if (objects[position].equals(context.getResources().getString(R.string.spinner_empty))) {
+            dropDownText.setText(R.string.spinner_empty);
         } else {
 
             /*
@@ -91,14 +90,11 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
                 dropDownText.setText(nameCap);
                 icon.setImageResource(mood.getIconId());
             }
-
-
         }
-
         return view;
     }
 
-    public String firstLetterCap(String string) {
+    private String firstLetterCap(String string) {
         String cap = string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
         return cap;
     }

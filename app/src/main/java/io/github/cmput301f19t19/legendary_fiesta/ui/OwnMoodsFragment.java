@@ -16,8 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.R;
-import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
-import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
+import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FilterArrayAdapter;
+import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.SpinnerEventHandlers;
 
 public class OwnMoodsFragment extends Fragment {
 
@@ -52,10 +52,10 @@ public class OwnMoodsFragment extends Fragment {
          */
         ArrayList<String> filterArray = new ArrayList<>();
         Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
-        filterArray.add(getResources().getString(R.string.filter_empty)); //filter_empty is "None"
+        filterArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
 
         /*
-         * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
+         * convert ArrayList to array, so that it can be passed to FilterArrayAdapter
          */
         String[] filterObject = new String[filterArray.size()];
         filterObject = filterArray.toArray(filterObject);
@@ -63,16 +63,16 @@ public class OwnMoodsFragment extends Fragment {
         /*
         Create string ArrayAdapter that will be used for filterSpinner
          */
-        ArrayAdapter<String> spinnerAdapter = new SpinnerArrayAdapter(mActivity, R.layout.spinner_item, filterObject);
+        ArrayAdapter<String> spinnerAdapter = new FilterArrayAdapter(mActivity, R.layout.spinner_item, filterObject);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
 
         //set default selection to None
-        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.filter_empty));
+        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.spinner_empty));
         filterSpinner.setSelection(defaultIndex);
 
         //assign filter selected listener
-        filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
+        filterSpinner.setOnItemSelectedListener(new SpinnerEventHandlers());
     }
 
 }

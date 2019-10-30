@@ -1,9 +1,5 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
-import android.view.View;
-
-import androidx.fragment.app.testing.FragmentScenario;
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -12,9 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import io.github.cmput301f19t19.legendary_fiesta.ui.AddPostFragment;
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
-import io.github.cmput301f19t19.legendary_fiesta.ui.FriendsFragment;
 import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 
 import static androidx.test.espresso.Espresso.onView;
