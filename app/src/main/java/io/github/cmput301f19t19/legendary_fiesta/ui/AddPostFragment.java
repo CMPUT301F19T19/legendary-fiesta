@@ -24,8 +24,15 @@ import androidx.navigation.Navigation;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.Mood;
+import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 
 // TODO: Change icon (imageview) to radio buttons
 public class AddPostFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -136,11 +143,63 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
     }
 
     private void onDoneClicked(){
+        Mood mood = getSelectedMood();
+        if (mood == null) {
+            handleError("No mood selected");
+            return;
+        }
+        User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+        String description = descET.getText().toString();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        Date date = null;
+        try{
+            date = format.parse(dateET.getText().toString() + " " + timeET.getText().toString().replace(".",""));
+        } catch (Exception e) {
+            handleError(e.getMessage());
+            return;
+        }
+        //TODO: get social condition from dropdown, photo, map
+        MoodEvent moodEvent = new MoodEvent(mood, user.getUsername(), description, date, MoodEvent.SocialCondition.SINGLE, null, null);
+
+        firebaseHelper.addMoodEvent(moodEvent, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference document) {
+                //TODO: show confirmation
+                closeFragment();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                handleError(e.getMessage());
+            }
+        });
     }
 
     private void handleError(String message){
         //TODO make toast
         Log.e("Error", message);
+    }
+
+    private Mood getSelectedMood(){
+        int id = emotionRadioGroup.getCheckedRadioButtonId();
+        switch (id) {
+            case R.id.icon_neutral:
+                return new Mood(Mood.NEUTRAL);
+            case R.id.icon_happy:
+                return new Mood(Mood.HAPPY);
+            case R.id.icon_angry:
+                return new Mood(Mood.ANGRY);
+            case R.id.icon_disgusted:
+                return new Mood(Mood.DISGUSTED);
+            case R.id.icon_sad:
+                return new Mood(Mood.SAD);
+            case R.id.icon_scared:
+                return new Mood(Mood.SCARED);
+            case R.id.icon_surprised:
+                return new Mood(Mood.SURPRISED);
+            default:
+                return null;
+        }
     }
 
     @Override
