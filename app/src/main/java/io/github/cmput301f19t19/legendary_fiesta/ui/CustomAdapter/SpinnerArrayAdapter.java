@@ -71,8 +71,8 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         /*
         if None is the object, we can't use Mood to get the information because Mood doesn't have this moodType
          */
-        if (objects[position].equals(context.getResources().getString(R.string.filter_empty))) {
-            dropDownText.setText(R.string.filter_empty);
+        if (objects[position].equals(context.getResources().getString(R.string.spinner_empty))) {
+            dropDownText.setText(R.string.spinner_empty);
         } else {
 
             /*

@@ -52,7 +52,7 @@ public class OwnMoodsFragment extends Fragment {
          */
         ArrayList<String> filterArray = new ArrayList<>();
         Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
-        filterArray.add(getResources().getString(R.string.filter_empty)); //filter_empty is "None"
+        filterArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
 
         /*
          * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
@@ -68,7 +68,7 @@ public class OwnMoodsFragment extends Fragment {
         filterSpinner.setAdapter(spinnerAdapter);
 
         //set default selection to None
-        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.filter_empty));
+        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.spinner_empty));
         filterSpinner.setSelection(defaultIndex);
 
         //assign filter selected listener

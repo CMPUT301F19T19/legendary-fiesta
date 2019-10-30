@@ -9,23 +9,26 @@
     <TextView
         android:id="@+id/greetingView"
         style="@style/WhiteText"
-        android:layout_width="387dp"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/add_post_greeting"
         android:textSize="@dimen/default_font_size"
+        app:layout_constraintBottom_toTopOf="@+id/emotionRadioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/emotionRadioGroup"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/greetingView"
+        app:layout_constraintStart_toStartOf="@+id/greetingView"
         app:layout_constraintTop_toBottomOf="@+id/greetingView">
 
         <RadioButton
@@ -102,10 +105,9 @@
 
     <LinearLayout
         android:id="@+id/TextLinearLayout"
-        android:layout_width="413dp"
-        android:layout_height="17dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emotionRadioGroup">
@@ -127,7 +129,7 @@
             android:id="@+id/happyText"
             style="@style/WhiteText"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="0"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
@@ -224,26 +226,29 @@
 
     <EditText
         android:id="@+id/description_edittext"
+        style="@style/WhiteText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@null"
         android:ems="10"
         android:hint="@string/add_post_description_hint"
         android:inputType="textPersonName"
-        style="@style/WhiteText"
         android:textColorHint="@color/color_white"
         android:textSize="15sp"
-        android:background="@null"
-        app:layout_constraintEnd_toEndOf="@+id/timeInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/dateInputLayout"
+        app:layout_constraintEnd_toEndOf="@+id/addPictureButton"
+        app:layout_constraintStart_toStartOf="@+id/addPictureButton"
         app:layout_constraintTop_toBottomOf="@+id/addPictureButton" />
 
     <RelativeLayout
         android:id="@+id/timeInputLayout"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="33dp"
-        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/dateInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dateInputLayout">
 
 
         <TextView
@@ -280,9 +285,12 @@
 
     <RelativeLayout
         android:id="@+id/dateInputLayout"
-        android:layout_width="160dp"
-        android:layout_height="34dp"
-        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
 
 
@@ -320,51 +328,57 @@
 
     <ImageButton
         android:id="@+id/addPictureButton"
-        android:layout_width="366dp"
-        android:layout_height="205dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@null"
-        android:scaleType="fitCenter"
-        android:scaleX="1.1"
-        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:scaleX="1"
+        app:layout_constraintEnd_toEndOf="@+id/timeInputLayout"
         app:layout_constraintStart_toStartOf="@+id/dateInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/dateInputLayout"
         app:srcCompat="@drawable/add_picture_button" />
 
     <RelativeLayout
         android:id="@+id/socialSpinnerLayout"
-        android:layout_width="422dp"
-        android:layout_height="51dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_weight="0"
         android:paddingTop="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
-        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
+        app:layout_constraintEnd_toEndOf="@+id/description_edittext"
+        app:layout_constraintStart_toStartOf="@+id/description_edittext"
         app:layout_constraintTop_toBottomOf="@+id/description_edittext">
 
         <Spinner
             android:id="@+id/social_spinner"
-            android:layout_width="408dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:paddingLeft="10dp"
             android:background="@null"
             android:baselineAligned="false"
             android:dropDownVerticalOffset="15dp"
             android:overlapAnchor="false"
+            android:paddingLeft="0dp"
             android:popupBackground="@color/transparent_background"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:scaleY="0.7"
-            android:src="@drawable/spinner_bar" />
+            android:layout_alignParentLeft="false"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/spinner_bar"
+            android:layout_alignTop="@+id/social_spinner"
+            android:adjustViewBounds="true"
+            android:scaleY="0.7"/>
 
     </RelativeLayout>
 
@@ -372,8 +386,8 @@
         android:id="@+id/locationInputLayout"
         android:layout_width="0dp"
         android:layout_height="39dp"
-        app:layout_constraintEnd_toEndOf="@+id/description_edittext"
-        app:layout_constraintStart_toStartOf="@+id/description_edittext"
+        app:layout_constraintEnd_toEndOf="@+id/socialSpinnerLayout"
+        app:layout_constraintStart_toStartOf="@+id/socialSpinnerLayout"
         app:layout_constraintTop_toBottomOf="@+id/socialSpinnerLayout">
 
 
