@@ -200,14 +200,12 @@
         android:id="@+id/time_edittext"
         android:layout_width="99dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
         android:inputType="time"
         app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout" />
+        tools:layout_editor_absoluteY="126dp" />
 
     <Button
         android:id="@+id/cancel_button"
@@ -234,7 +232,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/add_post_description_hint"
@@ -242,14 +239,25 @@
         android:textColor="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeView" />
+        tools:layout_editor_absoluteY="179dp" />
 
     <RelativeLayout
         android:id="@+id/dateInputLayout"
-        android:layout_width="62dp"
-        android:layout_height="51dp"
+        android:layout_width="131dp"
+        android:layout_height="48dp"
         app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
+
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="91dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:inputType="date" />
 
         <ImageView
             android:id="@+id/dateView"
@@ -262,16 +270,7 @@
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/dateView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Date"
-            android:textColor="@color/color_angry"
-            android:textSize="18sp" />
-
+            android:text="Date" />
     </RelativeLayout>
 
     <ImageView
@@ -283,30 +282,6 @@
         app:layout_constraintEnd_toStartOf="@+id/time_edittext"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout"
         app:srcCompat="@drawable/input_button_white" />
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Time"
-        android:textColor="@color/color_angry"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/time_edittext"
-        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout" />
-
-    <EditText
-        android:id="@+id/date_edittext"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/timeView"
-        app:layout_constraintStart_toEndOf="@+id/dateInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
