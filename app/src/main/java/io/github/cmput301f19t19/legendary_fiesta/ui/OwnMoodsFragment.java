@@ -3,8 +3,11 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -25,6 +29,8 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventCustomList;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class OwnMoodsFragment extends Fragment {
 
@@ -48,7 +54,23 @@ public class OwnMoodsFragment extends Fragment {
         MoodEventCustomList adapter = new MoodEventCustomList(mActivity, moodEventList);
         moodListView.setAdapter(adapter);
 
-        
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                @SuppressLint("RestrictedApi") SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(170);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
 
         return mView;
     }
