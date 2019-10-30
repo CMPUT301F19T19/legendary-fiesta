@@ -72,6 +72,21 @@ public class OwnMoodsFragment extends Fragment {
             }
         };
 
+        moodListView.setMenuCreator(creator);
+
+        moodListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // delete item from the list
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
+
         return mView;
     }
 
