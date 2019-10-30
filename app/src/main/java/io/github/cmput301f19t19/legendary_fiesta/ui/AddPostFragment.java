@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
@@ -109,17 +111,27 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
                 timeFragment.show(getFragmentManager(), "TimePicker");
                 break;
             case R.id.cancel_button:
-                // Clear entered fields
-                dateET.setText("");
-                timeET.setText("");
-                descET.setText("");
+                closeFragment();
                 break;
             case R.id.done_button:
+                onDoneClicked();
                 break;
         }
 
     }
 
+    private void closeFragment(){
+        dateET.setText("");
+        timeET.setText("");
+        descET.setText("");
+        emotionRadioGroup.clearCheck();
+        navController.navigate(R.id.navigation_own_list);
+    }
+
+    private void onDoneClicked(){
+    }
+
+    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
