@@ -1,4 +1,4 @@
-package io.github.cmput301f19t19.legendary_fiesta.ui;
+package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,12 +20,12 @@ import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
-public class MoodEventCustomList extends ArrayAdapter<MoodEvent>{
+public class MoodEventCustomList extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
     private Context context;
 
-    public MoodEventCustomList(Context context, ArrayList<MoodEvent> moodEventList){
+    public MoodEventCustomList(Context context, ArrayList<MoodEvent> moodEventList) {
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.context = context;
@@ -36,7 +36,7 @@ public class MoodEventCustomList extends ArrayAdapter<MoodEvent>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
-        if(view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.mood_list_content, parent, false);
         }
 

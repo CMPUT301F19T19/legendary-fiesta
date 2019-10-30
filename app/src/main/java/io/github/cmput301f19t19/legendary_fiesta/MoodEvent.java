@@ -1,7 +1,14 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.IntDef;
+
 import com.google.android.gms.maps.model.LatLng;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
 import javax.annotation.Nonnull;
@@ -10,38 +17,43 @@ import javax.annotation.Nullable;
 /**
  * Represents a single mood event
  */
-public class MoodEvent {
-
+public class MoodEvent implements Parcelable {
     /**
-     * An enum representing the possible social conditions that a MoodEvent occurred in
+     * Class representing SocialCondition for a mood
      */
-    public enum SocialCondition {
-        SINGLE,
-        PAIR,
-        SMALL_GROUP,
-        CROWD
+    public static class SocialCondition {
+        @Retention(RetentionPolicy.SOURCE)
+        @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
+        public @interface SocialConditionType {
+        }
+
+        public static final int SINGLE = 0;
+        public static final int PAIR = 1;
+        public static final int SMALL_GROUP = 2;
+        public static final int CROWD = 3;
     }
 
     private Mood mood;
     private String user;
     private String description;
     private Date date;
-    private SocialCondition condition;
+    private Integer condition;
     private byte[] photo;
     private LatLng location;
 
     /**
      * Constructor for mood event
-     * @param mood Required mood
-     * @param user Required user
+     *
+     * @param mood        Required mood
+     * @param user        Required user
      * @param description Optional description
-     * @param date Required date
-     * @param condition Optional social condition
-     * @param photo Optional photo byte array
-     * @param location Optional location
+     * @param date        Required date
+     * @param condition   Optional social condition
+     * @param photo       Optional photo byte array
+     * @param location    Optional location
      */
     public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
-                     @Nonnull Date date, @Nullable SocialCondition condition,
+                     @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
                      @Nullable byte[] photo, @Nullable LatLng location) {
         this.mood = mood;
         this.user = user;
@@ -51,6 +63,41 @@ public class MoodEvent {
         this.photo = photo;
         this.location = location;
     }
+
+    protected MoodEvent(Parcel in) {
+        mood = new Mood(in.readInt());
+        user = in.readString();
+        description = in.readString();
+
+        long date = in.readLong();
+        if (date == -1) {
+            this.date = null;
+        } else {
+            this.date = new Date(date);
+        }
+
+        int socialCondition = in.readInt();
+        if (socialCondition == -1) {
+            condition = null;
+        } else {
+            condition = socialCondition;
+        }
+        // TODO: add photo location in firebase storage
+        photo = null;
+        location = in.readParcelable(LatLng.class.getClassLoader());
+    }
+
+    public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
+        @Override
+        public MoodEvent createFromParcel(Parcel in) {
+            return new MoodEvent(in);
+        }
+
+        @Override
+        public MoodEvent[] newArray(int size) {
+            return new MoodEvent[size];
+        }
+    };
 
     /**
      * @return String username of the User that had the MoodEvent
@@ -106,16 +153,17 @@ public class MoodEvent {
     }
 
     /**
-     * @return MoodEvent.SocialCondition enum of the MoodEvent
+     * @return Integer Integer representing socialCondition
      */
-    public SocialCondition getCondition() {
+    @SocialCondition.SocialConditionType
+    public Integer getCondition() {
         return condition;
     }
 
     /**
-     * @param condition MoodEvent.SocialCondition enum of the MoodEvent
+     * @param condition Integer Integer representing socialCondition
      */
-    public void setCondition(SocialCondition condition) {
+    public void setCondition(@SocialCondition.SocialConditionType Integer condition) {
         this.condition = condition;
     }
 
@@ -153,4 +201,20 @@ public class MoodEvent {
     public void save() {
         // TODO: send all info to firebase to update a mood event
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mood.getMoodType());
+        dest.writeString(user);
+        dest.writeString(description);
+        dest.writeLong(date == null ? -1 : date.getTime());
+        dest.writeInt(condition == null ? -1 : condition);
+        dest.writeParcelable(location, flags);
+    }
+
 }

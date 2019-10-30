@@ -1,71 +1,61 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.lang.reflect.Array;
-
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
-import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
+import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
 public class OwnMoodsFragment extends Fragment {
 
     private Activity mActivity; //reference to associated activity class, initialized in onAttach function
     private View mView; //reference to associated view, initialized in onCreateView
 
-    Spinner filterSpinner;
+    private Spinner filterSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_own_moods, container, false);
-        mView = root;
+        mView = inflater.inflate(R.layout.fragment_own_moods, container, false);
 
         setUpFilterSpinner();
-        return root;
+        return mView;
     }
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
         // get reference to associated activity
         mActivity = (Activity) context;
     }
 
-    /**
+    /*
      * Mostly a test function to set up the spinner, populate it with a string array from resource.xml
      */
-    private void setUpFilterSpinner(){
+    private void setUpFilterSpinner() {
         filterSpinner = mView.findViewById(R.id.filter_spinner);
         /*
-        * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
+         * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
          */
         ArrayList<String> filterArray = new ArrayList<>();
-        Arrays.asList(Mood.moodType.values()).forEach(mood -> {
-            String moodName = mood.name().toLowerCase();
-            String cap = moodName.substring(0,1).toUpperCase() + moodName.substring(1);
-            filterArray.add(cap);
-        });
-        filterArray.add("None");
+        Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
+        filterArray.add(getResources().getString(R.string.filter_empty)); //filter_empty is "None"
 
         /*
-        * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
+         * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
          */
         String[] filterObject = new String[filterArray.size()];
         filterObject = filterArray.toArray(filterObject);
@@ -77,18 +67,12 @@ public class OwnMoodsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         filterSpinner.setAdapter(spinnerAdapter);
 
-        // TODO: Filter function (after Reading Week)
-        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //set default selection to None
+        int defaultIndex = filterArray.indexOf(getResources().getString(R.string.filter_empty));
+        filterSpinner.setSelection(defaultIndex);
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        //assign filter selected listener
+        filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
 }

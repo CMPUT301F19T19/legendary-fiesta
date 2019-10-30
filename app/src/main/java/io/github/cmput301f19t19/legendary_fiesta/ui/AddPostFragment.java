@@ -2,12 +2,18 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,106 +23,51 @@ import androidx.fragment.app.Fragment;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 // TODO: Change icon (imageview) to radio buttons
-public class AddPostFragment extends Fragment {
+public class AddPostFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
-    EditText dateET;
-    EditText timeET;
-    EditText descET;
-    String selectedDate;
-    String selectedTime;
+    //UI variables
+    private TextView dateET;
+    private TextView timeET;
+    private EditText descET;
+    private Button cancelButton;
+    private Button doneButton;
+    private RadioGroup emotionRadioGroup;
+
+    private String selectedDate;
+    private String selectedTime;
 
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
     // Time result identifier
     public static final int TIME_REQUEST_CODE = 99;
 
+    private View mView; //get the fragment view
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_add_post, container, false);
-      
-        // Buttons in fragment
-        Button dateButton = root.findViewById(R.id.date_picker_button);
-        Button timeButton = root.findViewById(R.id.time_picker_button);
-        Button cancelButton = root.findViewById(R.id.cancel_button);
-        Button doneButton = root.findViewById(R.id.done_button);
+        mView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
-        // EditTexts in fragment
-        dateET = root.findViewById(R.id.date_edittext);
-        timeET = root.findViewById(R.id.time_edittext);
-        descET = root.findViewById(R.id.description_edittext);
+        //Buttons
+        cancelButton = mView.findViewById(R.id.cancel_button);
+        doneButton = mView.findViewById(R.id.done_button);
 
-        // Launch DatePicker on Date button press
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment dateFragment = new DatePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
-                // Show DatePickerFragment
-                dateFragment.show(getFragmentManager(), "DatePicker");
-            }
-        });
+        //EditText
+        dateET = mView.findViewById(R.id.dateEditText);
+        timeET = mView.findViewById(R.id.timeEditText);
+        descET = mView.findViewById(R.id.description_edittext);
+        emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
 
-        // Launch DatePicker on Date button press
-        dateET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment dateFragment = new DatePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
-                // Show DatePickerFragment
-                dateFragment.show(getFragmentManager(), "DatePicker");
-            }
-        });
+        //set listener to OnClick defined this class
+        dateET.setOnClickListener(this);
+        timeET.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
+        doneButton.setOnClickListener(this);
+        emotionRadioGroup.setOnCheckedChangeListener(this);
 
-        // Launch TimePicker on Time button press
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment timeFragment = new TimePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
-                // Show TimePickerFragment
-                timeFragment.show(getFragmentManager(), "TimePicker");
-            }
-        });
-
-        // Launch DatePicker on Date button press
-        timeET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create DatePickerFragment
-                DialogFragment dateFragment = new DatePickerFragment();
-                // Set the target fragment to receive the results and specifying the result code
-                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
-                // Show DatePickerFragment
-                dateFragment.show(getFragmentManager(), "DatePicker");
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Clear entered fields
-                dateET.setText("");
-                timeET.setText("");
-                descET.setText("");
-            }
-        });
-
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        return root;
+        return mView;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -131,6 +82,72 @@ public class AddPostFragment extends Fragment {
             selectedTime = data.getStringExtra("SELECTED_TIME");
             // Set time EditText to the selected time
             timeET.setText(selectedTime);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        /*
+        Perform different onClick action depending on what was click. Determined by comparing view ID
+         */
+        switch (view.getId()) {
+            case R.id.dateEditText:
+                // Create DatePickerFragment
+                DialogFragment dateFragment = new DatePickerFragment();
+                // Set the target fragment to receive the results and specifying the result code
+                dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
+                // Show DatePickerFragment
+                dateFragment.show(getFragmentManager(), "DatePicker");
+                break;
+            case R.id.timeEditText:
+                // Create TimePickerFragment
+                DialogFragment timeFragment = new TimePickerFragment();
+                // Set the target fragment to receive the results and specifying the result code
+                timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
+                // Show TimePickerFragment
+                timeFragment.show(getFragmentManager(), "TimePicker");
+                break;
+            case R.id.cancel_button:
+                // Clear entered fields
+                dateET.setText("");
+                timeET.setText("");
+                descET.setText("");
+                break;
+            case R.id.done_button:
+                break;
+        }
+
+    }
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        radioGroupOnClick(group);
+    }
+
+    /*
+        Set up how the radio click will look like when clicked
+        Set up what happens when radio button is clicked
+     */
+    private void radioGroupOnClick(RadioGroup group) {
+        //get selected radio button Id from radio group
+        int selectedId = group.getCheckedRadioButtonId();
+
+        /*
+        Loop through the radio buttons in radio group, find the one that's selected and make it darker.
+        If not, make it white
+         */
+        for(int i = 0; i < group.getChildCount(); i++){
+            RadioButton currentButton = (RadioButton) group.getChildAt(i);
+
+            if(currentButton.getId() == selectedId){
+                //make the selectedButton darker, to show that it is Selected
+                currentButton.getBackground().setColorFilter(0x40000000, PorterDuff.Mode.MULTIPLY);
+            }else{
+                //make the unselected buttons white
+                currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+            }
         }
     }
 }

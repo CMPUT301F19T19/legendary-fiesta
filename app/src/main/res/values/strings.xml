@@ -14,16 +14,7 @@
     <string name="add_post_done_button">Done</string>
     <string name="add_post_description_hint">Describe your feeling (Maximum 20 characters).</string>
 
-    <string-array name="filter">
-        <item>Neutral</item>
-        <item>Happy</item>
-        <item>Surprised</item>
-        <item>Angry</item>
-        <item>Scared</item>
-        <item>Disgusted</item>
-        <item>Sad</item>
-        <item>None</item>
-    </string-array>
+    <string name="filter_empty">None</string>
 
     <string name="mood_neutral">Neutral</string>
     <string name="mood_happy">Happy</string>
