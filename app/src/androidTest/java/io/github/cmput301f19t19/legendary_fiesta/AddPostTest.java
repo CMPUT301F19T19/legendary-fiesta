@@ -17,6 +17,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -61,7 +62,8 @@ public class AddPostTest {
      */
     @Test
     public void DateEditText(){
-
+        onView(withId(R.id.dateEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
+        onView(withText("Ok")).check(matches(isDisplayed())).perform(click());
     }
 
     /*
@@ -69,6 +71,7 @@ public class AddPostTest {
      */
     @Test
     public void TimeEditText(){
-
+        onView(withId(R.id.timeEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
+        onView(withText("Ok")).check(matches(isDisplayed())).perform(click());
     }
 }

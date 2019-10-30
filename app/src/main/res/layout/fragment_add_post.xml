@@ -127,7 +127,7 @@
             android:id="@+id/happyText"
             style="@style/WhiteText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_weight="0"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
@@ -262,7 +262,9 @@
             android:ems="10"
             android:focusable="false"
             android:gravity="center"
-            android:inputType="date" />
+            android:inputType="date"
+            style="@style/WhiteText"
+            android:textSize="15dp"/>
 
     </RelativeLayout>
 
@@ -300,7 +302,9 @@
             android:ems="10"
             android:focusable="false"
             android:gravity="center"
-            android:inputType="date" />
+            android:inputType="date"
+            style="@style/WhiteText"
+            android:textSize="15dp"/>
 
     </RelativeLayout>
 
