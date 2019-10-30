@@ -171,8 +171,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             handleError("Missing date or time");
             return;
         }
-        //TODO: get social condition from dropdown, photo, map
-        MoodEvent moodEvent = new MoodEvent(mood, user.getUsername(), description, date,
+        // TODO: get social condition from dropdown, photo, map
+        MoodEvent moodEvent = new MoodEvent(mood, user.getUid(), description, date,
                 MoodEvent.SocialCondition.SINGLE, null, null);
 
         firebaseHelper.addMoodEvent(moodEvent,
