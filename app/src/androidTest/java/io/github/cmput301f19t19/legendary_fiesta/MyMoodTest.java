@@ -49,7 +49,6 @@ public class MyMoodTest {
 
     @Test
     public void MyMoodFilterClickTest() {
-
         //check that filter start with None as default
         onView(withText(endsWith("None"))).check(matches(isDisplayed()));
 

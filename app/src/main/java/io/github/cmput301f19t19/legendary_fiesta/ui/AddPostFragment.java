@@ -54,7 +54,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
 
         //EditText
         dateET = mView.findViewById(R.id.dateEditText);
-        timeET = mView.findViewById(R.id.time_edittext);
+        timeET = mView.findViewById(R.id.timeEditText);
         descET = mView.findViewById(R.id.description_edittext);
         emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
 
@@ -100,7 +100,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
                 // Show DatePickerFragment
                 dateFragment.show(getFragmentManager(), "DatePicker");
                 break;
-            case R.id.time_edittext:
+            case R.id.timeEditText:
                 // Create TimePickerFragment
                 DialogFragment timeFragment = new TimePickerFragment();
                 // Set the target fragment to receive the results and specifying the result code
@@ -150,6 +150,4 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
             }
         }
     }
-
-
 }

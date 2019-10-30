@@ -196,17 +196,6 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/time_edittext"
-        android:layout_width="99dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
-        tools:layout_editor_absoluteY="126dp" />
-
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="88dp"
@@ -231,57 +220,89 @@
         android:id="@+id/description_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/add_post_description_hint"
         android:inputType="textPersonName"
         android:textColor="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="179dp" />
+        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/dateInputLayout" />
 
     <RelativeLayout
-        android:id="@+id/dateInputLayout"
-        android:layout_width="131dp"
-        android:layout_height="48dp"
-        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
+        android:id="@+id/timeInputLayout"
+        android:layout_width="166dp"
+        android:layout_height="53dp"
+        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
 
+
+        <TextView
+            android:id="@+id/timeText"
+            style="@style/InputButtonText"
+            android:layout_width="57dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_button_white"
+            android:gravity="center"
+            android:text="@string/add_post_time_button" />
+
         <EditText
-            android:id="@+id/dateEditText"
-            android:layout_width="91dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/timeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_alignTop="@+id/timeText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="57dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/timeText"
+            android:background="@drawable/input_button_right"
             android:clickable="true"
             android:ems="10"
             android:focusable="false"
+            android:gravity="center"
             android:inputType="date" />
 
-        <ImageView
-            android:id="@+id/dateView"
-            android:layout_width="59dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/input_button_white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/dateInputLayout"
+        android:layout_width="166dp"
+        android:layout_height="53dp"
+        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
+
 
         <TextView
             android:id="@+id/dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date" />
-    </RelativeLayout>
+            style="@style/InputButtonText"
+            android:layout_width="57dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_button_white"
+            android:gravity="center"
+            android:text="@string/add_post_date_button" />
 
-    <ImageView
-        android:id="@+id/timeView"
-        android:layout_width="59dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/time_edittext"
-        app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout"
-        app:srcCompat="@drawable/input_button_white" />
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_alignTop="@+id/dateText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="57dp"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/dateText"
+            android:background="@drawable/input_button_right"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="date" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

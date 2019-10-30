@@ -55,4 +55,20 @@ public class AddPostTest {
         onView(withId(R.id.icon_neutral)).check(matches(isChecked()));
         onView(withId(R.id.icon_angry)).check(matches(not(isChecked())));
     }
+
+    /*
+    Test if DateEditText works properly
+     */
+    @Test
+    public void DateEditText(){
+
+    }
+
+    /*
+    Test if TimeEditText works properly
+     */
+    @Test
+    public void TimeEditText(){
+
+    }
 }
