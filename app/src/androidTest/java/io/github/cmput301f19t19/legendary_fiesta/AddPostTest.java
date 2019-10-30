@@ -61,17 +61,27 @@ public class AddPostTest {
     Test if DateEditText works properly
      */
     @Test
-    public void DateEditText(){
+    public void DateEditTest(){
         onView(withId(R.id.dateEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
         onView(withText("OK")).check(matches(isDisplayed())).perform(click());
+
+        //test for something after clicking ok on today's date
     }
 
     /*
     Test if TimeEditText works properly
      */
     @Test
-    public void TimeEditText(){
+    public void TimeEditTest(){
         onView(withId(R.id.timeEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
         onView(withText("OK")).check(matches(isDisplayed())).perform(click());
+    }
+
+    /*
+    Test for AddPictureButton
+     */
+    @Test
+    public void AddPictureButtonTest(){
+        onView(withId(R.id.addPictureButton)).check(matches(isDisplayed())).perform(click());
     }
 }

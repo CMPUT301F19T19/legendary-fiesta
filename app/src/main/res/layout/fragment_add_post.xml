@@ -220,13 +220,14 @@
         android:id="@+id/description_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/add_post_description_hint"
         android:inputType="textPersonName"
         android:textColor="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
-        app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/dateInputLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/timeInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/dateInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/addPictureButton" />
 
     <RelativeLayout
         android:id="@+id/timeInputLayout"
@@ -307,6 +308,19 @@
             android:textSize="15dp"/>
 
     </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/addPictureButton"
+        android:layout_width="366dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:scaleX="1.1"
+        app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
+        app:layout_constraintStart_toStartOf="@+id/dateInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/dateInputLayout"
+        app:srcCompat="@drawable/add_picture_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
