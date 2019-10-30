@@ -63,7 +63,7 @@ public class AddPostTest {
     @Test
     public void DateEditText(){
         onView(withId(R.id.dateEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
-        onView(withText("Ok")).check(matches(isDisplayed())).perform(click());
+        onView(withText("OK")).check(matches(isDisplayed())).perform(click());
     }
 
     /*
@@ -72,6 +72,6 @@ public class AddPostTest {
     @Test
     public void TimeEditText(){
         onView(withId(R.id.timeEditText)).check(matches(isDisplayed())).perform(click()); // click edittext;
-        onView(withText("Ok")).check(matches(isDisplayed())).perform(click());
+        onView(withText("OK")).check(matches(isDisplayed())).perform(click());
     }
 }
