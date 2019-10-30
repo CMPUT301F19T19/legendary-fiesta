@@ -102,8 +102,8 @@
 
     <LinearLayout
         android:id="@+id/TextLinearLayout"
-        android:layout_width="425dp"
-        android:layout_height="18dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -240,8 +240,8 @@
 
     <RelativeLayout
         android:id="@+id/timeInputLayout"
-        android:layout_width="167dp"
-        android:layout_height="38dp"
+        android:layout_width="166dp"
+        android:layout_height="53dp"
         app:layout_constraintEnd_toEndOf="@+id/emotionRadioGroup"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
 
@@ -258,7 +258,6 @@
 
         <EditText
             android:id="@+id/timeEditText"
-            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_alignTop="@+id/timeText"
@@ -274,14 +273,15 @@
             android:focusable="false"
             android:gravity="center"
             android:inputType="date"
-            android:textSize="15dp" />
+            style="@style/WhiteText"
+            android:textSize="15dp"/>
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/dateInputLayout"
-        android:layout_width="170dp"
-        android:layout_height="39dp"
+        android:layout_width="166dp"
+        android:layout_height="53dp"
         app:layout_constraintStart_toStartOf="@+id/emotionRadioGroup"
         app:layout_constraintTop_toBottomOf="@+id/TextLinearLayout">
 
@@ -298,7 +298,6 @@
 
         <EditText
             android:id="@+id/dateEditText"
-            style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_alignTop="@+id/dateText"
@@ -314,7 +313,8 @@
             android:focusable="false"
             android:gravity="center"
             android:inputType="date"
-            android:textSize="15dp" />
+            style="@style/WhiteText"
+            android:textSize="15dp"/>
 
     </RelativeLayout>
 

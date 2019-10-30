@@ -84,9 +84,4 @@ public class AddPostTest {
     public void AddPictureButtonTest(){
         onView(withId(R.id.addPictureButton)).check(matches(isDisplayed())).perform(click());
     }
-
-    @Test
-    public void SocialSpinnerTest(){
-
-    }
 }
