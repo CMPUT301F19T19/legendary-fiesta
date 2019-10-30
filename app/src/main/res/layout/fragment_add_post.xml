@@ -202,17 +202,23 @@
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        style="@style/WhiteText"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
         android:text="@string/add_post_cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/done_button"
+        style="@style/WhiteText"
         android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
         android:text="@string/add_post_done_button"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -224,7 +230,10 @@
         android:ems="10"
         android:hint="@string/add_post_description_hint"
         android:inputType="textPersonName"
-        android:textColor="#00FFFFFF"
+        style="@style/WhiteText"
+        android:textColorHint="@color/color_white"
+        android:textSize="15sp"
+        android:background="@null"
         app:layout_constraintEnd_toEndOf="@+id/timeInputLayout"
         app:layout_constraintStart_toStartOf="@+id/dateInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/addPictureButton" />
@@ -340,6 +349,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:paddingLeft="10dp"
             android:background="@null"
             android:baselineAligned="false"
             android:dropDownVerticalOffset="15dp"
@@ -355,6 +365,45 @@
             android:paddingRight="10dp"
             android:scaleY="0.7"
             android:src="@drawable/spinner_bar" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/locationInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        app:layout_constraintEnd_toEndOf="@+id/description_edittext"
+        app:layout_constraintStart_toStartOf="@+id/description_edittext"
+        app:layout_constraintTop_toBottomOf="@+id/socialSpinnerLayout">
+
+
+        <TextView
+            android:id="@+id/locationText"
+            style="@style/InputButtonText"
+            android:layout_width="85dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_button_white"
+            android:gravity="center"
+            android:text="@string/add_post_location_button" />
+
+        <EditText
+            android:id="@+id/locationEditText"
+            style="@style/WhiteText"
+            android:layout_width="299dp"
+            android:layout_height="33dp"
+            android:layout_alignTop="@+id/locationText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="85dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/locationText"
+            android:background="@drawable/input_button_right"
+            android:clickable="true"
+            android:ems="10"
+            android:gravity="center"
+            android:textSize="15dp" />
 
     </RelativeLayout>
 
