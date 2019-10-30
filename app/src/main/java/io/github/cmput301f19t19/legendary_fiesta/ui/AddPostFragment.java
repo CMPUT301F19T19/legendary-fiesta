@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,17 +34,16 @@ import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 
-// TODO: Change icon (imageview) to radio buttons
-public class AddPostFragment extends Fragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class AddPostFragment extends Fragment implements View.OnClickListener,
+        RadioGroup.OnCheckedChangeListener {
 
-    //UI variables
+    // UI variables
     private TextView dateET;
     private TextView timeET;
     private EditText descET;
     private Button cancelButton;
     private Button doneButton;
     private RadioGroup emotionRadioGroup;
-
     private String selectedDate;
     private String selectedTime;
 
@@ -53,9 +52,13 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
     // Time result identifier
     public static final int TIME_REQUEST_CODE = 99;
 
-    private View mView; //get the fragment view
+    // Fragment view
+    private View mView;
 
+    // FireBase Helper
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
+    // Navigation Controller
     private NavController navController;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -84,7 +87,6 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         return mView;
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // Check for the results
@@ -101,11 +103,15 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         }
     }
 
+    /**
+     * Click handler for AddPostFragment and switches based on what is clicked.
+     *
+     * @param view The view that was clicked.
+     */
     @Override
     public void onClick(View view) {
-
         /*
-        Perform different onClick action depending on what was click. Determined by comparing view ID
+         * Perform different onClick action depending on what was click. Determined by comparing view ID
          */
         switch (view.getId()) {
             case R.id.dateEditText:
@@ -134,7 +140,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
 
     }
 
-    private void closeFragment(){
+    /**
+     * Resets the fragment and navigate to 'Own List Fragment'
+     */
+    private void closeFragment() {
         dateET.setText("");
         timeET.setText("");
         descET.setText("");
@@ -142,7 +151,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         navController.navigate(R.id.navigation_own_list);
     }
 
-    private void onDoneClicked(){
+    /**
+     * Attempts to save mood event on FireBase
+     */
+    private void onDoneClicked() {
         Mood mood = getSelectedMood();
         if (mood == null) {
             handleError("No mood selected");
@@ -152,35 +164,46 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         String description = descET.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         Date date = null;
-        try{
-            date = format.parse(dateET.getText().toString() + " " + timeET.getText().toString().replace(".",""));
+        try {
+            date = format.parse(dateET.getText().toString() + " " +
+                    timeET.getText().toString().replace(".", ""));
         } catch (Exception e) {
-            handleError(e.getMessage());
+            handleError("Missing date or time");
             return;
         }
         //TODO: get social condition from dropdown, photo, map
-        MoodEvent moodEvent = new MoodEvent(mood, user.getUsername(), description, date, MoodEvent.SocialCondition.SINGLE, null, null);
+        MoodEvent moodEvent = new MoodEvent(mood, user.getUsername(), description, date,
+                MoodEvent.SocialCondition.SINGLE, null, null);
 
-        firebaseHelper.addMoodEvent(moodEvent, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
+        firebaseHelper.addMoodEvent(moodEvent,
+                new FirebaseHelper.FirebaseCallback<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference document) {
-                //TODO: show confirmation
+                Toast.makeText(getContext(), "Successfully saved event",
+                        Toast.LENGTH_SHORT).show();
                 closeFragment();
             }
 
             @Override
             public void onFailure(@NonNull Exception e) {
-                handleError(e.getMessage());
+                handleError("Failed to save event");
             }
         });
     }
 
-    private void handleError(String message){
-        //TODO make toast
-        Log.e("Error", message);
+    /**
+     * Shows an error toast
+     *
+     * @param message Error message to show
+     */
+    private void handleError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private Mood getSelectedMood(){
+    /**
+     * @return Return the mood choosen by the RadioGroup
+     */
+    private Mood getSelectedMood() {
         int id = emotionRadioGroup.getCheckedRadioButtonId();
         switch (id) {
             case R.id.icon_neutral:
@@ -207,25 +230,27 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         radioGroupOnClick(group);
     }
 
-    /*
-        Set up how the radio click will look like when clicked
-        Set up what happens when radio button is clicked
+    /**
+     * RadioGroup Click Handler
+     *
+     * @param group RadioGroup in the AddPostFragment
      */
     private void radioGroupOnClick(RadioGroup group) {
         //get selected radio button Id from radio group
         int selectedId = group.getCheckedRadioButtonId();
 
         /*
-        Loop through the radio buttons in radio group, find the one that's selected and make it darker.
-        If not, make it white
+         * Loop through the radio buttons in radio group
+         * Find the one that's selected and make it darker.
+         * If not, make it white
          */
-        for(int i = 0; i < group.getChildCount(); i++){
+        for (int i = 0; i < group.getChildCount(); i++) {
             RadioButton currentButton = (RadioButton) group.getChildAt(i);
 
-            if(currentButton.getId() == selectedId){
+            if (currentButton.getId() == selectedId) {
                 //make the selectedButton darker, to show that it is Selected
                 currentButton.getBackground().setColorFilter(0x40000000, PorterDuff.Mode.MULTIPLY);
-            }else{
+            } else {
                 //make the unselected buttons white
                 currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             }
