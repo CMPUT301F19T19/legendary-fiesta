@@ -6,7 +6,7 @@ import android.widget.AdapterView;
 
 
 // TODO: Filter function (after Reading Week)
-public class SpinnerEventHandlers implements AdapterView.OnItemSelectedListener {
+public class FilterEventHandlers implements AdapterView.OnItemSelectedListener {
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -17,5 +17,4 @@ public class SpinnerEventHandlers implements AdapterView.OnItemSelectedListener 
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 }
