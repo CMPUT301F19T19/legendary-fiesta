@@ -22,6 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 // TODO: Change icon (imageview) to radio buttons
@@ -45,6 +48,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
 
     private View mView; //get the fragment view
 
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+    private NavController navController;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -66,6 +72,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         emotionRadioGroup.setOnCheckedChangeListener(this);
+        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
 
         return mView;
     }
@@ -131,6 +138,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
     private void onDoneClicked(){
     }
 
+    private void handleError(String message){
     }
 
     @Override
