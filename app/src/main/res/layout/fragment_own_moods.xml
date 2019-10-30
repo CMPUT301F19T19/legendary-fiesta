@@ -59,11 +59,13 @@
     </RelativeLayout>
 
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:id="@+id/mood_list"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:choiceMode="singleChoice">
+    </com.baoyz.swipemenulistview.SwipeMenuListView>
 
 </LinearLayout>

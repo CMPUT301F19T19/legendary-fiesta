@@ -1,5 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -14,8 +15,14 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
+import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventCustomList;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
@@ -23,6 +30,9 @@ public class OwnMoodsFragment extends Fragment {
 
     private Activity mActivity; //reference to associated activity class, initialized in onAttach function
     private View mView; //reference to associated view, initialized in onCreateView
+
+    private ArrayList<MoodEvent> moodEventList;
+    private SwipeMenuListView moodListView;
 
     private Spinner filterSpinner;
 
@@ -32,6 +42,14 @@ public class OwnMoodsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_own_moods, container, false);
 
         setUpFilterSpinner();
+
+        //Initialize list view and its adapter
+        moodListView = mView.findViewById(R.id.mood_list);
+        MoodEventCustomList adapter = new MoodEventCustomList(mActivity, moodEventList);
+        moodListView.setAdapter(adapter);
+
+        
+
         return mView;
     }
 
