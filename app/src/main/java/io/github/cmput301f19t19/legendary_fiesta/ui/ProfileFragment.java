@@ -24,7 +24,6 @@ public class ProfileFragment extends Fragment {
         assert user != null;  // TODO: clean this up later
 
 
-
         return root;
     }
 }
