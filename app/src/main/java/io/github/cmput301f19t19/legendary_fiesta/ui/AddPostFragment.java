@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -135,7 +136,6 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
 
     @Override
     public void onClick(View view) {
-
         /*
         Perform different onClick action depending on what was click. Determined by comparing view ID
          */
@@ -174,9 +174,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
         radioGroupOnClick(group);
     }
 
-    /*
-        Set up how the radio click will look like when clicked
-        Set up what happens when radio button is clicked
+    /**
+     * Set up how the radio click will look like when clicked
+     * Set up what happens when radio button is clicked
+     * @param group
+     * radio group that's affected
      */
     private void radioGroupOnClick(RadioGroup group) {
         //get selected radio button Id from radio group
@@ -191,7 +193,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener, R
 
             if(currentButton.getId() == selectedId){
                 //make the selectedButton darker, to show that it is Selected
-                currentButton.getBackground().setColorFilter(0x40000000, PorterDuff.Mode.MULTIPLY);
+                currentButton.getBackground().setColorFilter( ContextCompat.getColor(mActivity,R.color.selected_color), PorterDuff.Mode.MULTIPLY);
             }else{
                 //make the unselected buttons white
                 currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
