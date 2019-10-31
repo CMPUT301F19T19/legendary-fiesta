@@ -1,5 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
