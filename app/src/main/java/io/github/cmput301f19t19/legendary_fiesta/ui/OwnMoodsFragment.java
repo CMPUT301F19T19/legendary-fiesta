@@ -50,7 +50,7 @@ public class OwnMoodsFragment extends Fragment {
         moodDataList = new ArrayList<>();
 
         //Temporary test case~
-        Mood moodExample = new Mood(Mood.ANGRY);
+        Mood moodExample = new Mood(Mood.HAPPY);
         MoodEvent moodEventExample = new MoodEvent(moodExample, "Tiffany", "I'm angry", new Date(), MoodEvent.SocialCondition.CROWD, null, null);
         moodDataList.add(moodEventExample);
 

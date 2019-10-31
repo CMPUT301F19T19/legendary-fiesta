@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/emoji"
-        android:layout_width="79dp"
-        android:layout_height="61dp"
+        android:layout_width="85dp"
+        android:layout_height="62dp"
         android:background="#CE2D2D"
         android:contentDescription="emoji"
         android:padding="10dp"
@@ -17,19 +17,25 @@
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="61dp"
         android:layout_weight="1"
+        android:background="@color/color_happy"
+        android:fontFamily="@font/abeezee"
         android:padding="10dp"
         android:text="Date"
-        android:textSize="30sp"></TextView>
+        android:textColor="@color/color_white"
+        android:textSize="24sp"></TextView>
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="61dp"
         android:layout_weight="1"
+        android:background="@color/color_surprised"
+        android:fontFamily="@font/abeezee"
         android:padding="10dp"
         android:text="Time"
-        android:textSize="30sp"></TextView>
+        android:textColor="@color/color_white"
+        android:textSize="24sp"></TextView>
 
 </LinearLayout>
