@@ -14,7 +14,14 @@
     <string name="add_post_done_button">Done</string>
     <string name="add_post_description_hint">Describe your feeling (Maximum 20 characters).</string>
 
-    <string name="filter_empty">None</string>
+    <string name="spinner_empty">None</string>
+
+    <string-array name="social_conditions">
+        <item>Single</item>
+        <item>Pair</item>
+        <item>Small Group</item>
+        <item>Crowd</item>
+    </string-array>
 
     <string name="mood_neutral">Neutral</string>
     <string name="mood_happy">Happy</string>
@@ -30,4 +37,5 @@
     <string name="login_bio">Bio</string>
     <string name="login_date">Birthday</string>
     <string name="login_invalid_date">The date is invalid</string>
+    <string name="add_post_location_button">Location</string>
 </resources>
