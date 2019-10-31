@@ -12,19 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
-
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
-import static android.provider.Settings.System.getString;
-
-public class SpinnerArrayAdapter extends ArrayAdapter<String> {
+public class SocialArrayAdapter extends ArrayAdapter<String> {
 
     Context context;
     String[] objects;
 
-    public SpinnerArrayAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
+    public SocialArrayAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
         super(context, resource, objects);
         this.context = context;
         this.objects = objects;
@@ -47,9 +43,8 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         }
 
         TextView textView = view.findViewById(R.id.filter_text);
-        String filterText = "Filter by emotion state: ";
-        String capText = firstLetterCap(objects[position]);
-        Log.d("TEST", capText);
+        String filterText = "Social Condition: ";
+        String capText = objects[position];
         textView.setText(filterText + capText);
 
         return view;
@@ -66,40 +61,9 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
         }
 
         TextView dropDownText = view.findViewById(R.id.spinner_text);
-        ImageView icon = view.findViewById(R.id.spinner_icon);
-
-        /*
-        if None is the object, we can't use Mood to get the information because Mood doesn't have this moodType
-         */
-        if (objects[position].equals(context.getResources().getString(R.string.spinner_empty))) {
-            dropDownText.setText(R.string.spinner_empty);
-        } else {
-
-            /*
-             * Get the Mood by getting the value of the input filter. For example, Angry will give you 3.
-             */
-            String moodName = objects[position].toUpperCase();
-            Integer moodType = Mood.MoodTypes.get(moodName);
-            Mood mood = null;
-
-            try {
-                mood = new Mood(moodType);
-            } catch (NullPointerException e) {
-                Log.e("FeelsLog", "Exception in Filter ", e);
-            } finally {
-                String nameCap = firstLetterCap(context.getResources().getString(mood.getNameId())); //convert resource to string;
-                dropDownText.setText(nameCap);
-                icon.setImageResource(mood.getIconId());
-            }
-
-
-        }
+        dropDownText.setText(objects[position]);
 
         return view;
     }
 
-    public String firstLetterCap(String string) {
-        String cap = string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
-        return cap;
-    }
 }

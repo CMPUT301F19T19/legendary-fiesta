@@ -1,6 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,13 +21,14 @@ import java.util.Locale;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 
-public class MoodEventCustomList extends ArrayAdapter<MoodEvent> {
+public class MoodEventAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
     private Context context;
 
-    public MoodEventCustomList(Context context, ArrayList<MoodEvent> moodEventList) {
+    public MoodEventAdapter(Context context, ArrayList<MoodEvent> moodEventList) {
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.context = context;
@@ -46,19 +49,22 @@ public class MoodEventCustomList extends ArrayAdapter<MoodEvent> {
         TextView displayed_date = view.findViewById(R.id.date);
         TextView displayed_time = view.findViewById(R.id.time);
 
-        // Set emoji
+        // Set emoji and its background colour
         displayed_emoji.setImageResource(moodEvent.getMood().getIconId());
+        displayed_emoji.setBackgroundColor(context.getColor(moodEvent.getMood().getColorId()));
 
         Date date = moodEvent.getDate();
-        // Set date
+        // Set date and its background colour
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
         String dateString = dateFormat.format(date);
         displayed_date.setText(dateString);
+        displayed_date.setBackgroundColor(context.getColor(moodEvent.getMood().getColorId()));
 
-        // Set time
+        // Set time and its background colour
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.CANADA);
         String timeString = timeFormat.format(date);
         displayed_time.setText(timeString);
+        displayed_time.setBackgroundColor(context.getColor(moodEvent.getMood().getColorId()));
 
         return view;
     }
