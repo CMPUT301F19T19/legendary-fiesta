@@ -19,13 +19,14 @@ import java.util.Locale;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 
-public class MoodEventCustomList extends ArrayAdapter<MoodEvent> {
+public class MoodEventAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
     private Context context;
 
-    public MoodEventCustomList(Context context, ArrayList<MoodEvent> moodEventList) {
+    public MoodEventAdapter(Context context, ArrayList<MoodEvent> moodEventList) {
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.context = context;
