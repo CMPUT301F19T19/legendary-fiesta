@@ -34,6 +34,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -208,11 +209,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         }
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
         String description = descET.getText().toString();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
         Date date = null;
         try {
             date = format.parse(dateET.getText().toString() + " " +
-                    timeET.getText().toString().replace(".", ""));
+                    timeET.getText().toString());
         } catch (Exception e) {
             handleError("Missing date or time");
             return;
