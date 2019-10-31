@@ -127,24 +127,30 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void setUpSocialSpinner() {
         socialSpinner = mView.findViewById(R.id.social_spinner);
 
-        // Get list of social conditions setup in strings.xml
+        /*
+         * get list of social conditions setup in strings.xml
+         */
         ArrayList<String> conditionsArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.social_conditions)));
         conditionsArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
 
-        // Convert ArrayList to array, so that it can be passed to SocialArrayAdapter
+        /*
+         * convert ArrayList to array, so that it can be passed to SocialArrayAdapter
+         */
         String[] spinnerObject = new String[conditionsArray.size()];
         spinnerObject = conditionsArray.toArray(spinnerObject);
 
-        // Create string ArrayAdapter that will be used for filterSpinner
+        /*
+        Create string ArrayAdapter that will be used for filterSpinner
+         */
         ArrayAdapter<String> spinnerAdapter = new SocialArrayAdapter(mActivity, R.layout.spinner_item, spinnerObject);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         socialSpinner.setAdapter(spinnerAdapter);
 
-        // Set default selection to None
+        //set default selection to None
         int defaultIndex = conditionsArray.indexOf(getResources().getString(R.string.spinner_empty));
         socialSpinner.setSelection(defaultIndex);
 
-        // Assign filter selected listener
+        //assign filter selected listener
         socialSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
@@ -265,6 +271,28 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 return new Mood(Mood.SCARED);
             case R.id.icon_surprised:
                 return new Mood(Mood.SURPRISED);
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Returns the selected social condition
+     * @param socialCondition
+     *  Selected social condition from the dropdown (spinner)
+     * @return
+     *  Returns an integer that corresponds to the selected social condition
+     */
+    private Integer getSelectedSocialCondition(String socialCondition) {
+        switch (socialCondition) {
+            case "Single":
+                return MoodEvent.SocialCondition.SINGLE;
+            case "Pair":
+                return MoodEvent.SocialCondition.PAIR;
+            case "Small Group":
+                return MoodEvent.SocialCondition.SMALL_GROUP;
+            case "Crowd":
+                return MoodEvent.SocialCondition.CROWD;
             default:
                 return null;
         }
