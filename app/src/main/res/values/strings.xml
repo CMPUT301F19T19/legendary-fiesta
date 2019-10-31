@@ -10,6 +10,7 @@
     <string name="add_post_greeting">How are you feeling?</string>
     <string name="add_post_date_button">Date</string>
     <string name="add_post_time_button">Time</string>
+    <string name="user_name_button">Username</string>
     <string name="add_post_cancel_button">Cancel</string>
     <string name="add_post_done_button">Done</string>
     <string name="add_post_description_hint">Describe your feeling (Maximum 20 characters).</string>
