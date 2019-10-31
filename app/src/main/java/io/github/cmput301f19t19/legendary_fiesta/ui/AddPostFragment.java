@@ -127,30 +127,25 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void setUpSocialSpinner() {
         socialSpinner = mView.findViewById(R.id.social_spinner);
 
-        /*
-         * get list of social conditions setup in strings.xml
-         */
+        // Get list of social conditions setup in strings.xml
         ArrayList<String> conditionsArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.social_conditions)));
         conditionsArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
 
-        /*
-         * convert ArrayList to array, so that it can be passed to SocialArrayAdapter
-         */
+        // Convert ArrayList to array, so that it can be passed to SocialArrayAdapter
         String[] spinnerObject = new String[conditionsArray.size()];
         spinnerObject = conditionsArray.toArray(spinnerObject);
 
-        /*
-        Create string ArrayAdapter that will be used for filterSpinner
-         */
-        ArrayAdapter<String> spinnerAdapter = new SocialArrayAdapter(mActivity, R.layout.spinner_item, spinnerObject);
+        // Create string ArrayAdapter that will be used for filterSpinner
+        ArrayAdapter<String> spinnerAdapter = new SocialArrayAdapter(mActivity,
+                R.layout.spinner_item, spinnerObject);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
         socialSpinner.setAdapter(spinnerAdapter);
 
-        //set default selection to None
+        // Set default selection to None
         int defaultIndex = conditionsArray.indexOf(getResources().getString(R.string.spinner_empty));
         socialSpinner.setSelection(defaultIndex);
 
-        //assign filter selected listener
+        // Assign filter selected listener
         socialSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
@@ -222,9 +217,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             handleError("Missing date or time");
             return;
         }
+
+        Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
+
         // TODO: get social condition from dropdown, photo, map
         MoodEvent moodEvent = new MoodEvent(mood, user.getUid(), description, date,
-                MoodEvent.SocialCondition.SINGLE, null, null);
+                socialCondition, null, null);
 
         firebaseHelper.addMoodEvent(moodEvent,
                 new FirebaseHelper.FirebaseCallback<DocumentReference>() {
