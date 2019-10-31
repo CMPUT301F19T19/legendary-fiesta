@@ -2,12 +2,15 @@ package io.github.cmput301f19t19.legendary_fiesta;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 /**
@@ -118,4 +121,28 @@ public class FirebaseHelper {
         });
     }
 
+    /**
+     * get mood events by a user
+     *
+     * @param uid User's UID
+     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     */
+    public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
+        db.collection("moodEvents")
+            .whereEqualTo("uid", uid)
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot documentSnapshots) {
+                    callback.onSuccess(documentSnapshots);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e){
+                    callback.onFailure(e);
+
+                }
+            });
+    }
 }
