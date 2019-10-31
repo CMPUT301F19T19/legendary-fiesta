@@ -1,6 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -47,8 +48,15 @@ public class OwnMoodsFragment extends Fragment {
 
         //When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
+
+        //Temporary test case~
+        Mood moodExample = new Mood(Mood.ANGRY);
+        MoodEvent moodEventExample = new MoodEvent(moodExample, "Tiffany", "I'm angry", new Date(), MoodEvent.SocialCondition.CROWD, null, null);
+        moodDataList.add(moodEventExample);
+
         moodList = mView.findViewById(R.id.mood_list);
         moodArrayAdapter = new MoodEventAdapter(mActivity, moodDataList);
+        moodList.setAdapter(moodArrayAdapter);
 
         moodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
