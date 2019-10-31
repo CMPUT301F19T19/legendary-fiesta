@@ -27,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -139,5 +140,21 @@ public class AddPostTest {
 
         //Test if description text only only contain the first 20 char
         onView(withText("This is more than 20")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void SocialConditionSpinner(){
+        //check that filter start with None as default
+        onView(withText(endsWith("None"))).check(matches(isDisplayed()));
+
+        //check filter after clicking Single
+        onView(withId(R.id.social_spinner)).check(matches(isDisplayed())).perform(click());
+        onView(withText("Single")).check(matches(isDisplayed())).perform(click());
+        onView(withText(endsWith("Single"))).check(matches(isDisplayed()));
+
+        //check filter after clicking Small Group
+        onView(withId(R.id.social_spinner)).check(matches(isDisplayed())).perform(click());
+        onView(withText("Small Group")).check(matches(isDisplayed())).perform(click());
+        onView(withText(endsWith("Small Group"))).check(matches(isDisplayed()));
     }
 }
