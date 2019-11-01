@@ -20,13 +20,13 @@ public class MoodEventTest {
     private String user = "TestUser";
     private String description = "TestDescription";
     private Integer condition = MoodEvent.SocialCondition.SINGLE;
-    private byte[] photo = "testPhoto".getBytes();
+    private String photoURL = "https://example.com/photo.jpg";
     private LatLng location = new LatLng(100, 100);
 
     @Before
     public void setUp() {
         moodEvent = new MoodEvent(mood, user, description, date,
-                condition, photo, location);
+                condition, photoURL, location);
     }
 
     @Test
@@ -92,16 +92,16 @@ public class MoodEventTest {
     }
 
     @Test
-    public void getPhotoTest() {
-        Assert.assertEquals(photo, moodEvent.getPhoto());
+    public void getPhotoURLTest() {
+        Assert.assertEquals(photoURL, moodEvent.getPhotoURL());
     }
 
     @Test
-    public void setPhotoTest() {
-        Assert.assertEquals(photo, moodEvent.getPhoto());
-        byte[] newPhoto = "newTestPhoto".getBytes();
-        moodEvent.setPhoto(newPhoto);
-        Assert.assertEquals(newPhoto, moodEvent.getPhoto());
+    public void setPhotoURLTest() {
+        Assert.assertEquals(photoURL, moodEvent.getPhotoURL());
+        String newPhoto = "https://example.com/moodEvents/photo.jpg";
+        moodEvent.setPhotoURL(newPhoto);
+        Assert.assertEquals(newPhoto, moodEvent.getPhotoURL());
     }
 
     @Test

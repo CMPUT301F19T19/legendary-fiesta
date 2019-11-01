@@ -38,7 +38,7 @@ public class MoodEvent implements Parcelable {
     private String description;
     private Date date;
     private Integer condition;
-    private byte[] photo;
+    private String photoURL;
     private LatLng location;
 
     /**
@@ -49,22 +49,23 @@ public class MoodEvent implements Parcelable {
      * @param description Optional description
      * @param date        Required date
      * @param condition   Optional social condition
-     * @param photo       Optional photo byte array
+     * @param photoURL    Optional photo URL
      * @param location    Optional location
      */
     public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
-                     @Nullable byte[] photo, @Nullable LatLng location) {
+                     @Nullable String photoURL, @Nullable LatLng location) {
         this.mood = mood;
         this.user = user;
         this.description = description;
         this.date = date;
         this.condition = condition;
-        this.photo = photo;
+        this.photoURL = photoURL;
         this.location = location;
     }
 
     protected MoodEvent(Parcel in) {
+        in.setDataPosition(0);
         mood = new Mood(in.readInt());
         user = in.readString();
         description = in.readString();
@@ -82,8 +83,14 @@ public class MoodEvent implements Parcelable {
         } else {
             condition = socialCondition;
         }
-        // TODO: add photo location in firebase storage
-        photo = null;
+
+        String photoURL = in.readString();
+        if (photoURL.length() == 0) {
+            this.photoURL = null;
+        } else {
+            this.photoURL = photoURL;
+        }
+
         location = in.readParcelable(LatLng.class.getClassLoader());
     }
 
@@ -168,17 +175,17 @@ public class MoodEvent implements Parcelable {
     }
 
     /**
-     * @return byte[] photo of the MoodEvent
+     * @return String firebase storage photo url for the MoodEvent
      */
-    public byte[] getPhoto() {
-        return photo;
+    public String getPhotoURL() {
+        return photoURL;
     }
 
     /**
-     * @param photo byte[] photo of the MoodEvent
+     * @param photoURL firebase storage photo url for the MoodEvent
      */
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     /**
@@ -214,6 +221,7 @@ public class MoodEvent implements Parcelable {
         dest.writeString(description);
         dest.writeLong(date == null ? -1 : date.getTime());
         dest.writeInt(condition == null ? -1 : condition);
+        dest.writeString(photoURL == null ? "": photoURL);
         dest.writeParcelable(location, flags);
     }
 

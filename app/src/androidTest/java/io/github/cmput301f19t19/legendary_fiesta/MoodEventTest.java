@@ -23,12 +23,12 @@ public class MoodEventTest {
     private String description = "TestDescription";
     private Date date = new Date();
     private Integer condition = MoodEvent.SocialCondition.CROWD;
-    private byte[] photo = null;
+    private String photoURL = "https://example.com/photo.jpg";
     private LatLng location = new LatLng(100, 100);
 
     @Before
     public void setUp() {
-        moodEvent = new MoodEvent(mood, user, description, date, condition, photo, location);
+        moodEvent = new MoodEvent(mood, user, description, date, condition, photoURL, location);
     }
 
     @Test
@@ -39,9 +39,10 @@ public class MoodEventTest {
         MoodEvent deFrosted = MoodEvent.CREATOR.createFromParcel(parcel);
 
         Assert.assertEquals(deFrosted.getUser(), user);
-        Assert.assertEquals(deFrosted.getMood(), mood);
+        Assert.assertEquals(deFrosted.getMood().getMoodType(), mood.getMoodType());
         Assert.assertEquals(deFrosted.getDescription(), description);
         Assert.assertEquals(deFrosted.getDate(), date);
+        Assert.assertEquals(deFrosted.getPhotoURL(), photoURL);
         Assert.assertEquals(deFrosted.getCondition(), condition);
         Assert.assertEquals(deFrosted.getLocation(), location);
     }

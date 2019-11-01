@@ -52,6 +52,7 @@ public class User implements Parcelable {
     }  // for Firebase database automated serialization
 
     protected User(Parcel in) {
+        in.setDataPosition(0);
         username = in.readString();
         long date = in.readLong();
         if (date == -1) {
