@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,8 +25,7 @@ public class MoodEvent implements Parcelable {
     public static class SocialCondition {
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
-        public @interface SocialConditionType {
-        }
+        public @interface SocialConditionType {}
 
         public static final int SINGLE = 0;
         public static final int PAIR = 1;
@@ -33,39 +33,45 @@ public class MoodEvent implements Parcelable {
         public static final int CROWD = 3;
     }
 
-    private Mood mood;
+    private String moodId;
+
+    private @Mood.MoodType Integer moodType;
     private String user;
     private String description;
     private Date date;
     private Integer condition;
-    private byte[] photo;
+    private String photoURL;
     private LatLng location;
 
     /**
      * Constructor for mood event
      *
-     * @param mood        Required mood
+     * @param moodType    Required mood
      * @param user        Required user
      * @param description Optional description
      * @param date        Required date
      * @param condition   Optional social condition
-     * @param photo       Optional photo byte array
+     * @param photoURL    Optional photo URL
      * @param location    Optional location
      */
-    public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
+    public MoodEvent(@Nonnull Integer moodType, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
-                     @Nullable byte[] photo, @Nullable LatLng location) {
-        this.mood = mood;
+                     @Nullable String photoURL, @Nullable LatLng location) {
+        this.moodId = UUID.randomUUID().toString();
+        this.moodType = moodType;
         this.user = user;
         this.description = description;
         this.date = date;
         this.condition = condition;
-        this.photo = photo;
+        this.photoURL = photoURL;
         this.location = location;
     }
 
     protected MoodEvent(Parcel in) {
-        mood = new Mood(in.readInt());
+        in.setDataPosition(0);
+
+        moodId = in.readString();
+        moodType = in.readInt();
         user = in.readString();
         description = in.readString();
 
@@ -82,10 +88,22 @@ public class MoodEvent implements Parcelable {
         } else {
             condition = socialCondition;
         }
-        // TODO: add photo location in firebase storage
-        photo = null;
+
+        String photoURL = in.readString();
+        if (photoURL.length() == 0) {
+            this.photoURL = null;
+        } else {
+            this.photoURL = photoURL;
+        }
+
         location = in.readParcelable(LatLng.class.getClassLoader());
     }
+
+    /**
+     * Constructor for a MoodEvent (for use with Serializers)
+     * for Firebase database automated serialization
+     */
+    public MoodEvent() { }
 
     public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
         @Override
@@ -100,25 +118,33 @@ public class MoodEvent implements Parcelable {
     };
 
     /**
+     * @return String moodId of the MoodEvent
+     */
+    public String getMoodId() {
+        return moodId;
+    }
+
+    /**
+     * @return Integer MoodType of the MoodEvent
+     */
+    public @Mood.MoodType Integer getMoodType() {
+        return moodType;
+    }
+
+    /**
+     * @param moodType MoodType that the MoodEvent should have
+     */
+    public void setMood(@Mood.MoodType Integer moodType) {
+        this.moodType = moodType;
+    }
+
+    /**
      * @return String username of the User that had the MoodEvent
      */
     public String getUser() {
         return user;
     }
 
-    /**
-     * @return Mood of the MoodEvent
-     */
-    public Mood getMood() {
-        return mood;
-    }
-
-    /**
-     * @param mood Mood that the MoodEvent should have
-     */
-    public void setMood(Mood mood) {
-        this.mood = mood;
-    }
 
     /**
      * @return The 20 char or less String description of the MoodEvent
@@ -153,32 +179,31 @@ public class MoodEvent implements Parcelable {
     }
 
     /**
-     * @return Integer Integer representing socialCondition
+     * @return Integer SocialConditionType representing socialCondition
      */
-    @SocialCondition.SocialConditionType
-    public Integer getCondition() {
+    public @SocialCondition.SocialConditionType Integer getCondition() {
         return condition;
     }
 
     /**
-     * @param condition Integer Integer representing socialCondition
+     * @param condition Integer SocialConditionType representing socialCondition
      */
     public void setCondition(@SocialCondition.SocialConditionType Integer condition) {
         this.condition = condition;
     }
 
     /**
-     * @return byte[] photo of the MoodEvent
+     * @return String firebase storage photo url for the MoodEvent
      */
-    public byte[] getPhoto() {
-        return photo;
+    public String getPhotoURL() {
+        return photoURL;
     }
 
     /**
-     * @param photo byte[] photo of the MoodEvent
+     * @param photoURL firebase storage photo url for the MoodEvent
      */
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     /**
@@ -195,12 +220,6 @@ public class MoodEvent implements Parcelable {
         this.location = location;
     }
 
-    /**
-     * Called to save any changes to the MoodEvent to firebase
-     */
-    public void save() {
-        // TODO: send all info to firebase to update a mood event
-    }
 
     @Override
     public int describeContents() {
@@ -209,11 +228,13 @@ public class MoodEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mood.getMoodType());
+        dest.writeString(moodId);
+        dest.writeInt(moodType);
         dest.writeString(user);
         dest.writeString(description);
         dest.writeLong(date == null ? -1 : date.getTime());
         dest.writeInt(condition == null ? -1 : condition);
+        dest.writeString(photoURL == null ? "": photoURL);
         dest.writeParcelable(location, flags);
     }
 
