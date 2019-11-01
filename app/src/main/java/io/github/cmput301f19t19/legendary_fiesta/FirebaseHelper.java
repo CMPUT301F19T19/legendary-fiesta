@@ -125,7 +125,7 @@ public class FirebaseHelper {
      * get mood events by a user
      *
      * @param uid User's UID
-     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
@@ -142,6 +142,29 @@ public class FirebaseHelper {
                 public void onFailure(@NonNull Exception e){
                     callback.onFailure(e);
 
+                }
+            });
+    }
+
+    /**
+     * delete mood event by ID
+     *
+     * @param moodId MoodEvent ID
+     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
+     */
+    public void deleteMoodEventById(String moodId, final FirebaseCallback<Void> callback) {
+        db.collection("moodEvents").document(moodId)
+            .delete()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void v) {
+                    callback.onSuccess(v);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.onFailure(e);
                 }
             });
     }

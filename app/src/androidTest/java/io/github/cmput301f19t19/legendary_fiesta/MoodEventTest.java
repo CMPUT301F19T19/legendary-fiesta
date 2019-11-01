@@ -1,14 +1,20 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.junit.runner.RunWith;
 
@@ -25,10 +31,22 @@ public class MoodEventTest {
     private Integer condition = MoodEvent.SocialCondition.CROWD;
     private String photoURL = "https://example.com/photo.jpg";
     private LatLng location = new LatLng(100, 100);
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
 
     @Before
     public void setUp() {
         moodEvent = new MoodEvent(mood, user, description, date, condition, photoURL, location);
+        firebaseHelper.addMoodEvent(moodEvent, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentSnapshots) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FeelsLog", "onFailure: ");
+            }
+        });
     }
 
     @Test

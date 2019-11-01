@@ -93,6 +93,12 @@ public class MoodEvent implements Parcelable {
         location = in.readParcelable(LatLng.class.getClassLoader());
     }
 
+    /**
+     * Constructor for a MoodEvent (for use with Serializers)
+     */
+    public MoodEvent() {
+    }  // for Firebase database automated serialization
+
     public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
         @Override
         public MoodEvent createFromParcel(Parcel in) {

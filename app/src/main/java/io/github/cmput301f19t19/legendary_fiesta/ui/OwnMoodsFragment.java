@@ -1,11 +1,12 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,15 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
@@ -31,12 +38,18 @@ public class OwnMoodsFragment extends Fragment {
     private View mView; //reference to associated view, initialized in onCreateView
 
     private Button deleteMood; //reference to the delete button on own moods page
+
+    private User user;
+
     private ListView moodList;  //reference to the ListView on own moods page
     private ArrayList<MoodEvent> moodDataList;
     private MoodEventAdapter moodArrayAdapter;
     private int position; //To keep track of which item in the list is selected
 
     private Spinner filterSpinner;
+
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,14 +58,11 @@ public class OwnMoodsFragment extends Fragment {
 
         setUpFilterSpinner();
 
+        user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        //When an item in the list is clicked, the delete button appears
+        // When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
-
-        //Temporary test case~
-        Mood moodExample = new Mood(Mood.HAPPY);
-        MoodEvent moodEventExample = new MoodEvent(moodExample, "Tiffany", "I'm angry", new Date(), MoodEvent.SocialCondition.CROWD, null, null);
-        moodDataList.add(moodEventExample);
+        loadMoodData();
 
         moodList = mView.findViewById(R.id.mood_list);
         moodArrayAdapter = new MoodEventAdapter(mActivity, moodDataList);
@@ -82,6 +92,24 @@ public class OwnMoodsFragment extends Fragment {
 
 
         return mView;
+    }
+
+    public void loadMoodData() {
+        firebaseHelper.getMoodEventsById(user.getUid(), new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                moodDataList.clear();
+                for (QueryDocumentSnapshot document : documentSnapshots) {
+                    moodDataList.add(document.toObject(MoodEvent.class));
+                }
+                moodArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FeelsLog", "onFailure: ");
+            }
+        });
     }
 
     @Override
