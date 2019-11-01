@@ -24,8 +24,7 @@ public class MoodEvent implements Parcelable {
     public static class SocialCondition {
         @Retention(RetentionPolicy.SOURCE)
         @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
-        public @interface SocialConditionType {
-        }
+        public @interface SocialConditionType {}
 
         public static final int SINGLE = 0;
         public static final int PAIR = 1;

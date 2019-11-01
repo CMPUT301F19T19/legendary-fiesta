@@ -92,7 +92,6 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
                 icon.setImageResource(mood.getIconId());
             }
 
-
         }
 
         return view;

@@ -102,7 +102,6 @@ public class OwnMoodsFragment extends Fragment {
         ArrayList<String> filterArray = new ArrayList<>();
         Mood.MoodTypes.forEach((k, v) -> filterArray.add(k));
         filterArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
-
         /*
          * convert ArrayList to array, so that it can be passed to SpinnerArrayAdapter
          */

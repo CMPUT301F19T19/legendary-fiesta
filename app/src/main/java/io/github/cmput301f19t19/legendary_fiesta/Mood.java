@@ -1,6 +1,5 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -29,7 +28,6 @@ public class Mood {
     public static final int SAD = 6;
 
     public static final Map<String, Integer> MoodTypes;
-
     static {
         HashMap<String, Integer> moodTypes = new HashMap<String, Integer>();
         moodTypes.put("NEUTRAL", NEUTRAL);
