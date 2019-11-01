@@ -225,7 +225,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, null, null);
 
-        firebaseHelper.addMoodEvent(moodEvent,
+        firebaseHelper.addMoodEvent(moodEvent, null,
                 new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
             public void onSuccess(Void v) {
