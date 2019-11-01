@@ -123,6 +123,14 @@ public class FirebaseHelper {
             .addOnFailureListener(callback::onFailure);
     }
 
+    /**
+     * upload files to the firestore storage
+     *
+     * @param filename filename on the firestore storage
+     * @param data data to be uploaded
+     * @param callback callback of type FirebaseCallback<Uri>, called when upload and public sharing link creation
+     *                 has finished, returns public URL to the uploaded file
+     */
     private void uploadImages(String filename, byte[] data, final FirebaseCallback<Uri> callback) {
         StorageReference storageReference = storage.getReference().child(String.format("moodEvents/%s", filename));
         UploadTask uploadTask = storageReference.putBytes(data);
