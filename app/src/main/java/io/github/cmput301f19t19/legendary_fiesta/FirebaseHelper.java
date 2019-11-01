@@ -3,6 +3,7 @@ package io.github.cmput301f19t19.legendary_fiesta;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,13 +88,33 @@ public class FirebaseHelper {
      * add a mood event to the database
      *
      * @param moodEvent MoodEvent to be added
-     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     * @param photo photo to be attached
+     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
-    public void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
+    public void addMoodEvent(MoodEvent moodEvent, @Nullable byte[] photo, final FirebaseCallback<Void> callback) {
+        if (photo != null) {
+            uploadImages(moodEvent.getMoodId(), photo, new FirebaseCallback<Uri>() {
+                @Override
+                public void onSuccess(Uri document) {
+                    moodEvent.setPhotoURL(document.toString());
+                    addMoodEvent(moodEvent, callback);
+                }
+
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.onFailure(e);
+                }
+            });
+        } else {
+            addMoodEvent(moodEvent, callback);
+        }
+    }
+
+    private void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodEvent.getMoodId())
-            .set(moodEvent)
-            .addOnSuccessListener(callback::onSuccess)
-            .addOnFailureListener(callback::onFailure);
+                .set(moodEvent)
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
