@@ -153,7 +153,7 @@ public class FirebaseHelper {
      *                 has finished, returns public URL to the uploaded file
      */
     private void uploadImages(String filename, byte[] data, final FirebaseCallback<Uri> callback) {
-        StorageReference storageReference = storage.getReference().child(String.format("moodEvents/%s", filename));
+        StorageReference storageReference = storage.getReference().child(String.format("moodEvents/%s.jpg", filename));
         UploadTask uploadTask = storageReference.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
                 .addOnSuccessListener(callback::onSuccess)
