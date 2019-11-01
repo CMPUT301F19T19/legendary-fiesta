@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +33,9 @@ public class MoodEvent implements Parcelable {
         public static final int CROWD = 3;
     }
 
-    private Mood mood;
+    private String moodId;
+
+    private @Mood.MoodType Integer moodType;
     private String user;
     private String description;
     private Date date;
@@ -43,7 +46,7 @@ public class MoodEvent implements Parcelable {
     /**
      * Constructor for mood event
      *
-     * @param mood        Required mood
+     * @param moodType    Required mood
      * @param user        Required user
      * @param description Optional description
      * @param date        Required date
@@ -51,10 +54,11 @@ public class MoodEvent implements Parcelable {
      * @param photoURL    Optional photo URL
      * @param location    Optional location
      */
-    public MoodEvent(@Nonnull Mood mood, @Nonnull String user, @Nullable String description,
+    public MoodEvent(@Nonnull Integer moodType, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
                      @Nullable String photoURL, @Nullable LatLng location) {
-        this.mood = mood;
+        this.moodId = UUID.randomUUID().toString();
+        this.moodType = moodType;
         this.user = user;
         this.description = description;
         this.date = date;
@@ -65,7 +69,9 @@ public class MoodEvent implements Parcelable {
 
     protected MoodEvent(Parcel in) {
         in.setDataPosition(0);
-        mood = new Mood(in.readInt());
+
+        moodId = in.readString();
+        moodType = in.readInt();
         user = in.readString();
         description = in.readString();
 
@@ -95,9 +101,9 @@ public class MoodEvent implements Parcelable {
 
     /**
      * Constructor for a MoodEvent (for use with Serializers)
+     * for Firebase database automated serialization
      */
-    public MoodEvent() {
-    }  // for Firebase database automated serialization
+    public MoodEvent() { }
 
     public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
         @Override
@@ -112,25 +118,33 @@ public class MoodEvent implements Parcelable {
     };
 
     /**
+     * @return String moodId of the MoodEvent
+     */
+    public String getMoodId() {
+        return moodId;
+    }
+
+    /**
+     * @return Integer MoodType of the MoodEvent
+     */
+    public @Mood.MoodType Integer getMoodType() {
+        return moodType;
+    }
+
+    /**
+     * @param moodType MoodType that the MoodEvent should have
+     */
+    public void setMood(@Mood.MoodType Integer moodType) {
+        this.moodType = moodType;
+    }
+
+    /**
      * @return String username of the User that had the MoodEvent
      */
     public String getUser() {
         return user;
     }
 
-    /**
-     * @return Mood of the MoodEvent
-     */
-    public Mood getMood() {
-        return mood;
-    }
-
-    /**
-     * @param mood Mood that the MoodEvent should have
-     */
-    public void setMood(Mood mood) {
-        this.mood = mood;
-    }
 
     /**
      * @return The 20 char or less String description of the MoodEvent
@@ -165,15 +179,14 @@ public class MoodEvent implements Parcelable {
     }
 
     /**
-     * @return Integer Integer representing socialCondition
+     * @return Integer SocialConditionType representing socialCondition
      */
-    @SocialCondition.SocialConditionType
-    public Integer getCondition() {
+    public @SocialCondition.SocialConditionType Integer getCondition() {
         return condition;
     }
 
     /**
-     * @param condition Integer Integer representing socialCondition
+     * @param condition Integer SocialConditionType representing socialCondition
      */
     public void setCondition(@SocialCondition.SocialConditionType Integer condition) {
         this.condition = condition;
@@ -207,12 +220,6 @@ public class MoodEvent implements Parcelable {
         this.location = location;
     }
 
-    /**
-     * Called to save any changes to the MoodEvent to firebase
-     */
-    public void save() {
-        // TODO: send all info to firebase to update a mood event
-    }
 
     @Override
     public int describeContents() {
@@ -221,7 +228,8 @@ public class MoodEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mood.getMoodType());
+        dest.writeString(moodId);
+        dest.writeInt(moodType);
         dest.writeString(user);
         dest.writeString(description);
         dest.writeLong(date == null ? -1 : date.getTime());

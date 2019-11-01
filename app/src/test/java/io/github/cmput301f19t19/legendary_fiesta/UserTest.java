@@ -53,6 +53,13 @@ public class UserTest {
     }
 
     @Test
+    public void uidTest() {
+        String newUid = "newUserId";
+        user.setUid(newUid);
+        Assert.assertEquals(newUid, user.getUid());
+    }
+
+    @Test
     public void acceptFollowRequestTest() {
         // TODO
     }
@@ -64,11 +71,6 @@ public class UserTest {
 
     @Test
     public void requestToFollowTest() {
-        // TODO
-    }
-
-    @Test
-    public void saveTest() {
         // TODO
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -84,6 +85,18 @@ public class OwnMoodsFragment extends Fragment {
         deleteMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                firebaseHelper.deleteMoodEventById(moodDataList.get(position).getMoodId(), new FirebaseHelper.FirebaseCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void v) {
+                        Toast.makeText(mActivity, R.string.event_delete_success, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mActivity, R.string.event_delete_fail,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
                 moodDataList.remove(position);
                 moodArrayAdapter.notifyDataSetChanged();
                 deleteMood.setVisibility(View.INVISIBLE);

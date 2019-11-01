@@ -107,29 +107,32 @@ public class FirebaseHelper {
      * @param moodEvent MoodEvent to be added
      * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
-    public void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<DocumentReference> callback) {
-        db.collection("moodEvents").add(moodEvent).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                callback.onSuccess(documentReference);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                callback.onFailure(e);
-            }
-        });
+    public void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
+        db.collection("moodEvents").document(moodEvent.getMoodId())
+            .set(moodEvent)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void v) {
+                    callback.onSuccess(v);
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    callback.onFailure(e);
+                }
+            });
     }
 
     /**
      * get mood events by a user
      *
-     * @param uid User's UID
+     * @param uid User's UserID
      * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
-            .whereEqualTo("uid", uid)
+            .whereEqualTo("user", uid)
             .get()
             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override

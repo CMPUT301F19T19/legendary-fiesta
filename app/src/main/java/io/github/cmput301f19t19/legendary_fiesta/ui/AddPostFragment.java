@@ -222,13 +222,13 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
 
         // TODO: get social condition from dropdown, photo, map
-        MoodEvent moodEvent = new MoodEvent(mood, user.getUid(), description, date,
+        MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, null, null);
 
         firebaseHelper.addMoodEvent(moodEvent,
-                new FirebaseHelper.FirebaseCallback<DocumentReference>() {
+                new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
-            public void onSuccess(DocumentReference document) {
+            public void onSuccess(Void v) {
                 Toast.makeText(getContext(), "Successfully saved event",
                         Toast.LENGTH_SHORT).show();
                 closeFragment();
