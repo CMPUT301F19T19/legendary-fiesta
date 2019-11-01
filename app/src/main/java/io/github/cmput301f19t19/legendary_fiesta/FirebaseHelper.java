@@ -1,5 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,12 +13,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 /**
  * A helper class for Firebase operations
  */
 public class FirebaseHelper {
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
 
     /**
      * @param app the FirebaseApp instance, you can use `FirebaseApp.getInstance()` to get one
@@ -25,6 +30,7 @@ public class FirebaseHelper {
      */
     public FirebaseHelper(FirebaseApp app) {
         db = FirebaseFirestore.getInstance(app);
+        storage = FirebaseStorage.getInstance(app);
     }
 
     public interface FirebaseCallback<T> {
@@ -171,4 +177,13 @@ public class FirebaseHelper {
                 }
             });
     }
+
+    private void uploadImages(String filename, byte[] data, final FirebaseCallback<Uri> callback) {
+        StorageReference storageReference = storage.getReference().child(String.format("moodEvents/%s", filename));
+        UploadTask uploadTask = storageReference.putBytes(data);
+        uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure)).addOnFailureListener(callback::onFailure);
+    }
+
 }
