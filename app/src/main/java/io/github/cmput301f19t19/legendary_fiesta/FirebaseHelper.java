@@ -56,17 +56,9 @@ public class FirebaseHelper {
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void checkUserExists(String name, final FirebaseCallback<QuerySnapshot> callback) {
-        db.collection("users").whereEqualTo("username", name).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                callback.onSuccess(queryDocumentSnapshots);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                callback.onFailure(e);
-            }
-        });
+        db.collection("users").whereEqualTo("username", name).get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
@@ -74,17 +66,9 @@ public class FirebaseHelper {
      * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
     public void getUserByUID(String uid, final FirebaseCallback<DocumentSnapshot> callback) {
-        db.collection("users").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                callback.onSuccess(documentSnapshot);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                callback.onFailure(e);
-            }
-        });
+        db.collection("users").document(uid).get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
@@ -94,17 +78,9 @@ public class FirebaseHelper {
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
     public void addUser(User user, final FirebaseCallback<DocumentReference> callback) {
-        db.collection("users").document(user.getUid()).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                callback.onSuccess(null);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                callback.onFailure(e);
-            }
-        });
+        db.collection("users").document(user.getUid()).set(user)
+                .addOnSuccessListener(aVoid -> callback.onSuccess(null))
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
@@ -116,18 +92,8 @@ public class FirebaseHelper {
     public void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodEvent.getMoodId())
             .set(moodEvent)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void v) {
-                    callback.onSuccess(v);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    callback.onFailure(e);
-                }
-            });
+            .addOnSuccessListener(callback::onSuccess)
+            .addOnFailureListener(callback::onFailure);
     }
 
     /**
@@ -140,19 +106,8 @@ public class FirebaseHelper {
         db.collection("moodEvents")
             .whereEqualTo("user", uid)
             .get()
-            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot documentSnapshots) {
-                    callback.onSuccess(documentSnapshots);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e){
-                    callback.onFailure(e);
-
-                }
-            });
+            .addOnSuccessListener(callback::onSuccess)
+            .addOnFailureListener(callback::onFailure);
     }
 
     /**
@@ -164,18 +119,8 @@ public class FirebaseHelper {
     public void deleteMoodEventById(String moodId, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodId)
             .delete()
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void v) {
-                    callback.onSuccess(v);
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    callback.onFailure(e);
-                }
-            });
+            .addOnSuccessListener(callback::onSuccess)
+            .addOnFailureListener(callback::onFailure);
     }
 
     private void uploadImages(String filename, byte[] data, final FirebaseCallback<Uri> callback) {
