@@ -465,7 +465,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
 
-        // TODO: get social condition from dropdown, photo, map
+        // TODO: Photo and Geolocation Support
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, originalPhotoURL, null);
         if (isEdit) {
