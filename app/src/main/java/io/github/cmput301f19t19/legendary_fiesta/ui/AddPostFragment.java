@@ -283,16 +283,18 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * Attempts to save mood event on FireBase
      */
     private void onDoneClicked() {
-        Mood mood = getSelectedMood();
+        Mood mood = getSelectedMood(emotionRadioGroup.getCheckedRadioButtonId());
         if (mood == null) {
             //Replace handleError with the error popup
             errorPopUp();
             return;
         }
+
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
         String description = descET.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
         Date date = null;
+
         try {
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
@@ -304,7 +306,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
 
-        // TODO: get social condition from dropdown, photo, map
+        // TODO: Photo and Geolocation Support
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, null, null);
         if (isEdit) {
@@ -384,8 +386,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     /**
      * @return Return the mood choosen by the RadioGroup
      */
-    private Mood getSelectedMood() {
-        int id = emotionRadioGroup.getCheckedRadioButtonId();
+    private Mood getSelectedMood(int id) {
         switch (id) {
             case R.id.icon_neutral:
                 return new Mood(Mood.NEUTRAL);
