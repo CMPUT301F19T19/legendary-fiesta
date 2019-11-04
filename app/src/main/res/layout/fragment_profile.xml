@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="Your Profile"
         android:textAppearance="@style/user_profile"
@@ -21,11 +21,9 @@
     <RelativeLayout
         android:id="@+id/userInputLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/user_profile"
         app:layout_constraintTop_toBottomOf="@+id/user_profile">
@@ -35,7 +33,7 @@
             android:id="@+id/userText"
             style="@style/InputButtonText"
             android:layout_width="85dp"
-            android:layout_height="match_parent"
+            android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:background="@drawable/input_button_white"
             android:gravity="center"
@@ -45,7 +43,7 @@
             android:id="@+id/userEditText"
             style="@style/WhiteText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="35dp"
             android:layout_alignTop="@+id/userText"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="false"
@@ -62,5 +60,102 @@
             android:textSize="15dp" />
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/birthDateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/user_profile"
+        app:layout_constraintTop_toBottomOf="@+id/userInputLayout">
+
+
+        <TextView
+            android:id="@+id/birthText"
+            style="@style/InputButtonText"
+            android:layout_width="85dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_button_white"
+            android:gravity="center"
+            android:text="@string/birth_date_button_text" />
+
+        <EditText
+            android:id="@+id/birthEditText"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignTop="@+id/birthText"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="83dp"
+            android:layout_marginLeft="-2dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/birthText"
+            android:background="@drawable/button_right_long"
+            android:clickable="true"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/bioEditText"
+        style="@style/WhiteText"
+        android:padding="10dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/translucent_box"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/birthDateLayout"
+        app:layout_constraintStart_toStartOf="@+id/birthDateLayout"
+        app:layout_constraintTop_toBottomOf="@+id/birthDateLayout" />
+
+    <TextView
+        android:id="@+id/maxLengthTextView"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/max_char_text"
+        app:layout_constraintEnd_toEndOf="@+id/bioEditText"
+        app:layout_constraintTop_toBottomOf="@+id/bioEditText" />
+
+    <Button
+        android:id="@+id/done_button"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        android:text="@string/add_post_done_button"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/transparent"
+        android:text="@string/add_post_cancel_button"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
