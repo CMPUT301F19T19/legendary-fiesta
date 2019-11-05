@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         emotionRadioGroup.setOnCheckedChangeListener(this);
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+        try {
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        }catch (IllegalArgumentException e){
+            Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
+        }
 
         setUpSocialSpinner();
 
@@ -195,7 +201,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         timeET.setText("");
         descET.setText("");
         emotionRadioGroup.clearCheck();
-        navController.navigate(R.id.navigation_own_list);
+
+        if(navController != null)
+            navController.navigate(R.id.navigation_own_list);
     }
 
     /**
