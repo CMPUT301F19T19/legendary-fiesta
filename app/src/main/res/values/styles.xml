@@ -23,4 +23,14 @@
         <item name="android:textColor">@color/button_color</item>
         <item name="android:textSize">@dimen/input_button_font_size</item>
     </style>
+
+    <style name="user_profile">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#40000000</item>
+        <item name="android:fontFamily">@font/abeezee</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">7</item>
+        <item name="android:shadowRadius">15</item>
+    </style>
 </resources>

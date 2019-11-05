@@ -10,6 +10,7 @@
     <string name="add_post_greeting">How are you feeling?</string>
     <string name="add_post_date_button">Date</string>
     <string name="add_post_time_button">Time</string>
+    <string name="user_name_button">Username</string>
     <string name="add_post_cancel_button">Cancel</string>
     <string name="add_post_done_button">Done</string>
     <string name="add_post_description_hint">Describe your feeling (Maximum 20 characters).</string>
@@ -41,4 +42,6 @@
     <string name="login_date">Birthday</string>
     <string name="login_invalid_date">The date is invalid</string>
     <string name="add_post_location_button">Location</string>
+    <string name="birth_date_button_text">Birthdate</string>
+    <string name="max_char_text">(Maximum 100 characters)</string>
 </resources>

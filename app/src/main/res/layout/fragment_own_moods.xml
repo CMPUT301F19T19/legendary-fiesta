@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,10 +12,9 @@
         android:id="@+id/show_on_map_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="0"
         android:background="@drawable/button_design"
         android:fontFamily="@font/abeezee"
@@ -25,18 +24,27 @@
         android:textAllCaps="false"
         android:textColor="@color/color_angry"
         android:textColorHighlight="@color/color_surprised"
-        android:textSize="@dimen/default_font_size" />
+        android:textSize="@dimen/default_font_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:id="@+id/filterSpinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="0"
-        android:paddingTop="0dp">
+        android:paddingTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/mood_list"
+        app:layout_constraintEnd_toEndOf="@+id/show_on_map_button"
+        app:layout_constraintStart_toStartOf="@+id/show_on_map_button"
+        app:layout_constraintTop_toBottomOf="@+id/show_on_map_button">
 
         <Spinner
             android:id="@+id/filter_spinner"
-            android:overlapAnchor="false"
-            android:dropDownVerticalOffset="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -45,15 +53,21 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:baselineAligned="false"
-            android:popupBackground="@color/transparent_background"
+            android:dropDownVerticalOffset="15dp"
+            android:overlapAnchor="false"
+            android:popupBackground="@drawable/blur_background"
             android:spinnerMode="dropdown" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:layout_alignTop="@+id/social_spinner"
+            android:layout_alignParentLeft="false"
+            android:adjustViewBounds="true"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:scaleType="fitXY"
             android:src="@drawable/spinner_bar" />
 
     </RelativeLayout>
@@ -62,18 +76,18 @@
     <ListView
         android:id="@+id/mood_list"
         android:layout_width="match_parent"
-        android:layout_height="457dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/delete_mood"
+        app:layout_constraintEnd_toEndOf="@+id/filterSpinnerLayout"
+        app:layout_constraintStart_toStartOf="@+id/filterSpinnerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/filterSpinnerLayout" />
 
     <Button
         android:id="@+id/delete_mood"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/navBar_distance"
         android:layout_weight="0"
         android:background="@drawable/button_design"
         android:fontFamily="@font/abeezee"
@@ -81,6 +95,10 @@
         android:textAllCaps="false"
         android:textColor="@color/color_angry"
         android:textSize="20sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/mood_list"
+        app:layout_constraintTop_toBottomOf="@+id/mood_list" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
