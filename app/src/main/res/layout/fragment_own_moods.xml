@@ -45,7 +45,7 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:baselineAligned="false"
-            android:popupBackground="@color/transparent_background"
+            android:popupBackground="@drawable/blur_background"
             android:spinnerMode="dropdown" />
 
         <ImageView

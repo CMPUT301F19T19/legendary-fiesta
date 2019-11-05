@@ -15,8 +15,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import io.alterac.blurkit.BlurKit;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override

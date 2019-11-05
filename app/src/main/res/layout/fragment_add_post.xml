@@ -354,7 +354,7 @@
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:paddingLeft="0dp"
-            android:popupBackground="@color/transparent_background"
+            android:popupBackground="@drawable/blur_background"
             android:spinnerMode="dropdown" />
 
         <ImageView
