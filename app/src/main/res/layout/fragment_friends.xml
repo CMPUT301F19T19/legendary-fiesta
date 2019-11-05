@@ -1,7 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <TextView
+        android:id="@+id/friends_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="Friends"
+        android:textAppearance="@style/user_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/searchInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="@+id/friends_view"
+        app:layout_constraintTop_toBottomOf="@+id/friends_view">
+
+
+        <TextView
+            android:id="@+id/searchView"
+            style="@style/InputButtonText"
+            android:layout_width="100dp"
+            android:layout_height="40dp "
+            android:layout_centerVertical="true"
+            android:background="@drawable/input_button_white"
+            android:gravity="center"
+            android:text="@string/search_input_text" />
+
+        <EditText
+            android:id="@+id/userEditText"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/searchView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="83dp"
+            android:layout_marginLeft="-2dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@+id/searchView"
+            android:background="@drawable/button_right_long"
+            android:clickable="true"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/friendView"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Friends List"
+        app:layout_constraintStart_toStartOf="@+id/searchInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout" />
+
+    <ListView
+        android:id="@+id/friend_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
