@@ -1,10 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+
 import android.graphics.ColorFilter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import androidx.fragment.app.Fragment;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.text.SimpleDateFormat;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.AddPostFragment;
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
@@ -27,11 +25,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class AddPostTest {
@@ -45,8 +42,8 @@ public class AddPostTest {
     @Before
     public void init(){
         fragment = new AddPostFragment();
-        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment, null)
-                .commit();
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
+                .add(1, fragment, null).commit();
     }
 
     /*
