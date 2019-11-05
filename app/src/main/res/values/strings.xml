@@ -17,6 +17,9 @@
 
     <string name="spinner_empty">None</string>
 
+    <string name="event_delete_success">Event Deleted Successfully</string>
+    <string name="event_delete_fail">Could not delete event, please try again</string>
+
     <string-array name="social_conditions">
         <item>Single</item>
         <item>Pair</item>

@@ -15,36 +15,50 @@ import java.util.Date;
 public class MoodEventTest {
 
     private MoodEvent moodEvent;
-    private Date date = new Date();
-    private Mood mood = new Mood(Mood.NEUTRAL);
+
+    private @Mood.MoodType Integer moodType = Mood.NEUTRAL;
     private String user = "TestUser";
+    private Date date = new Date();
     private String description = "TestDescription";
     private Integer condition = MoodEvent.SocialCondition.SINGLE;
-    private byte[] photo = "testPhoto".getBytes();
+    private String photoURL = "https://example.com/photo.jpg";
     private LatLng location = new LatLng(100, 100);
 
     @Before
     public void setUp() {
-        moodEvent = new MoodEvent(mood, user, description, date,
-                condition, photo, location);
+        moodEvent = new MoodEvent(moodType, user, description, date,
+                condition, photoURL, location);
     }
 
     @Test
-    public void getMoodTest() {
-        Assert.assertEquals(mood, moodEvent.getMood());
+    public void getMoodTypeTest() {
+        Assert.assertEquals(moodType, moodEvent.getMoodType());
     }
 
     @Test
-    public void setMoodTest() {
-        Assert.assertEquals(mood, moodEvent.getMood());
-        Mood happyMood = new Mood(Mood.HAPPY);
+    public void setMoodTypeTest() {
+        Assert.assertEquals(moodType, moodEvent.getMoodType());
+        @Mood.MoodType Integer happyMood = Mood.HAPPY;
         moodEvent.setMood(happyMood);
-        Assert.assertEquals(happyMood, moodEvent.getMood());
+        Assert.assertEquals(happyMood, moodEvent.getMoodType());
     }
 
     @Test
     public void getUserTest() {
         Assert.assertEquals(user, moodEvent.getUser());
+    }
+
+    @Test
+    public void getDateTest() {
+        Assert.assertEquals(date, moodEvent.getDate());
+    }
+
+    @Test
+    public void setDateTest() {
+        Assert.assertEquals(date, moodEvent.getDate());
+        Date newDate = new Date(0);
+        moodEvent.setDate(newDate);
+        Assert.assertEquals(newDate, moodEvent.getDate());
     }
 
     @Test
@@ -66,19 +80,6 @@ public class MoodEventTest {
     }
 
     @Test
-    public void getDateTest() {
-        Assert.assertEquals(date, moodEvent.getDate());
-    }
-
-    @Test
-    public void setDateTest() {
-        Assert.assertEquals(date, moodEvent.getDate());
-        Date newDate = new Date(0);
-        moodEvent.setDate(newDate);
-        Assert.assertEquals(newDate, moodEvent.getDate());
-    }
-
-    @Test
     public void getConditionTest() {
         Assert.assertEquals(condition, moodEvent.getCondition());
     }
@@ -92,16 +93,16 @@ public class MoodEventTest {
     }
 
     @Test
-    public void getPhotoTest() {
-        Assert.assertEquals(photo, moodEvent.getPhoto());
+    public void getPhotoURLTest() {
+        Assert.assertEquals(photoURL, moodEvent.getPhotoURL());
     }
 
     @Test
-    public void setPhotoTest() {
-        Assert.assertEquals(photo, moodEvent.getPhoto());
-        byte[] newPhoto = "newTestPhoto".getBytes();
-        moodEvent.setPhoto(newPhoto);
-        Assert.assertEquals(newPhoto, moodEvent.getPhoto());
+    public void setPhotoURLTest() {
+        Assert.assertEquals(photoURL, moodEvent.getPhotoURL());
+        String newPhoto = "https://example.com/moodEvents/photo.jpg";
+        moodEvent.setPhotoURL(newPhoto);
+        Assert.assertEquals(newPhoto, moodEvent.getPhotoURL());
     }
 
     @Test
@@ -115,10 +116,5 @@ public class MoodEventTest {
         LatLng newLocation = new LatLng(-150, -150);
         moodEvent.setLocation(newLocation);
         Assert.assertEquals(newLocation, moodEvent.getLocation());
-    }
-
-    @Test
-    public void saveTest() {
-        // TODO: write the test that checks this
     }
 }
