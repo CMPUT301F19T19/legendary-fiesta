@@ -4,31 +4,45 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
-public class MoodEventAdapter extends ArrayAdapter<MoodEvent> {
+public class MoodEventAdapter extends ArraySwipeAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
     private Context context;
+    AdapterCallback callback;
 
-    public MoodEventAdapter(Context context, ArrayList<MoodEvent> moodEventList) {
+    public interface AdapterCallback{
+        void onDelete(int position);
+    }
+
+    public MoodEventAdapter(Context context, ArrayList<MoodEvent> moodEventList, AdapterCallback callback) {
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.context = context;
+        this.callback = callback;
+    }
+
+    @Override
+    public int getSwipeLayoutResourceId(int position) {
+        return R.id.swipe_event;
     }
 
     @NonNull
@@ -63,6 +77,13 @@ public class MoodEventAdapter extends ArrayAdapter<MoodEvent> {
         String timeString = timeFormat.format(date);
         displayed_time.setText(timeString);
         displayed_time.setBackgroundColor(context.getColor(mood.getColorId()));
+
+        view.findViewById(R.id.delete_event).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onDelete(position);
+            }
+        });
 
         return view;
     }

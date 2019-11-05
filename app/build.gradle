@@ -62,9 +62,12 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     implementation "androidx.fragment:fragment:1.1.0"
-    implementation 'com.android.support:support-annotations:28.0.0'
+    implementation 'androidx.annotation:annotation:1.0.0'
     implementation("androidx.fragment:fragment-testing:1.1.0-alpha03",
             { exclude group: 'androidx.test', module: 'core' })
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
