@@ -21,8 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.util.Attributes;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -66,7 +64,7 @@ public class OwnMoodsFragment extends Fragment {
 
         loadMoodData();
 
-        moodList = mView.findViewById(R.id.mood_list);
+        moodList = mView.findViewById(R.id.mood_list_friends);
 
         moodArrayAdapter = new MoodEventAdapter(mActivity, moodDataList, new MoodEventAdapter.AdapterCallback() {
             @Override
@@ -151,7 +149,7 @@ public class OwnMoodsFragment extends Fragment {
      * Mostly a test function to set up the spinner, populate it with a string array from resource.xml
      */
     private void setUpFilterSpinner() {
-        filterSpinner = mView.findViewById(R.id.filter_spinner);
+        filterSpinner = mView.findViewById(R.id.filter_spinner_friends);
         /*
          * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
          */

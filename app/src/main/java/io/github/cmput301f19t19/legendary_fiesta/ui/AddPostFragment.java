@@ -1,7 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -204,7 +206,17 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void onDoneClicked() {
         Mood mood = getSelectedMood();
         if (mood == null) {
-            handleError("No mood selected");
+            //Replace handleError with the error popup
+            //handleError("No mood selected");
+            new AlertDialog.Builder(mActivity).setTitle("Oops")
+                    .setMessage("Please choose an emotional state or enter a date and time")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Go back without changing anything
+                            dialogInterface.dismiss();
+                        }
+                    });
             return;
         }
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
@@ -215,7 +227,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
         } catch (Exception e) {
-            handleError("Missing date or time");
+            //Replace handleError with the error popup
+            //handleError("Missing date or time");
             return;
         }
 
@@ -240,6 +253,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             }
         });
     }
+
+
+    /*
+     * When this function is called 
+     */
 
     /**
      * Shows an error toast
