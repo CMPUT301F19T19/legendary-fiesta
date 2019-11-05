@@ -1,44 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:id="@+id/swipe_event"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/emoji"
-        android:layout_width="85dp"
-        android:layout_height="61dp"
-        android:background="#CE2D2D"
-        android:contentDescription="emoji"
-        android:padding="10dp"
-        app:srcCompat="@drawable/icon_scared"></ImageView>
+    <LinearLayout
+        android:tag="BottomSwipeView"
+        android:background="#ff0000"
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="80dp"
+        android:weightSum="1"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
-        android:layout_weight="1"
-        android:background="@color/color_happy"
-        android:fontFamily="@font/abeezee"
-        android:gravity="center_vertical"
-        android:padding="10dp"
-        android:text="Date"
-        android:textAlignment="center"
-        android:textColor="@color/color_white"
-        android:textSize="22sp"></TextView>
+        <ImageView
+            android:id="@+id/delete_event"
+            android:src="@drawable/ic_delete"
+            android:layout_width="80dp"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
-        android:layout_weight="1"
-        android:background="@color/color_surprised"
-        android:fontFamily="@font/abeezee"
-        android:gravity="center_vertical"
-        android:text="Time"
-        android:textAlignment="center"
-        android:textColor="@color/color_white"
-        android:textSize="22sp"></TextView>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/emoji"
+            android:layout_width="85dp"
+            android:layout_height="61dp"
+            android:background="#CE2D2D"
+            android:contentDescription="emoji"
+            android:padding="10dp"
+            app:srcCompat="@drawable/icon_scared">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:background="@color/color_happy"
+            android:fontFamily="@font/abeezee"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="Date"
+            android:textAlignment="center"
+            android:textColor="@color/color_white"
+            android:textSize="22sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:background="@color/color_surprised"
+            android:fontFamily="@font/abeezee"
+            android:gravity="center_vertical"
+            android:text="Time"
+            android:textAlignment="center"
+            android:textColor="@color/color_white"
+            android:textSize="22sp">
+        </TextView>
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>
