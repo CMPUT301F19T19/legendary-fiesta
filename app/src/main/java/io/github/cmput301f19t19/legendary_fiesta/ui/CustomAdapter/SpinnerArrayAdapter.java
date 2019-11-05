@@ -1,6 +1,8 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import org.w3c.dom.Text;
 
+import io.alterac.blurkit.BlurKit;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
@@ -65,6 +69,8 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
             view = LayoutInflater.from(context).inflate(R.layout.spinner_dropdown, parent, false);
         }
 
+
+
         TextView dropDownText = view.findViewById(R.id.spinner_text);
         ImageView icon = view.findViewById(R.id.spinner_icon);
 
@@ -91,10 +97,7 @@ public class SpinnerArrayAdapter extends ArrayAdapter<String> {
                 dropDownText.setText(nameCap);
                 icon.setImageResource(mood.getIconId());
             }
-
-
         }
-
         return view;
     }
 

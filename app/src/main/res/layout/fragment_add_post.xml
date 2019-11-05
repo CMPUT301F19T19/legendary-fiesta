@@ -351,7 +351,7 @@
             android:layout_marginRight="10dp"
             android:background="@null"
             android:baselineAligned="false"
-            android:dropDownVerticalOffset="15dp"
+            android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:paddingLeft="0dp"
             android:popupBackground="@color/transparent_background"
