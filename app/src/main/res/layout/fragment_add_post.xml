@@ -97,7 +97,7 @@
             android:id="@+id/icon_sad"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:background="@drawable/icon_sad_70px"
             android:button="@null"
             android:scaleX="0.9"
@@ -373,8 +373,9 @@
     <RelativeLayout
         android:id="@+id/locationInputLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toEndOf="@+id/addPictureButton"
         app:layout_constraintStart_toStartOf="@+id/socialSpinnerLayout"
         app:layout_constraintTop_toBottomOf="@+id/socialSpinnerLayout">
