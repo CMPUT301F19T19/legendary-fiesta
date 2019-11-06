@@ -31,16 +31,7 @@ public class MyMoodTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mainActivityRule = new ActivityTestRule<>(LoginActivity.class);
-
-    @Before
-    public void init() throws Throwable {
-        onView(withText("Sign in with email")).check(matches(isDisplayed())).perform(click());
-        onView(withHint("Email")).perform(typeText("test@example.com"));
-        onView(withText("NEXT")).check(matches(isDisplayed())).perform(click());
-        onView(withHint("Password")).perform(typeText("123456"));
-        onView(withText("SIGN IN")).check(matches(isDisplayed())).perform(click());
-        IdlingPolicies.setIdlingResourceTimeout(20, TimeUnit.SECONDS);
-    }
+    
 
     @Test
     public void LaunchFragmentTest() {
