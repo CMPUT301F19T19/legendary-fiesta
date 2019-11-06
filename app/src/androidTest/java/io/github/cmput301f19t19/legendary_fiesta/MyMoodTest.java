@@ -31,7 +31,13 @@ public class MyMoodTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> mainActivityRule = new ActivityTestRule<>(LoginActivity.class);
-    
+
+    @Before
+    public void init(){
+        fragment = new OwnMoodsFragment();
+
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,null).commit();
+    }
 
     @Test
     public void LaunchFragmentTest() {
