@@ -215,7 +215,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         Mood mood = getSelectedMood();
         if (mood == null) {
             //Replace handleError with the error popup
-            //handleError("No mood selected");
+          
             errorPopUp();
             return;
         }
@@ -228,7 +228,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                     timeET.getText().toString());
         } catch (Exception e) {
             //Replace handleError with the error popup
-            //handleError("Missing date or time");
+            
             errorPopUp();
             return;
         }
