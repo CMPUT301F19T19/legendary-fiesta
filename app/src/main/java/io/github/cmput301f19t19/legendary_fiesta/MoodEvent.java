@@ -9,7 +9,10 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -27,10 +30,23 @@ public class MoodEvent implements Parcelable {
         @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
         public @interface SocialConditionType {}
 
+        public static final int NONE = -1;
         public static final int SINGLE = 0;
         public static final int PAIR = 1;
         public static final int SMALL_GROUP = 2;
         public static final int CROWD = 3;
+
+        public static final Map<Integer, String> SocialConditionStrings;
+        static {
+            HashMap<Integer, String> socialConditions = new HashMap<Integer, String>();
+            socialConditions.put(NONE, "None");
+            socialConditions.put(SINGLE, "Single");
+            socialConditions.put(PAIR, "Pair");
+            socialConditions.put(SMALL_GROUP, "Small Group");
+            socialConditions.put(CROWD, "Crowd");
+            SocialConditionStrings = Collections.unmodifiableMap(socialConditions);
+        }
+
     }
 
     private String moodId;
@@ -122,6 +138,13 @@ public class MoodEvent implements Parcelable {
      */
     public String getMoodId() {
         return moodId;
+    }
+
+    /**
+     * @param moodId String moodId of the MoodEvent, to be used while in edit state
+     */
+    public void setMoodId(String moodId) {
+        this.moodId = moodId;
     }
 
     /**

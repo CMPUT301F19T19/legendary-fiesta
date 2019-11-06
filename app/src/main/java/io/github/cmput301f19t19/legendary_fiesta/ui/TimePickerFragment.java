@@ -19,14 +19,27 @@ public class TimePickerFragment extends AppCompatDialogFragment implements TimeP
     private static final String TAG = "TimePickerFragment";
     final Calendar calendar = Calendar.getInstance();
 
+    public static final String HOUR_TAG = "TIME_HOUR";
+    public static final String MINUTE_TAG = "TIME_MIN";
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        // Set the current time as the default time
-        final Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+
+        int hour, minute;
+        Bundle args = getArguments();
+        if (args != null) {
+            hour = args.getInt(HOUR_TAG);
+            minute = args.getInt(MINUTE_TAG);
+        } else {
+            // Set the current time as the default time
+            final Calendar calendar = Calendar.getInstance();
+
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+            minute = calendar.get(Calendar.MINUTE);
+        }
+
 
         // Return a new instance of TimePickerDialog
         return new TimePickerDialog(getActivity(), TimePickerFragment.this, hour, minute, false);

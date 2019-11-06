@@ -2,7 +2,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -46,6 +46,8 @@ public class OwnMoodsFragment extends Fragment {
     private MoodEventAdapter moodArrayAdapter;
 
     private Spinner filterSpinner;
+
+    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
 
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -108,7 +110,14 @@ public class OwnMoodsFragment extends Fragment {
         moodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // open edit text
+                Fragment replacement = new AddPostFragment();
+                Bundle args = new Bundle();
+                args.putParcelable(MOOD_EVENT_TAG, moodDataList.get(i));
+                replacement.setArguments(args);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.nav_host_fragment, replacement );
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
