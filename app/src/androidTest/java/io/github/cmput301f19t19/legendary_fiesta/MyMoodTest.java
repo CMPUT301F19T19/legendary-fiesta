@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
+import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -30,7 +31,7 @@ public class MyMoodTest {
     private OwnMoodsFragment fragment;
 
     @Rule
-    public ActivityTestRule<LoginActivity> mainActivityRule = new ActivityTestRule<>(LoginActivity.class);
+    public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
     @Before
     public void init(){
