@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -59,10 +60,15 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private String selectedDate;
     private String selectedTime;
 
+    private boolean isEdit;
+    private String editMoodId;
+
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
     // Time result identifier
     public static final int TIME_REQUEST_CODE = 99;
+
+    private ArrayList<String> conditionsArray;
 
     // Fragment view
     private View mView;
@@ -99,7 +105,40 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         setUpSocialSpinner();
 
+        Bundle args = getArguments();
+        if (args != null) {
+            MoodEvent moodEvent = args.getParcelable(OwnMoodsFragment.MOOD_EVENT_TAG);
+            if (moodEvent != null) {
+                setFragmentToEdit(moodEvent);
+            }
+        }
+
         return mView;
+    }
+
+    private void setFragmentToEdit(MoodEvent moodEvent) {
+        isEdit = true;
+
+        // set Mood Id for edit mood
+        editMoodId = moodEvent.getMoodId();
+
+        // set social condition
+        String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
+        socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
+
+        // set description
+        descET.setText(moodEvent.getDescription());
+
+        // set mood type
+        emotionRadioGroup.check(getEmotionRadioId(moodEvent.getMoodType()));
+
+        // set date and time
+        Format f = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+        dateET.setText(f.format(moodEvent.getDate()));
+
+        f = new SimpleDateFormat("hh:mm aa", Locale.CANADA);
+        timeET.setText(f.format(moodEvent.getDate()));
+
     }
 
     @Override
@@ -129,7 +168,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         socialSpinner = mView.findViewById(R.id.social_spinner);
 
         // Get list of social conditions setup in strings.xml
-        ArrayList<String> conditionsArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.social_conditions)));
+        conditionsArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.social_conditions)));
         conditionsArray.add(getResources().getString(R.string.spinner_empty)); //filter_empty is "None"
 
         // Convert ArrayList to array, so that it can be passed to SocialArrayAdapter
@@ -224,6 +263,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // TODO: get social condition from dropdown, photo, map
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, null, null);
+        if (isEdit) {
+            moodEvent.setMoodId(editMoodId);
+        }
 
         firebaseHelper.addMoodEvent(moodEvent, null,
                 new FirebaseHelper.FirebaseCallback<Void>() {
@@ -248,6 +290,30 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      */
     private void handleError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * @param moodId moodId of the mood selected
+     * @return Return the id of mood in emotion radio group
+     */
+    private int getEmotionRadioId(@Mood.MoodType int moodId) {
+        switch (moodId) {
+            case Mood.NEUTRAL:
+                return R.id.icon_neutral;
+            case Mood.HAPPY:
+                return R.id.icon_happy;
+            case Mood.ANGRY:
+                return R.id.icon_angry;
+            case Mood.DISGUSTED:
+                return R.id.icon_disgusted;
+            case Mood.SAD:
+                return R.id.icon_sad;
+            case Mood.SCARED:
+                return R.id.icon_scared;
+            case Mood.SURPRISED:
+                return R.id.icon_surprised;
+        }
+        return R.id.icon_neutral;
     }
 
     /**
