@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/filterSpinnerLayout"
+        android:id="@+id/filterSpinnerLayoutFriends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -76,8 +76,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/filterSpinnerLayout"
-        app:layout_constraintStart_toStartOf="@+id/filterSpinnerLayout"
-        app:layout_constraintTop_toBottomOf="@+id/filterSpinnerLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/filterSpinnerLayoutFriends"
+        app:layout_constraintStart_toStartOf="@+id/filterSpinnerLayoutFriends"
+        app:layout_constraintTop_toBottomOf="@+id/filterSpinnerLayoutFriends" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

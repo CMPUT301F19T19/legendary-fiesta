@@ -64,7 +64,7 @@ public class OwnMoodsFragment extends Fragment {
 
         loadMoodData();
 
-        moodList = mView.findViewById(R.id.mood_list_friends);
+        moodList = mView.findViewById(R.id.mood_list);
 
         moodArrayAdapter = new MoodEventAdapter(mActivity, moodDataList, new MoodEventAdapter.AdapterCallback() {
             @Override
@@ -149,7 +149,7 @@ public class OwnMoodsFragment extends Fragment {
      * Mostly a test function to set up the spinner, populate it with a string array from resource.xml
      */
     private void setUpFilterSpinner() {
-        filterSpinner = mView.findViewById(R.id.filter_spinner_friends);
+        filterSpinner = mView.findViewById(R.id.filter_spinner);
         /*
          * get list of mood from the Mood.moodType enum. Also turn the first letter of each enum to Uppercase
          */

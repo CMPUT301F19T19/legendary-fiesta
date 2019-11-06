@@ -43,25 +43,26 @@ public class MyMoodTest {
     @Test
     public void LaunchFragmentTest() {
         // check if ownMoodsFragment is shown
-        onView(withId(R.id.show_on_map_button_friends)).check(matches(isDisplayed()));
+        onView(withId(R.id.show_on_map_button)).check(matches(isDisplayed()));
     }
-/*
+
     @Test
     public void MyMoodFilterClickTest() {
         //check that filter start with None as default
         onView(withText(endsWith("None"))).check(matches(isDisplayed()));
 
         //check filter after clicking Angry
-        onView(withId(R.id.filter_spinner_friends)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.filter_spinner)).check(matches(isDisplayed())).perform(click());
         onView(withText("Angry")).check(matches(isDisplayed())).perform(click());
         onView(withText(endsWith("Angry"))).check(matches(isDisplayed()));
 
         //check filter after clicking Sad
-        onView(withId(R.id.filter_spinner_friends)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.filter_spinner)).check(matches(isDisplayed())).perform(click());
         onView(withText("Sad")).check(matches(isDisplayed())).perform(click());
         onView(withText(endsWith("Sad"))).check(matches(isDisplayed()));
     }
 
+    /*
     //Check that a mood event is successfully added into the list and can be seen on the screen
     @Test
     public void MoodListTest() throws ParseException {
