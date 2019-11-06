@@ -2,7 +2,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import java.util.ArrayList;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,8 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.util.Attributes;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;

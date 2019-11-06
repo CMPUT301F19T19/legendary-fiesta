@@ -19,15 +19,27 @@ public class DatePickerFragment extends AppCompatDialogFragment implements DateP
     private static final String TAG = "DatePickerFragment";
     final Calendar calendar = Calendar.getInstance();
 
+    public static final String DATE_TAG = "DATE_DATE";
+    public static final String MONTH_TAG = "DATE_MONTH";
+    public static final String YEAR_TAG = "DATE_YEAR";
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        // Set the current date as the default date
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year, month, day;
+        Bundle args = getArguments();
+        if (args != null) {
+            year = args.getInt(YEAR_TAG);
+            month = args.getInt(MONTH_TAG);
+            day = args.getInt(DATE_TAG);
+        } else {
+            // Set the current date as the default date
+            final Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        }
 
         // Return a new instance of DatePickerDialog
         return new DatePickerDialog(getActivity(), DatePickerFragment.this, year, month, day);

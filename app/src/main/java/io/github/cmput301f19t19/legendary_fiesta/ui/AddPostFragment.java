@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -206,6 +205,23 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 // Set the target fragment to receive the results and specifying the result code
                 dateFragment.setTargetFragment(AddPostFragment.this, DATE_REQUEST_CODE);
                 // Show DatePickerFragment
+                Bundle args = new Bundle();
+                if (isEdit) {
+                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
+                    Date date = null;
+                    try {
+                        date = format.parse(dateET.getText().toString() + " " +
+                                timeET.getText().toString());
+                    } catch (Exception e) {
+                        handleError("Missing date or time");
+                        return;
+                    }
+                    args.putInt(DatePickerFragment.DATE_TAG, date.getDate());
+                    args.putInt(DatePickerFragment.MONTH_TAG, date.getMonth());
+                    args.putInt(DatePickerFragment.YEAR_TAG, date.getYear() + 1900);
+
+                    dateFragment.setArguments(args);
+                }
                 dateFragment.show(getFragmentManager(), "DatePicker");
                 break;
             case R.id.timeEditText:
@@ -214,6 +230,22 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 // Set the target fragment to receive the results and specifying the result code
                 timeFragment.setTargetFragment(AddPostFragment.this, TIME_REQUEST_CODE);
                 // Show TimePickerFragment
+                args = new Bundle();
+                if (isEdit) {
+                    SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
+                    Date date = null;
+                    try {
+                        date = format.parse(dateET.getText().toString() + " " +
+                                timeET.getText().toString());
+                    } catch (Exception e) {
+                        handleError("Missing date or time");
+                        return;
+                    }
+                    args.putInt(TimePickerFragment.HOUR_TAG, date.getHours());
+                    args.putInt(TimePickerFragment.MINUTE_TAG, date.getMinutes());
+
+                    timeFragment.setArguments(args);
+                }
                 timeFragment.show(getFragmentManager(), "TimePicker");
                 break;
             case R.id.cancel_button:
