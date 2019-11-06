@@ -1,11 +1,14 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +98,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         emotionRadioGroup.setOnCheckedChangeListener(this);
-        navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+        try {
+            navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        }catch (IllegalArgumentException e){
+            Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
+        }
 
         setUpSocialSpinner();
 
@@ -195,7 +203,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         timeET.setText("");
         descET.setText("");
         emotionRadioGroup.clearCheck();
-        navController.navigate(R.id.navigation_own_list);
+
+        if(navController != null)
+            navController.navigate(R.id.navigation_own_list);
     }
 
     /**
@@ -204,7 +214,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void onDoneClicked() {
         Mood mood = getSelectedMood();
         if (mood == null) {
-            handleError("No mood selected");
+            //Replace handleError with the error popup
+          
+            errorPopUp();
             return;
         }
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
@@ -215,7 +227,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
         } catch (Exception e) {
-            handleError("Missing date or time");
+            //Replace handleError with the error popup
+            
+            errorPopUp();
             return;
         }
 
@@ -240,6 +254,27 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             }
         });
     }
+
+
+    /**
+     * When this function is called
+     * an error popup will appear on the screen
+     */
+    private void errorPopUp(){
+        new AlertDialog.Builder(mActivity)
+                .setTitle("Oops")
+                .setMessage("Please choose an emotional state or enter a date and time")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Go back without changing anything
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
 
     /**
      * Shows an error toast

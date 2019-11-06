@@ -21,8 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.daimajia.swipe.util.Attributes;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -63,6 +61,7 @@ public class OwnMoodsFragment extends Fragment {
 
         // When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
+
         loadMoodData();
 
         moodList = mView.findViewById(R.id.mood_list);
@@ -133,6 +132,7 @@ public class OwnMoodsFragment extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onAttach(Context context) {
