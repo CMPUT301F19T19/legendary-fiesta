@@ -133,10 +133,6 @@ public class OwnMoodsFragment extends Fragment {
         });
     }
 
-    public void AddMood(MoodEvent newMoodEvent){
-        moodDataList.add(newMoodEvent);
-        moodArrayAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onAttach(Context context) {
