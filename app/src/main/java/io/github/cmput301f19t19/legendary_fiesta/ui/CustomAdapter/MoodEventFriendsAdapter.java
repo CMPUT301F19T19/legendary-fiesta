@@ -4,13 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,26 +20,15 @@ import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
-public class MoodEventAdapter extends ArraySwipeAdapter<MoodEvent> {
+public class MoodEventFriendsAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
     private Context context;
-    AdapterCallback callback;
 
-    public interface AdapterCallback{
-        void onDelete(int position);
-    }
-
-    public MoodEventAdapter(Context context, ArrayList<MoodEvent> moodEventList, AdapterCallback callback) {
+    public MoodEventFriendsAdapter(Context context, ArrayList<MoodEvent> moodEventList){
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.context = context;
-        this.callback = callback;
-    }
-
-    @Override
-    public int getSwipeLayoutResourceId(int position) {
-        return R.id.swipe_event;
     }
 
     @NonNull
@@ -49,19 +37,24 @@ public class MoodEventAdapter extends ArraySwipeAdapter<MoodEvent> {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.mood_list_content, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.mood_list_content_friends, parent, false);
         }
 
         MoodEvent moodEvent = moodEventList.get(position);
         Mood mood = new Mood(moodEvent.getMoodType());
 
-        ImageView displayed_emoji = view.findViewById(R.id.emoji);
-        TextView displayed_date = view.findViewById(R.id.date);
-        TextView displayed_time = view.findViewById(R.id.time);
+        ImageView displayed_emoji = view.findViewById(R.id.emoji_friends);
+        TextView displayed_name = view.findViewById(R.id.name_friends);
+        TextView displayed_date = view.findViewById(R.id.date_friends);
+        TextView displayed_time = view.findViewById(R.id.time_friends);
 
         // Set emoji and its background colour
         displayed_emoji.setImageResource(mood.getIconId());
         displayed_emoji.setBackgroundColor(context.getColor(mood.getColorId()));
+
+        // Set the name
+        displayed_name.setText(moodEvent.getUser());
+        displayed_name.setBackgroundColor(context.getColor(mood.getColorId()));
 
         Date date = moodEvent.getDate();
         // Set date and its background colour
@@ -75,13 +68,6 @@ public class MoodEventAdapter extends ArraySwipeAdapter<MoodEvent> {
         String timeString = timeFormat.format(date);
         displayed_time.setText(timeString);
         displayed_time.setBackgroundColor(context.getColor(mood.getColorId()));
-
-        view.findViewById(R.id.delete_event).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callback.onDelete(position);
-            }
-        });
 
         return view;
     }

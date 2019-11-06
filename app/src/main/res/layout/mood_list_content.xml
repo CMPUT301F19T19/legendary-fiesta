@@ -31,17 +31,16 @@
         <ImageView
             android:id="@+id/emoji"
             android:layout_width="85dp"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:background="#CE2D2D"
             android:contentDescription="emoji"
             android:padding="10dp"
-            app:srcCompat="@drawable/icon_scared">
-        </ImageView>
+            app:srcCompat="@drawable/icon_scared"></ImageView>
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:background="@color/color_happy"
             android:fontFamily="@font/abeezee"
@@ -50,13 +49,12 @@
             android:text="Date"
             android:textAlignment="center"
             android:textColor="@color/color_white"
-            android:textSize="22sp">
-        </TextView>
+            android:textSize="22sp"></TextView>
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:background="@color/color_surprised"
             android:fontFamily="@font/abeezee"
@@ -64,8 +62,7 @@
             android:text="Time"
             android:textAlignment="center"
             android:textColor="@color/color_white"
-            android:textSize="22sp">
-        </TextView>
+            android:textSize="22sp"></TextView>
     </LinearLayout>
 
 </com.daimajia.swipe.SwipeLayout>
