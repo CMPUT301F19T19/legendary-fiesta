@@ -216,15 +216,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         if (mood == null) {
             //Replace handleError with the error popup
             //handleError("No mood selected");
-            new AlertDialog.Builder(mActivity).setTitle("Oops")
-                    .setMessage("Please choose an emotional state or enter a date and time")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //Go back without changing anything
-                            dialogInterface.dismiss();
-                        }
-                    });
+            errorPopUp();
             return;
         }
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
@@ -237,6 +229,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         } catch (Exception e) {
             //Replace handleError with the error popup
             //handleError("Missing date or time");
+            errorPopUp();
             return;
         }
 
@@ -263,9 +256,25 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     }
 
 
-    /*
-     * When this function is called 
+    /**
+     * When this function is called
+     * an error popup will appear on the screen
      */
+    private void errorPopUp(){
+        new AlertDialog.Builder(mActivity)
+                .setTitle("Oops")
+                .setMessage("Please choose an emotional state or enter a date and time")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Go back without changing anything
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
 
     /**
      * Shows an error toast
