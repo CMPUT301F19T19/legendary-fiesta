@@ -63,7 +63,7 @@ public class OwnMoodsFragment extends Fragment {
 
         moodDataList = new ArrayList<>();
 
-        if(getTag() != "from my mood test"){
+        if(getTag() != "From Tests :)"){
             loadMoodData();
         }
 

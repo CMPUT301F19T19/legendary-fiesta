@@ -28,6 +28,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeDown;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
@@ -61,7 +62,7 @@ public class MyMoodTest {
     public void init(){
         fragment = new OwnMoodsFragment();
 
-        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"from my mood test").commit();
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"From Tests :)").commit();
     }
 
     @Test
@@ -188,5 +189,31 @@ public class MyMoodTest {
 
     // Check that when a mood event is deleted, it no longer appears on the screen
     @Test
-    public void 
+    public void MoodDeleted() throws Throwable {
+        // create a date
+        String dateString = "2010-02-02";
+        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+        // create a mood event
+        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
+
+        // add the mood event into the arraylist
+        // swipe the mood event to the left
+        mainActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fragment.AddMoodEvent(moodEventExample);
+            }
+        });
+        onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).perform(swipeLeft());
+
+        // Click the trash can
+        onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).onChildView(withId(R.id.delete_event)).perform(click());
+
+        // Click yes on the pop up
+        onView(withText("Yes")).perform(click());
+
+        // Check that the mood event is no longer on the screen
+        onView(withText("2010-02-02")).check(doesNotExist());
+    }
 }
