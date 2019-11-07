@@ -59,10 +59,25 @@ public class MyMoodTest {
     public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
     @Before
-    public void init(){
+    public void init() throws Throwable {
         fragment = new OwnMoodsFragment();
 
         mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"From Tests :)").commit();
+
+        // create a date
+        String dateString = "2010-02-02";
+        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+        // create a mood event
+        MoodEvent moodEventExample = new MoodEvent(Mood.SAD,"Tiffany","I'm crying",dateExample, MoodEvent.SocialCondition.CROWD,null,null);
+
+        // add the mood event into the arraylist
+        mainActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fragment.AddMoodEvent(moodEventExample);
+            }
+        });
     }
 
     @Test
@@ -91,21 +106,6 @@ public class MyMoodTest {
     // Check that a mood event is successfully added into the list
     @Test
     public void AddMoodEventTest() throws Throwable {
-        // create a date
-        String dateString = "2010-02-02";
-        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
-        // create a mood event
-        MoodEvent moodEventExample = new MoodEvent(Mood.SAD,"Tiffany","I'm crying",dateExample, MoodEvent.SocialCondition.CROWD,null,null);
-
-        // add the mood event into the arraylist
-        mainActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragment.AddMoodEvent(moodEventExample);
-            }
-        });
-
         // check if the date of the mood is on the screen
         onView(withText("2010-02-02")).check(matches(isDisplayed()));
     }
@@ -114,22 +114,6 @@ public class MyMoodTest {
     // Check that when nothing is done, the trash can should not appear on the screen
     @Test
     public void DeleteIconNotSeenTest() throws Throwable {
-        // create a date
-        String dateString = "2010-02-02";
-        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
-        // create a mood event
-        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
-
-        // add the mood event into the arraylist
-        // swipe the mood event to the left
-        mainActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragment.AddMoodEvent(moodEventExample);
-            }
-        });
-
         onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).onChildView(withId(R.id.delete_event)).check(matches(not(isDisplayed())));
     }
 
@@ -137,21 +121,7 @@ public class MyMoodTest {
     // Check that when a mood event is swiped to the left, a trash can appears on the right
     @Test
     public void DeleteIconAppearsTest() throws Throwable {
-        // create a date
-        String dateString = "2010-02-02";
-        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
-        // create a mood event
-        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
-
-        // add the mood event into the arraylist
-        // swipe the mood event to the left
-        mainActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragment.AddMoodEvent(moodEventExample);
-            }
-        });
+        // swipe a mood event to the left
         onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).perform(swipeLeft());
 
         // check if the trash can is displayed
@@ -162,21 +132,7 @@ public class MyMoodTest {
     // Check that when the trash can is clicked, a pop up appears
     @Test
     public void PopUpAppears() throws Throwable {
-        // create a date
-        String dateString = "2010-02-02";
-        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
-        // create a mood event
-        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
-
-        // add the mood event into the arraylist
-        // swipe the mood event to the left
-        mainActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragment.AddMoodEvent(moodEventExample);
-            }
-        });
+        // swipe a mood event to the left
         onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).perform(swipeLeft());
 
         //Click the trash can
@@ -190,21 +146,7 @@ public class MyMoodTest {
     // Check that when a mood event is deleted, it no longer appears on the screen
     @Test
     public void MoodDeleted() throws Throwable {
-        // create a date
-        String dateString = "2010-02-02";
-        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-
-        // create a mood event
-        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
-
-        // add the mood event into the arraylist
-        // swipe the mood event to the left
-        mainActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                fragment.AddMoodEvent(moodEventExample);
-            }
-        });
+        //swipe a mood event to the left
         onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).perform(swipeLeft());
 
         // Click the trash can
