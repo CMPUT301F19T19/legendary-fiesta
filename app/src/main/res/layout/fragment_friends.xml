@@ -96,6 +96,7 @@
         android:layout_height="60dp"
         android:background="@null"
         android:scaleType="fitXY"
+        android:tint="@drawable/button_pressed"
         app:layout_constraintBottom_toTopOf="@+id/friendView"
         app:layout_constraintStart_toStartOf="@+id/followView"
         app:layout_constraintTop_toBottomOf="@+id/followView"
