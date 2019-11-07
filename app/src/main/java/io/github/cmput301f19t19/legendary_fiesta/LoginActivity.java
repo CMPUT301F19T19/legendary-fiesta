@@ -1,6 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,14 +111,25 @@ public class LoginActivity extends AppCompatActivity {
         user = new User(userName, birth, description);
         user.setUid(uid);
 
+        Context ctx = this;
         firebaseHelper.checkUserExists(userName, new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot document) {
                 submit_button.setEnabled(true);
                 showProgressOverlay(false);
                 if (!document.isEmpty()) {
-                    // An user with the specified username already exists
-                    Log.d("FeelsLog", "addNewUser: duplicates");
+                    new AlertDialog.Builder(ctx)
+                        .setTitle("Username taken!")
+                        .setMessage("Please try a different username")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Go back without changing anything
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
                 } else {
                     firebaseHelper.addUser(user, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
                         @Override
