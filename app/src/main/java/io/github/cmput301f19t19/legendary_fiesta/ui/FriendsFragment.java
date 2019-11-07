@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
 
-public class FriendsFragment extends Fragment implements  View.OnClickListener {
+public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener {
 
     private View mView;
     private Activity mActivity;
@@ -79,5 +80,11 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener {
         friendsList.add("Hery Martial Rakotoarimanana Rajaonarimampianina");
 
         return friendsList;
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }
