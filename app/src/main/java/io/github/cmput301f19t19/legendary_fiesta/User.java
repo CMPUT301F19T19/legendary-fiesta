@@ -44,8 +44,6 @@ public class User implements Parcelable {
     public User() { }
 
     protected User(Parcel in) {
-        in.setDataPosition(0);
-
         username = in.readString();
         description = in.readString();
         uid = in.readString();
@@ -57,9 +55,13 @@ public class User implements Parcelable {
             birthDate = new Date(date);
         }
 
-        following = in.createStringArrayList();
-        followedBy = in.createStringArrayList();
-        requestedBy = in.createStringArrayList();
+        this.followedBy = new ArrayList<>();
+        this.following = new ArrayList<>();
+        this.requestedBy = new ArrayList<>();
+
+        in.readStringList(following);
+        in.readStringList(followedBy);
+        in.readStringList(requestedBy);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
