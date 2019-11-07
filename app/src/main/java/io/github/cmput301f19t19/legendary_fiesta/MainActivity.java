@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null)
             actionBar.hide();
 
+        //hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }

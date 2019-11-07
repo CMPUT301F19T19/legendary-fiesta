@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:text="Your Profile"
-        android:textAppearance="@style/user_profile"
+        android:textAppearance="@style/drop_shadow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

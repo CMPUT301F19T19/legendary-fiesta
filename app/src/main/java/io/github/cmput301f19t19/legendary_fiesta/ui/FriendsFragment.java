@@ -47,6 +47,9 @@ public class FriendsFragment extends Fragment {
         mActivity = (Activity)context;
     }
 
+    /*
+    This function needs the dataList that will be past into the adapter
+     */
     public ArrayList<String> getFriendsList(){
         ArrayList<String> friendsList = new ArrayList<>();
         friendsList.add("Juliana");
