@@ -112,7 +112,7 @@ public class MyMoodTest {
 
     // Check that when nothing is done, the trash can should not appear on the screen
     @Test
-    public void deleteIconNotSeenTest() throws Throwable {
+    public void DeleteIconNotSeenTest() throws Throwable {
         // create a date
         String dateString = "2010-02-02";
         Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
@@ -135,7 +135,7 @@ public class MyMoodTest {
 
     // Check that when a mood event is swiped to the left, a trash can appears on the right
     @Test
-    public void deleteIconAppearsTest() throws Throwable {
+    public void DeleteIconAppearsTest() throws Throwable {
         // create a date
         String dateString = "2010-02-02";
         Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
@@ -157,8 +157,36 @@ public class MyMoodTest {
         onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).onChildView(withId(R.id.delete_event)).check(matches(isDisplayed()));
     }
 
+
     // Check that when the trash can is clicked, a pop up appears
-   
+    @Test
+    public void PopUpAppears() throws Throwable {
+        // create a date
+        String dateString = "2010-02-02";
+        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+        // create a mood event
+        MoodEvent moodEventExample = new MoodEvent(Mood.SAD, "Tiffany", "I'm crying", dateExample, MoodEvent.SocialCondition.CROWD, null, null);
+
+        // add the mood event into the arraylist
+        // swipe the mood event to the left
+        mainActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fragment.AddMoodEvent(moodEventExample);
+            }
+        });
+        onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).perform(swipeLeft());
+
+        //Click the trash can
+        onData(anything()).inAdapterView(withId(R.id.mood_list)).atPosition(0).onChildView(withId(R.id.delete_event)).perform(click());
+
+        //Check if popup appears
+        onView(withText("Confirm Delete?")).check(matches(isDisplayed()));
+    }
+
 
     // Check that when a mood event is deleted, it no longer appears on the screen
+    @Test
+    public void 
 }
