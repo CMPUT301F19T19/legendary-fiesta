@@ -178,7 +178,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         firebaseHelper.checkUserExists(userEditText.getText().toString(), new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot document) {
-                if (!document.isEmpty() || userEditText.getText().toString() != user.getUsername()) {
+                if (userEditText.getText().toString() != user.getUsername() && !document.isEmpty()) {
                     new AlertDialog.Builder(mActivity)
                         .setTitle("Username taken!")
                         .setMessage("Please try a different username")
