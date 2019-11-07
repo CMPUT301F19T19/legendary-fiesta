@@ -51,7 +51,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
 @RunWith(AndroidJUnit4.class)
-public class MyMoodTest {
+public class MyMoodUITest {
 
     private OwnMoodsFragment fragment;
 
