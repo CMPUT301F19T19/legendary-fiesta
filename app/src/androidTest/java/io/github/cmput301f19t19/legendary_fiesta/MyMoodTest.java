@@ -1,5 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.util.Log;
+
 import androidx.test.espresso.IdlingPolicies;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -9,6 +11,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
@@ -63,4 +68,30 @@ public class MyMoodTest {
     }
 
 
+    // Check that a mood event is successfully added into the list
+    @ Test
+    public void AddMoodEventTest() throws Throwable {
+        // create a date
+        String dateString = "2010-02-02";
+        Date dateExample = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+        // create a mood event
+        MoodEvent moodEventExample = new MoodEvent(Mood.SAD,"Tiffany","I'm crying",dateExample, MoodEvent.SocialCondition.CROWD,null,null);
+
+        // add the mood event into the arraylist
+        mainActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fragment.AddMoodEvent(moodEventExample);
+            }
+        });
+
+        // check if the date of the mood is on the screen
+        onView(withText("2010-02-02")).check(matches(isDisplayed()));
+    }
+
+    // Check that when a mood event is swiped to the left, a trash can appears on the right
+
+
+    // Check that when a mood event is deleted, it no longer appears on the screen
 }

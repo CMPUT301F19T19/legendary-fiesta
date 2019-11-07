@@ -185,4 +185,12 @@ public class OwnMoodsFragment extends Fragment {
         filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
+    /*
+     * This function is used in tests to add a mood event into the data list
+     */
+    public void AddMoodEvent(MoodEvent newMoodEvent){
+        moodDataList.add(newMoodEvent);
+        moodArrayAdapter.notifyDataSetChanged();
+    }
+
 }
