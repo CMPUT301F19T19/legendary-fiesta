@@ -61,7 +61,6 @@ public class OwnMoodsFragment extends Fragment {
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        // When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
 
         if(getTag() != "from my mood test"){
