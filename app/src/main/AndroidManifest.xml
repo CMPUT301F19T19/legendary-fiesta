@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.FollowerRequestActivity" android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ui.FollowerRequestActivity">
+        </activity>
         <activity android:name=".ui.FragmentEmptyClass" />
         <activity
             android:name=".MainActivity"

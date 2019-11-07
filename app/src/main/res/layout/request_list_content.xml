@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/swipe_event"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@color/black_overlay">
 
     <LinearLayout
         android:tag="BottomSwipeView"
@@ -20,12 +21,12 @@
             android:padding="10dp"
             android:background="@null"
             android:layout_width="80dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:background="@null"
+        android:background="@color/transparent_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,8 +34,8 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@color/transparent_background"
+            android:layout_weight="0.3"
+            android:background="@null"
             android:fontFamily="@font/abeezee"
             android:gravity="center_vertical"
             android:padding="10dp"
@@ -47,6 +48,25 @@
             android:maxLength="@integer/max_name_length"
             tools:ignore="RtlCompat"/>
 
+        <Button
+            android:id="@+id/accept_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:background="@null"
+            android:text="Accept"
+            style="@style/WhiteText"
+            android:textAppearance="@style/drop_shadow"/>
+
+        <Button
+            android:id="@+id/reject_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:background="@null"
+            android:text="Reject"
+            style="@style/WhiteText"
+            android:textAppearance="@style/drop_shadow"/>
     </LinearLayout>
 
 </com.daimajia.swipe.SwipeLayout>

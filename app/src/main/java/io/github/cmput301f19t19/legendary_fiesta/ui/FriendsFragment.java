@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,7 +59,14 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.follow_request_button:
+                Intent followIntent = new Intent(mActivity, FollowerRequestActivity.class);
+                startActivityForResult(followIntent, 1);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
     }
 
     /*

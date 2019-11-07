@@ -11,7 +11,7 @@
     <color name="color_surprised">#FBC1BC</color>
     <color name="color_neutral">#BFBFBF</color>
     <color name="color_white">#FFFFFF</color>
-    <color name="transparent_background">#60FFFFFF</color>
+    <color name="transparent_background">#50FFFFFF</color>
     <color name="button_color">#FF9494</color>
     <color name="selected_color">#40000000</color>
     <color name="navBar_color">#9CB5C3</color>

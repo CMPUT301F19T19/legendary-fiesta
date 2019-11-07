@@ -7,7 +7,7 @@
     android:background="@drawable/background">
 
     <TextView
-        android:id="@+id/friends_view"
+        android:id="@+id/follower_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,8 +27,8 @@
         app:layout_constraintBottom_toTopOf="@+id/followView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="@+id/friends_view"
-        app:layout_constraintTop_toBottomOf="@+id/friends_view">
+        app:layout_constraintStart_toStartOf="@+id/follower_view"
+        app:layout_constraintTop_toBottomOf="@+id/follower_view">
 
 
         <TextView
