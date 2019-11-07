@@ -70,9 +70,6 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
      */
     public ArrayList<String> getFriendsList(){
         ArrayList<String> friendsList = new ArrayList<>();
-        friendsList.add("Juliana");
-        friendsList.add("Tom");
-        friendsList.add("Hery Martial Rakotoarimanana Rajaonarimampianina");
 
         return friendsList;
     }

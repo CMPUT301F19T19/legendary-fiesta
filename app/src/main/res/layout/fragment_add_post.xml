@@ -233,7 +233,7 @@
     <RelativeLayout
         android:id="@+id/timeInputLayout"
         android:layout_width="0dp"
-        android:layout_height="33dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/dateInputLayout"
@@ -376,8 +376,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toEndOf="@+id/addPictureButton"
         app:layout_constraintStart_toStartOf="@+id/socialSpinnerLayout"
         app:layout_constraintTop_toBottomOf="@+id/socialSpinnerLayout">
