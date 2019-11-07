@@ -64,12 +64,7 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
                 startActivityForResult(followIntent, 1);
         }
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-
-    }
-
+    
     /*
     This function needs the dataList that will be past into the adapter
      */
