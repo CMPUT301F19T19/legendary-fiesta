@@ -1,75 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/transparent_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_event"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:background="@color/black_overlay">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:tag="BottomSwipeView"
-        android:background="@color/transparent_background"
-        android:id="@+id/bottom_wrapper"
-        android:layout_width="80dp"
-        android:weightSum="1"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/delete_event"
-            android:src="@drawable/ic_delete"
-            android:padding="10dp"
-            android:background="@null"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:background="@color/transparent_background"
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_weight="20"
+        android:background="@null"
+        android:fontFamily="@font/abeezee"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:paddingStart="16dp"
+        android:text="Name"
+        android:textAppearance="@style/drop_shadow"
+        android:textAlignment="textStart"
+        android:textColor="@color/color_white"
+        android:textSize="30sp"
+        android:maxLength="@integer/max_name_length"
+        tools:ignore="RtlCompat"/>
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="0.3"
-            android:background="@null"
-            android:fontFamily="@font/abeezee"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:paddingStart="16dp"
-            android:text="Name"
-            android:textAppearance="@style/drop_shadow"
-            android:textAlignment="textStart"
-            android:textColor="@color/color_white"
-            android:textSize="30sp"
-            android:maxLength="@integer/max_name_length"
-            tools:ignore="RtlCompat"/>
+    <Button
+        android:id="@+id/accept_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_weight="0.4"
+        android:background="@null"
+        android:text="Accept"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        style="@style/WhiteText"
+        android:textColor="@drawable/button_pressed"/>
 
-        <Button
-            android:id="@+id/accept_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:background="@null"
-            android:text="Accept"
-            style="@style/WhiteText"
-            android:textColor="@drawable/button_pressed"
-            android:textAppearance="@style/drop_shadow"/>
+    <Button
+        android:id="@+id/reject_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:background="@null"
+        android:padding="5dp"
+        android:text="Reject"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        style="@style/WhiteText"
+        android:textColor="@drawable/button_pressed"/>
+</LinearLayout>
 
-        <Button
-            android:id="@+id/reject_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:background="@null"
-            android:text="Reject"
-            style="@style/WhiteText"
-            android:textColor="@drawable/button_pressed"
-            android:textAppearance="@style/drop_shadow"/>
-    </LinearLayout>
-
-</com.daimajia.swipe.SwipeLayout>

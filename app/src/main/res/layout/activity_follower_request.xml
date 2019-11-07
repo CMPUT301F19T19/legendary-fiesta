@@ -25,7 +25,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@null"
         android:scaleType="fitCenter"
         android:tint="@drawable/button_pressed"
