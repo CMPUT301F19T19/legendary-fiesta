@@ -44,4 +44,9 @@
     <string name="add_post_location_button">Location</string>
     <string name="birth_date_button_text">Birthdate</string>
     <string name="max_char_text">(Maximum 100 characters)</string>
+    <string name="search_input_text">Search</string>
+
+    <string name="title_activity_follower_request">FollowerRequestActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

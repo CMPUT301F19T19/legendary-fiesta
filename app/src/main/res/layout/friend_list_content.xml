@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_event"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:tag="BottomSwipeView"
+        android:background="@color/transparent_background"
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="80dp"
+        android:weightSum="1"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/delete_event"
+            android:src="@drawable/ic_delete"
+            android:padding="10dp"
+            android:background="@null"
+            android:layout_width="80dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@color/transparent_background"
+            android:fontFamily="@font/abeezee"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:paddingStart="16dp"
+            android:text="Name"
+            android:textAppearance="@style/drop_shadow"
+            android:textAlignment="textStart"
+            android:textColor="@color/color_white"
+            android:textSize="30sp"
+            android:maxLength="@integer/max_name_length"
+            tools:ignore="RtlCompat"/>
+
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>
