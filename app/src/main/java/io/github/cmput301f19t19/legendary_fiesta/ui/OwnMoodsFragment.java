@@ -64,7 +64,10 @@ public class OwnMoodsFragment extends Fragment {
         // When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
 
-        loadMoodData();
+        if(getTag() != "from my mood test"){
+            loadMoodData();
+        }
+
 
         moodList = mView.findViewById(R.id.mood_list);
 

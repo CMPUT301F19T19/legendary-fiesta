@@ -37,7 +37,7 @@ public class MyMoodTest {
     public void init(){
         fragment = new OwnMoodsFragment();
 
-        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,null).commit();
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"from my mood test").commit();
     }
 
     @Test
