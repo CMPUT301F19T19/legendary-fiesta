@@ -523,7 +523,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * @return Return the id of mood in emotion radio group
      */
     // TODO: TEST
-    private int getEmotionRadioId(@Mood.MoodType int moodId) {
+    public int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
             case Mood.NEUTRAL:
                 return R.id.icon_neutral;
@@ -547,7 +547,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * @return Return the mood choosen by the RadioGroup
      */
     // TODO: TEST
-    private Mood getSelectedMood(int id) {
+    public Mood getSelectedMood(int id) {
         switch (id) {
             case R.id.icon_neutral:
                 return new Mood(Mood.NEUTRAL);
@@ -576,7 +576,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      *  Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
-    private Integer getSelectedSocialCondition(String socialCondition) {
+    public Integer getSelectedSocialCondition(String socialCondition) {
         switch (socialCondition) {
             case "Single":
                 return MoodEvent.SocialCondition.SINGLE;
