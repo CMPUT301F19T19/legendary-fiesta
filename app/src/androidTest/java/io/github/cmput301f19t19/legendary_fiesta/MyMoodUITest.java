@@ -62,7 +62,7 @@ public class MyMoodUITest {
     public void init() throws Throwable {
         fragment = new OwnMoodsFragment();
 
-        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"From Tests :)").commit();
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"FROM_UI_TESTS").commit();
 
         // create a date
         String dateString = "2010-02-02";

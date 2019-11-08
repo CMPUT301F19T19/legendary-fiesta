@@ -48,6 +48,7 @@ public class OwnMoodsFragment extends Fragment {
     private Spinner filterSpinner;
 
     public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
+    public static final String MY_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
 
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -63,7 +64,7 @@ public class OwnMoodsFragment extends Fragment {
 
         moodDataList = new ArrayList<>();
 
-        if(getTag() != "From Tests :)"){
+        if(getTag() != MY_MOOD_UI_TEST_TAG){
             loadMoodData();
         }
 
