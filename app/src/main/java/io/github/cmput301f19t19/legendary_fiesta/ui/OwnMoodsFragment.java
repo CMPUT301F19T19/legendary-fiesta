@@ -48,6 +48,7 @@ public class OwnMoodsFragment extends Fragment {
     private Spinner filterSpinner;
 
     public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
+    public static final String MY_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
 
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -61,10 +62,12 @@ public class OwnMoodsFragment extends Fragment {
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        // When an item in the list is clicked, the delete button appears
         moodDataList = new ArrayList<>();
 
-        loadMoodData();
+        if(getTag() != MY_MOOD_UI_TEST_TAG){
+            loadMoodData();
+        }
+
 
         moodList = mView.findViewById(R.id.mood_list);
 
@@ -180,6 +183,14 @@ public class OwnMoodsFragment extends Fragment {
 
         //assign filter selected listener
         filterSpinner.setOnItemSelectedListener(new FilterEventHandlers());
+    }
+
+    /*
+     * This function is used in tests to add a mood event into the data list
+     */
+    public void AddMoodEvent(MoodEvent newMoodEvent){
+        moodDataList.add(newMoodEvent);
+        moodArrayAdapter.notifyDataSetChanged();
     }
 
 }
