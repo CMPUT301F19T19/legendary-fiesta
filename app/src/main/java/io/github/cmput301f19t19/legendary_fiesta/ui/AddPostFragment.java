@@ -5,9 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -29,6 +34,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +62,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private TextView dateET;
     private TextView timeET;
     private EditText descET;
+    private ImageButton addPictureButton;
     private Button cancelButton;
     private Button doneButton;
     private RadioGroup emotionRadioGroup;
@@ -84,10 +93,20 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // to allow loading images on main thread
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+        }
 
         mView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         //Buttons
+        addPictureButton = mView.findViewById(R.id.addPictureButton);
         cancelButton = mView.findViewById(R.id.cancel_button);
         doneButton = mView.findViewById(R.id.done_button);
 
@@ -100,6 +119,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         //set listener to OnClick defined this class
         dateET.setOnClickListener(this);
         timeET.setOnClickListener(this);
+        addPictureButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         emotionRadioGroup.setOnCheckedChangeListener(this);
@@ -135,6 +155,22 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         // set description
         descET.setText(moodEvent.getDescription());
+
+        // set image if moodEvent has one
+        if (moodEvent.getPhotoURL() != null) {
+            try {
+                URL photoURL = new URL(moodEvent.getPhotoURL());
+                Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
+                addPictureButton.setImageResource(0);
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), moodEventBmp));
+            } catch (MalformedURLException ex) {
+                Toast.makeText(getContext(), "Invalid image URL",
+                        Toast.LENGTH_SHORT).show();
+            } catch (IOException ex) {
+                Toast.makeText(getContext(), "Could not load image",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
 
         // set mood type
         emotionRadioGroup.check(getEmotionRadioId(moodEvent.getMoodType()));
