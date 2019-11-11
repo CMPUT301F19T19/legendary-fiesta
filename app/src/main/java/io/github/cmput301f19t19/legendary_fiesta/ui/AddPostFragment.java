@@ -73,6 +73,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     private boolean isEdit;
     private String editMoodId;
+    private String originalPhotoURL;
 
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
@@ -159,7 +160,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // set image if moodEvent has one
         if (moodEvent.getPhotoURL() != null) {
             try {
-                URL photoURL = new URL(moodEvent.getPhotoURL());
+                originalPhotoURL = moodEvent.getPhotoURL();
+                URL photoURL = new URL(originalPhotoURL);
                 Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
                 addPictureButton.setImageResource(0);
                 addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), moodEventBmp));
@@ -342,7 +344,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         // TODO: get social condition from dropdown, photo, map
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
-                socialCondition, null, null);
+                socialCondition, originalPhotoURL, null);
         if (isEdit) {
             moodEvent.setMoodId(editMoodId);
         }
