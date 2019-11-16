@@ -1,13 +1,23 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -23,12 +34,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +57,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.cmput301f19t19.legendary_fiesta.BuildConfig;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
@@ -54,6 +73,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private TextView dateET;
     private TextView timeET;
     private EditText descET;
+    private ImageButton addPictureButton;
     private Button cancelButton;
     private Button doneButton;
     private RadioGroup emotionRadioGroup;
@@ -64,11 +84,23 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     private boolean isEdit;
     private String editMoodId;
+    private String originalPhotoURL;
+    private byte[] moodEventImage;
+
+    private String cameraFilePath;
+
 
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
     // Time result identifier
     public static final int TIME_REQUEST_CODE = 99;
+    // Camera result identifier
+    public static final int CAMERA_REQUEST_CODE = 12;
+    // Gallery result identifier
+    public static final int GALLERY_REQUEST_CODE = 13;
+
+    // Storage permission code
+    private static final int STORAGE_PERMISSION_CODE = 42;
 
     private ArrayList<String> conditionsArray;
 
@@ -84,10 +116,20 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // to allow loading images on main thread
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+        }
 
         mView = inflater.inflate(R.layout.fragment_add_post, container, false);
 
         //Buttons
+        addPictureButton = mView.findViewById(R.id.addPictureButton);
         cancelButton = mView.findViewById(R.id.cancel_button);
         doneButton = mView.findViewById(R.id.done_button);
 
@@ -100,6 +142,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         //set listener to OnClick defined this class
         dateET.setOnClickListener(this);
         timeET.setOnClickListener(this);
+        addPictureButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
         emotionRadioGroup.setOnCheckedChangeListener(this);
@@ -136,6 +179,23 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // set description
         descET.setText(moodEvent.getDescription());
 
+        // set image if moodEvent has one
+        if (moodEvent.getPhotoURL() != null) {
+            try {
+                originalPhotoURL = moodEvent.getPhotoURL();
+                URL photoURL = new URL(originalPhotoURL);
+                Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
+                addPictureButton.setImageResource(0);
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), moodEventBmp));
+            } catch (MalformedURLException ex) {
+                Toast.makeText(getContext(), "Invalid image URL",
+                        Toast.LENGTH_SHORT).show();
+            } catch (IOException ex) {
+                Toast.makeText(getContext(), "Could not load image",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
         // set mood type
         emotionRadioGroup.check(getEmotionRadioId(moodEvent.getMoodType()));
 
@@ -155,6 +215,20 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         mActivity = (Activity) context;
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = mActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+
+        cameraFilePath = image.getAbsolutePath();
+        return image;
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // Check for the results
@@ -168,6 +242,36 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             selectedTime = data.getStringExtra("SELECTED_TIME");
             // Set time EditText to the selected time
             timeET.setText(selectedTime);
+        } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = Uri.fromFile(new File(cameraFilePath));
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
+                addPictureButton.setImageResource(0);
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                moodEventImage = stream.toByteArray();
+            } catch (IOException e) {
+                e.printStackTrace();
+                addPictureButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.add_picture_button));
+            }
+
+        }  else if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
+                addPictureButton.setImageResource(0);
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                moodEventImage = stream.toByteArray();
+            } catch (IOException e) {
+                addPictureButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.add_picture_button));
+            }
         }
     }
 
@@ -219,7 +323,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 Bundle args = new Bundle();
                 if (isEdit) {
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
-                    Date date = null;
+                    Date date;
                     try {
                         date = format.parse(dateET.getText().toString() + " " +
                                 timeET.getText().toString());
@@ -244,7 +348,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 args = new Bundle();
                 if (isEdit) {
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
-                    Date date = null;
+                    Date date;
                     try {
                         date = format.parse(dateET.getText().toString() + " " +
                                 timeET.getText().toString());
@@ -259,6 +363,46 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 }
                 timeFragment.show(getFragmentManager(), "TimePicker");
                 break;
+            case R.id.addPictureButton:
+                new AlertDialog.Builder(getActivity())
+                    .setTitle("Image Picker")
+                    .setMessage("Choose image from")
+                    .setPositiveButton("Photo Gallery",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhoto , GALLERY_REQUEST_CODE);
+                            }
+                        }
+                    )
+                    .setNegativeButton("Camera",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                                }
+                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                try {
+                                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(mActivity, BuildConfig.APPLICATION_ID + ".fileprovider", createImageFile()));
+                                    startActivityForResult(takePicture, CAMERA_REQUEST_CODE);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    )
+                    .setNeutralButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        }
+                    )
+                    .create()
+                    .show();
+                break;
             case R.id.cancel_button:
                 closeFragment();
                 break;
@@ -267,6 +411,21 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 break;
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == STORAGE_PERMISSION_CODE){
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            }
+            else{
+                Toast.makeText(mActivity, "Cannot use camera without granting storage permission",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     /**
@@ -295,7 +454,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
         String description = descET.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
-        Date date = null;
+        Date date;
         try {
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
@@ -309,12 +468,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         // TODO: get social condition from dropdown, photo, map
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
-                socialCondition, null, null);
+                socialCondition, originalPhotoURL, null);
         if (isEdit) {
             moodEvent.setMoodId(editMoodId);
         }
 
-        firebaseHelper.addMoodEvent(moodEvent, null,
+        firebaseHelper.addMoodEvent(moodEvent, moodEventImage,
                 new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
             public void onSuccess(Void v) {

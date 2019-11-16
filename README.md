@@ -1,5 +1,5 @@
 # legendary-fiesta
 
-License:
+[![Azure DevOps builds](https://img.shields.io/azure-devops/build/CMPUT301F19T19/520e09ea-82c7-4d0e-a1b5-5111e47865fa/1)](https://dev.azure.com/CMPUT301F19T19/legendary-fiesta/_build)
 
-This repo and all code contained with it is open-source and available for use and modification to anyone. It was created as a solution to the CMPUT 301 term project at the University of Alberta, Fall 2019.
+Licensed under MIT license
