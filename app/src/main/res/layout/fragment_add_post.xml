@@ -200,19 +200,18 @@
     </LinearLayout>
 
     <Button
-            android:id="@+id/done_button"
-            style="@style/WhiteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="@dimen/navBar_distance"
-            android:background="@android:color/transparent"
-            android:text="@string/add_post_done_button"
-            android:textAllCaps="false"
-            android:textColor="@drawable/button_pressed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/locationInputLayout"/>
+        android:id="@+id/done_button"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="@dimen/navBar_distance"
+        android:background="@android:color/transparent"
+        android:text="@string/add_post_done_button"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/description_edittext"
@@ -377,6 +376,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/done_button"
         app:layout_constraintEnd_toEndOf="@+id/addPictureButton"
         app:layout_constraintStart_toStartOf="@+id/socialSpinnerLayout"
         app:layout_constraintTop_toBottomOf="@+id/socialSpinnerLayout">
@@ -413,19 +413,18 @@
     </RelativeLayout>
 
     <Button
-            android:id="@+id/cancel_button"
-            style="@style/WhiteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="@dimen/navBar_distance"
-            android:background="@android:color/transparent"
-            android:text="@string/add_post_cancel_button"
-            android:textAllCaps="false"
-            android:textColor="@drawable/button_pressed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/locationInputLayout"/>
+        android:id="@+id/cancel_button"
+        style="@style/WhiteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/navBar_distance"
+        android:background="@android:color/transparent"
+        android:text="@string/add_post_cancel_button"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
