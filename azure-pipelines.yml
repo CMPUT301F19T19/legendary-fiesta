@@ -10,7 +10,8 @@ steps:
   name: gmsToken
   inputs:
     secureFile: 'google-services.json'
-- bash: mv $(gmsToken.secureFilePath) '$(Build.SourcesDirectory)/app/'
+- bash: mv $(gmsToken.secureFilePath) '$(Build.SourcesDirectory)/app/'; echo 'GOOGLE_MAPS_API_KEY="$(MAP_KEY)"' >> '$(Build.SourcesDirectory)/gradle.properties'
+  displayName: 'Manipulate secure credentials'
 - task: Gradle@2
   displayName: Build the Gradle project
   inputs:
