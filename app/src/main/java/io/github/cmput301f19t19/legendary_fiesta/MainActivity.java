@@ -42,4 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens the map
+     */
+    public void openMap(View v) {
+        // TODO: semi-stub!
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+    }
+
 }
