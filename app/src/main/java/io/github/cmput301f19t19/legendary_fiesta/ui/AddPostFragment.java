@@ -51,12 +51,14 @@ import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.FirebaseApp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.schibstedspain.leku.LocationPickerActivity;
 import io.github.cmput301f19t19.legendary_fiesta.BuildConfig;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -66,6 +68,9 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SocialArrayAda
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 
+import static com.schibstedspain.leku.LocationPickerActivityKt.LATITUDE;
+import static com.schibstedspain.leku.LocationPickerActivityKt.LONGITUDE;
+
 public class AddPostFragment extends Fragment implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
@@ -73,6 +78,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private TextView dateET;
     private TextView timeET;
     private EditText descET;
+    private EditText locET;
     private ImageButton addPictureButton;
     private Button cancelButton;
     private Button doneButton;
@@ -86,7 +92,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private String editMoodId;
     private String originalPhotoURL;
     private byte[] moodEventImage;
-
+    private ProxyLatLng location;
     private String cameraFilePath;
 
 
@@ -98,6 +104,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     public static final int CAMERA_REQUEST_CODE = 12;
     // Gallery result identifier
     public static final int GALLERY_REQUEST_CODE = 13;
+    // Map result identifier
+    private static final int LOCATION_REQUEST_CODE = 64;
 
     // Storage permission code
     private static final int STORAGE_PERMISSION_CODE = 42;
@@ -137,11 +145,13 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         dateET = mView.findViewById(R.id.dateEditText);
         timeET = mView.findViewById(R.id.timeEditText);
         descET = mView.findViewById(R.id.description_edittext);
+        locET = mView.findViewById(R.id.locationEditText);
         emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
 
         //set listener to OnClick defined this class
         dateET.setOnClickListener(this);
         timeET.setOnClickListener(this);
+        locET.setOnClickListener(this);
         addPictureButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
@@ -164,6 +174,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         }
 
         return mView;
+    }
+
+    private void pickLocation() {
+        Intent locationPicker = new LocationPickerActivity.Builder().build(this.getContext());
+        startActivityForResult(locationPicker, LOCATION_REQUEST_CODE);
     }
 
     private void setFragmentToEdit(MoodEvent moodEvent) {
@@ -206,6 +221,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         f = new SimpleDateFormat("hh:mm aa", Locale.CANADA);
         timeET.setText(f.format(moodEvent.getDate()));
 
+        location = moodEvent.getLocation();
+        if (location != null)
+            locET.setText(String.format("%f, %f", location.latitude, location.longitude));
     }
 
     @Override
@@ -229,49 +247,49 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         cameraFilePath = image.getAbsolutePath();
         return image;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Uri selectedImage = null;
         // Check for the results
-        if (requestCode == DATE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Get date from string
-            selectedDate = data.getStringExtra("SELECTED_DATE");
-            // Set date EditText to the selected date
-            dateET.setText(selectedDate);
-        } else if (requestCode == TIME_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // Get time from string
-            selectedTime = data.getStringExtra("SELECTED_TIME");
-            // Set time EditText to the selected time
-            timeET.setText(selectedTime);
-        } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = Uri.fromFile(new File(cameraFilePath));
+        if (resultCode != Activity.RESULT_OK) return;
+        switch (requestCode) {
+            case DATE_REQUEST_CODE:
+                // Get date from string
+                selectedDate = data.getStringExtra("SELECTED_DATE");
+                // Set date EditText to the selected date
+                dateET.setText(selectedDate);
+                break;
+            case TIME_REQUEST_CODE:
+                // Get time from string
+                selectedTime = data.getStringExtra("SELECTED_TIME");
+                // Set time EditText to the selected time
+                timeET.setText(selectedTime);
+                break;
+            case CAMERA_REQUEST_CODE:
+                selectedImage = Uri.fromFile(new File(cameraFilePath));
+                // fallthrough
+            case GALLERY_REQUEST_CODE:
+                selectedImage = selectedImage != null ? selectedImage : data.getData();
 
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
-                addPictureButton.setImageResource(0);
-                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
+                    addPictureButton.setImageResource(0);
+                    addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                moodEventImage = stream.toByteArray();
-            } catch (IOException e) {
-                e.printStackTrace();
-                addPictureButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.add_picture_button));
-            }
-
-        }  else if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
-                addPictureButton.setImageResource(0);
-                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                moodEventImage = stream.toByteArray();
-            } catch (IOException e) {
-                addPictureButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.add_picture_button));
-            }
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    moodEventImage = stream.toByteArray();
+                } catch (IOException e) {
+                    addPictureButton.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.add_picture_button));
+                }
+                break;
+            case LOCATION_REQUEST_CODE:
+                double lat = data.getDoubleExtra(LATITUDE, 0.0);
+                double lng = data.getDoubleExtra(LONGITUDE, 0.0);
+                location = new ProxyLatLng(lat, lng);
+                locET.setText(String.format("%f, %f", lat, lng));
+                break;
         }
     }
 
@@ -409,6 +427,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             case R.id.done_button:
                 onDoneClicked();
                 break;
+            case R.id.locationEditText:
+                pickLocation();
+                break;
         }
 
     }
@@ -470,7 +491,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         // TODO: Photo and Geolocation Support
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
-                socialCondition, originalPhotoURL, null);
+                socialCondition, originalPhotoURL, location);
         if (isEdit) {
             moodEvent.setMoodId(editMoodId);
         }

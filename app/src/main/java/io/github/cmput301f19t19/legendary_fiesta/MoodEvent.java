@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.IntDef;
 
 import com.google.android.gms.maps.model.LatLng;
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -57,7 +58,7 @@ public class MoodEvent implements Parcelable {
     private Date date;
     private Integer condition;
     private String photoURL;
-    private LatLng location;
+    private ProxyLatLng location;
 
     /**
      * Constructor for mood event
@@ -72,7 +73,7 @@ public class MoodEvent implements Parcelable {
      */
     public MoodEvent(@Nonnull Integer moodType, @Nonnull String user, @Nullable String description,
                      @Nonnull Date date, @Nullable @SocialCondition.SocialConditionType Integer condition,
-                     @Nullable String photoURL, @Nullable LatLng location) {
+                     @Nullable String photoURL, @Nullable ProxyLatLng location) {
         this.moodId = UUID.randomUUID().toString();
         this.moodType = moodType;
         this.user = user;
@@ -232,14 +233,14 @@ public class MoodEvent implements Parcelable {
     /**
      * @return maps LatLng of the location of the MoodEvent
      */
-    public LatLng getLocation() {
+    public ProxyLatLng getLocation() {
         return location;
     }
 
     /**
      * @param location maps LatLng of the location of the MoodEvent
      */
-    public void setLocation(LatLng location) {
+    public void setLocation(ProxyLatLng location) {
         this.location = location;
     }
 
