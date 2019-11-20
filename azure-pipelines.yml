@@ -30,6 +30,14 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'testDebugUnitTest'
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '$(Build.SourcesDirectory)/app/build/outputs/apk/**/*.apk'
+    apksignerKeystoreFile: 'key.jks'
+    apksignerKeystorePassword: $(JKS_PASSWORD)
+    apksignerKeystoreAlias: 'cmput301f19t19'
+    apksignerKeyPassword: $(JKS_PASSWORD)
+    zipalign: false
 - task: CopyFiles@2
   displayName: Copy APK files
   inputs:
