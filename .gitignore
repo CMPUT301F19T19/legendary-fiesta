@@ -1,6 +1,5 @@
 *.iml
 .gradle
-gradle.properties
 /local.properties
 /.idea/
 /app/.idea/
@@ -158,3 +157,4 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+gradle.properties
