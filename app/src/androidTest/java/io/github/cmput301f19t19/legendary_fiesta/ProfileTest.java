@@ -42,11 +42,11 @@ public class ProfileTest {
     @Test
     public void UsernameTextTest(){
         //basic text input
-        onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(typeText("Johnathan"));
+        onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(typeText("Johnathan"));
         onView(withText("Johnathan")).check(matches(isDisplayed()));
 
         //text with more than 15 chars
-        onView(withId(R.id.userEditText)).perform(typeText("12345678901234567"));
+        onView(withId(R.id.search_friends_edittext)).perform(typeText("12345678901234567"));
         onView(withText("123456789012345")).check(matches(isDisplayed()));
     }
 
