@@ -3,7 +3,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +22,6 @@ import androidx.navigation.Navigation;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.Format;
@@ -34,8 +31,6 @@ import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.MainActivity;
-import io.github.cmput301f19t19.legendary_fiesta.Mood;
-import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 
@@ -73,7 +68,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         doneButton = mView.findViewById(R.id.done_button);
 
         // EditText
-        userEditText = mView.findViewById(R.id.userEditText);
+        userEditText = mView.findViewById(R.id.search_friends_edittext);
         birthDateEditText = mView.findViewById(R.id.birthEditText);
         bioEditText = mView.findViewById(R.id.bioEditText);
 
