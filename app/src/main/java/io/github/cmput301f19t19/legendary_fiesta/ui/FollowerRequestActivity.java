@@ -58,12 +58,6 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
     private ArrayList<String> getRequest(){
         ArrayList<String> list = new ArrayList<>();
-        list.add("Booo");
-        list.add("Damn");
-        list.add("Please do");
-        list.add("WOW");
-        list.add("Name");
-        list.add("Age");
 
         return list;
     }

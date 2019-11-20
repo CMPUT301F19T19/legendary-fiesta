@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="max_char_length">20</integer>
-    <integer name="max_name_length">10</integer>
+    <integer name="max_name_length">15</integer>
 </resources>

@@ -275,6 +275,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    /**
+     * Set up adapter and it's item on creation
+     */
     private void setUpSocialSpinner() {
         socialSpinner = mView.findViewById(R.id.social_spinner);
 

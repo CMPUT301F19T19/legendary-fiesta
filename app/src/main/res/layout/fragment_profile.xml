@@ -57,6 +57,7 @@
             android:gravity="center"
             android:inputType="text"
             android:maxLines="1"
+            android:maxLength="@integer/max_name_length"
             android:textSize="15dp" />
 
     </RelativeLayout>
