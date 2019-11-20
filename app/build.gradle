@@ -72,6 +72,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation ('com.schibstedspain.android:leku:6.4.0') {
+        exclude group: 'com.google.android.gms'
+        exclude group: 'androidx.appcompat'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
