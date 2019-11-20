@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class AddPostTest {
+public class AddPostUITest {
 
     private AddPostFragment fragment;
 

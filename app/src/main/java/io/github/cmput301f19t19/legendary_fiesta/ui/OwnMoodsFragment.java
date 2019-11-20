@@ -118,6 +118,7 @@ public class OwnMoodsFragment extends Fragment {
                 args.putParcelable(MOOD_EVENT_TAG, moodDataList.get(i));
                 replacement.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 transaction.replace(R.id.nav_host_fragment, replacement );
                 transaction.addToBackStack(null);
                 transaction.commit();

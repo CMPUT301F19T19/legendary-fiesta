@@ -442,16 +442,18 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * Attempts to save mood event on FireBase
      */
     private void onDoneClicked() {
-        Mood mood = getSelectedMood();
+        Mood mood = getSelectedMood(emotionRadioGroup.getCheckedRadioButtonId());
         if (mood == null) {
             //Replace handleError with the error popup
             errorPopUp();
             return;
         }
+
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
         String description = descET.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
         Date date;
+
         try {
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
@@ -463,7 +465,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
 
-        // TODO: get social condition from dropdown, photo, map
+        // TODO: Photo and Geolocation Support
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, originalPhotoURL, null);
         if (isEdit) {
@@ -520,7 +522,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * @param moodId moodId of the mood selected
      * @return Return the id of mood in emotion radio group
      */
-    private int getEmotionRadioId(@Mood.MoodType int moodId) {
+    // TODO: TEST
+    public int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
             case Mood.NEUTRAL:
                 return R.id.icon_neutral;
@@ -543,8 +546,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     /**
      * @return Return the mood choosen by the RadioGroup
      */
-    private Mood getSelectedMood() {
-        int id = emotionRadioGroup.getCheckedRadioButtonId();
+    // TODO: TEST
+    public Mood getSelectedMood(int id) {
         switch (id) {
             case R.id.icon_neutral:
                 return new Mood(Mood.NEUTRAL);
@@ -572,7 +575,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * @return
      *  Returns an integer that corresponds to the selected social condition
      */
-    private Integer getSelectedSocialCondition(String socialCondition) {
+    // TODO: TEST
+    public Integer getSelectedSocialCondition(String socialCondition) {
         switch (socialCondition) {
             case "Single":
                 return MoodEvent.SocialCondition.SINGLE;
