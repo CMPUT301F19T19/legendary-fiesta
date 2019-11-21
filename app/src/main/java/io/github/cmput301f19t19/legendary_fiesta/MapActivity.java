@@ -1,10 +1,20 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +26,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted = false;
@@ -33,6 +51,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // MoodEvents
     private ArrayList<MoodEvent> dataList;
+
+    // Date Format
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +69,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             actionBar.hide();
 
         // Get list of MoodEvents from OwnMoods or FriendsMoods Fragment
-        Intent intent = getIntent();
-        dataList = intent.getParcelableArrayListExtra("MOODEVENTS");
+        dataList  = new ArrayList<>();
+        // Dummy Data
+        @Mood.MoodType Integer moodType = Mood.NEUTRAL;
+        String user = "TestUser";
+        Date date = new Date();
+        String description = "TestDescription";
+        Integer condition = MoodEvent.SocialCondition.SINGLE;
+        String photoURL = "https://example.com/photo.jpg";
+        ProxyLatLng location = new ProxyLatLng(53.521231, -113.524631);
+
+        dataList.add(new MoodEvent(moodType, user, description, date,
+                condition, photoURL, location));
+        dataList.add(new MoodEvent(Mood.ANGRY, "USERB", "Test user B", new Date(), MoodEvent.SocialCondition.CROWD, photoURL, new ProxyLatLng(53.510317, -113.514320)));
+
+        // Intent intent = getIntent();
+        // dataList = intent.getParcelableArrayListExtra("EVENTS");
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -129,11 +165,109 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Marker Custom Info Window
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                Context mContext = getApplicationContext();
+
+                LinearLayout info = new LinearLayout(mContext);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(mContext);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(mContext);
+                snippet.setTextColor(Color.BLACK);
+                snippet.setText(marker.getSnippet());
+                snippet.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+        // Set default camera to position of first MoodEvent
+
+        // Set Markers
+        for (MoodEvent moodEvent : dataList) {
+            // Skip MoodEvents that has no location
+            if (moodEvent.getLocation() != null) {
+                LatLng location = new LatLng(moodEvent.getLocation().latitude,
+                        moodEvent.getLocation().longitude);
+                int resource = getEmotionRadioId(moodEvent.getMoodType());
+
+                googleMap.addMarker(new MarkerOptions().position(location)
+                        .title("Date: " + dateFormat.format(moodEvent.getDate())
+                                + "\nTime: " + timeFormat.format(moodEvent.getDate()))
+                        .snippet("Description: "  + moodEvent.getDescription()
+                                + "\n Social Condition: "
+                                + getSelectedSocialCondition(moodEvent.getCondition()))
+                        .icon(BitmapDescriptorFactory.fromResource(resource)));
+            }
+        }
+
         getLocationPermission();
     }
-}
 
-// TODO: Add markers to map
-// TODO: Send info from OwnMoods
-// TODO: Custom looking markers
-// TODO: Marker with basic info
+    /**
+     * Get the Resource ID (Image) for the respective mood types
+     * @param moodId
+     *  Mood type of the Mood Event
+     * @return
+     *  Returns the Resource ID of the respective mood type
+     */
+    public int getEmotionRadioId(@Mood.MoodType int moodId) {
+        switch (moodId) {
+            case Mood.NEUTRAL:
+                return R.drawable.icon_neutral;
+            case Mood.HAPPY:
+                return R.drawable.icon_happy;
+            case Mood.ANGRY:
+                return R.drawable.icon_angry;
+            case Mood.DISGUSTED:
+                return R.drawable.icon_disgusted;
+            case Mood.SAD:
+                return R.drawable.icon_sad;
+            case Mood.SCARED:
+                return R.drawable.icon_scared;
+            case Mood.SURPRISED:
+                return R.id.icon_surprised;
+        }
+        return R.id.icon_neutral;
+    }
+
+    /**
+     * Returns the selected social condition
+     * @param socialCondition
+     *  Selected social condition from the dropdown (spinner)
+     * @return
+     *  Returns an integer that corresponds to the selected social condition
+     */
+    // TODO: TEST
+    public String getSelectedSocialCondition(int socialCondition) {
+        switch (socialCondition) {
+            case MoodEvent.SocialCondition.SINGLE:
+                return "Single";
+            case MoodEvent.SocialCondition.PAIR:
+                return "Pair";
+            case MoodEvent.SocialCondition.SMALL_GROUP:
+                return "Small Group";
+            case MoodEvent.SocialCondition.CROWD:
+                return "Crowd";
+            default:
+                return "NONE";
+        }
+    }
+}

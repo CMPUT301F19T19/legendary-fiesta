@@ -138,7 +138,7 @@ public class OwnMoodsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putParcelableArrayListExtra("MOODEVENTS", moodDataList);
+                // intent.putParcelableArrayListExtra("EVENTS", moodDataList);
                 startActivity(intent);
             }
         });
