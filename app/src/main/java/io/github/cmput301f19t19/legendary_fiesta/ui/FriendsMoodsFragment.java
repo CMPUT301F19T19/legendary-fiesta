@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventFriendsAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
@@ -35,6 +38,9 @@ public class FriendsMoodsFragment extends Fragment {
 
     private Spinner filterSpinner;
 
+    // View Elements
+    private Button mapButton;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -47,6 +53,18 @@ public class FriendsMoodsFragment extends Fragment {
         moodList = mView.findViewById(R.id.mood_list_friends);
 
         moodList.setAdapter(moodEventAdapter);
+
+        // Map Button Click Listener
+        mapButton = mView.findViewById(R.id.show_on_map_button);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                // TODO: Add moodDataList
+                // intent.putParcelableArrayListExtra("MOODEVENTS", moodDataList);
+                startActivity(intent);
+            }
+        });
 
         return mView;
     }
