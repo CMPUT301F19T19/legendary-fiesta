@@ -41,14 +41,4 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
-
-    /**
-     * Opens the map
-     */
-    public void openMap(View v) {
-        // TODO: semi-stub!
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
-    }
-
 }
