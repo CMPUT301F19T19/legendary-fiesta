@@ -4,20 +4,35 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Replacement implementation for `LatLng`
+ *
+ * This class could be serialized and de-serialized by Firebase
+ */
 public class ProxyLatLng implements Parcelable {
     double latitude;
     double longitude;
 
+    /**
+     * @param lat latitude
+     * @param lng longitude
+     */
     public ProxyLatLng(double lat, double lng) {
         this.latitude = lat;
         this.longitude = lng;
     }
 
+    /** Mainly reserved for Firebase
+     *
+     */
     public ProxyLatLng() {
         this.latitude = 0.0d;
         this.longitude = 0.0d;
     }
 
+    /** Conversion constructor
+     * @param in LatLng object to be converted
+     */
     public ProxyLatLng(LatLng in) {
         this.longitude = in.longitude;
         this.latitude = in.latitude;

@@ -176,7 +176,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         return mView;
     }
 
+    /**
+     * Launch the location picker
+     */
     private void pickLocation() {
+        // by default the location picker will enable all the included buttons like
+        // satellite view and position me
         Intent locationPicker = new LocationPickerActivity.Builder().build(this.getContext());
         startActivityForResult(locationPicker, LOCATION_REQUEST_CODE);
     }
