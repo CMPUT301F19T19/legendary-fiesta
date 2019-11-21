@@ -1,5 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 177;
@@ -28,18 +31,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Location mLastKnownLocation = null;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
+    // MoodEvents
+    private ArrayList<MoodEvent> dataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map);
-        // Get the SupportMapFragment and request notification
-        // when the map is ready to be used.
-        // hide action bar
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+
+        // Hide action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
-        // get the map fragment
+
+        // Get list of MoodEvents from OwnMoods or FriendsMoods Fragment
+        Intent intent = getIntent();
+        dataList = intent.getParcelableArrayListExtra("MOODEVENTS");
+
+        // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
@@ -121,3 +132,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
     }
 }
+
+// TODO: Add markers to map
+// TODO: Send info from OwnMoods
+// TODO: Custom looking markers
+// TODO: Marker with basic info
