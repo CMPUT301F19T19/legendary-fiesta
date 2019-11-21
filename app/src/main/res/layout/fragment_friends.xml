@@ -43,7 +43,7 @@
             android:text="@string/search_input_text" />
 
         <EditText
-            android:id="@+id/userEditText"
+            android:id="@+id/search_friends_edittext"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="40dp"
