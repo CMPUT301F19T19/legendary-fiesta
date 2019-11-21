@@ -3,7 +3,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,7 +22,6 @@ import androidx.navigation.Navigation;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.Format;
@@ -34,8 +31,6 @@ import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.MainActivity;
-import io.github.cmput301f19t19.legendary_fiesta.Mood;
-import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 
@@ -66,7 +61,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+        //if(user ==)
+        //user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
         // Buttons
         cancelButton = mView.findViewById(R.id.cancel_button);
@@ -116,6 +112,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             birthDateEditText.setText(selectedDate);
         }
     }
+
 
     /**
      * Click handler for ProfileFragment and switches based on what is clicked.

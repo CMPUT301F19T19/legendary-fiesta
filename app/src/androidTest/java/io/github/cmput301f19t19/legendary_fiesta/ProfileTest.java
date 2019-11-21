@@ -28,9 +28,11 @@ public class ProfileTest {
 
     @Before
     public void init(){
-        fragment = new ProfileFragment();
-        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
-                .add(1, fragment, null).commit();
+       // String uid = "TPgV90AKmsZM33xpgblYQYH6Abh1";
+
+        //fragment = new ProfileFragment();
+        //mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
+          //      .add(1, fragment, null).commit();
     }
 
     @Test
