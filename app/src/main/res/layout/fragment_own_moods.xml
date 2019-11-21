@@ -26,7 +26,7 @@
             android:textSize="@dimen/default_font_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:onClick="openMap"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/filterSpinnerLayout"
