@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class MoodEventTest {
     private String description = "TestDescription";
     private Integer condition = MoodEvent.SocialCondition.SINGLE;
     private String photoURL = "https://example.com/photo.jpg";
-    private LatLng location = new LatLng(100, 100);
+    private ProxyLatLng location = new ProxyLatLng(100, 100);
 
     @Before
     public void setUp() {
@@ -113,8 +114,16 @@ public class MoodEventTest {
     @Test
     public void setLocationTest() {
         Assert.assertEquals(location, moodEvent.getLocation());
-        LatLng newLocation = new LatLng(-150, -150);
+        ProxyLatLng newLocation = new ProxyLatLng(-150, -150);
         moodEvent.setLocation(newLocation);
         Assert.assertEquals(newLocation, moodEvent.getLocation());
+    }
+
+    @Test
+    public void locationConvertTest() {
+        LatLng location = new LatLng(123.111, 456.222);
+        ProxyLatLng converted = new ProxyLatLng(location);
+        Assert.assertEquals(location.latitude, converted.latitude, 0.0d);
+        Assert.assertEquals(location.longitude, converted.longitude, 0.0d);
     }
 }

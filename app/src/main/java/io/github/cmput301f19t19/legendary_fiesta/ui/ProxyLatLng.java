@@ -10,8 +10,8 @@ import com.google.android.gms.maps.model.LatLng;
  * This class could be serialized and de-serialized by Firebase
  */
 public class ProxyLatLng implements Parcelable {
-    double latitude;
-    double longitude;
+    public double latitude;
+    public double longitude;
 
     /**
      * @param lat latitude
