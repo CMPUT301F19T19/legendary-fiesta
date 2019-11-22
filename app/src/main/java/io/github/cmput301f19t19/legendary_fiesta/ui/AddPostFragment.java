@@ -56,6 +56,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import com.google.firebase.FirebaseApp;
+
 import io.github.cmput301f19t19.legendary_fiesta.BuildConfig;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -177,8 +179,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * Launch the location picker
      */
     private void pickLocation() {
-        // by default the location picker will enable all the included buttons like
-        // satellite view and position me
+        // By default the location picker will enable all the included buttons like
+        // Satellite view and position me
         Intent locationPicker = new LocationPickerActivity.Builder().build(this.getContext());
         startActivityForResult(locationPicker, LOCATION_REQUEST_CODE);
     }
@@ -186,14 +188,14 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void setFragmentToEdit(MoodEvent moodEvent) {
         isEdit = true;
 
-        // set Mood Id for edit mood
+        // Set Mood Id for edit mood
         editMoodId = moodEvent.getMoodId();
 
-        // set social condition
+        // Set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
         socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
 
-        // set description
+        // Set description
         descET.setText(moodEvent.getDescription());
 
         // set image if moodEvent has one
@@ -213,10 +215,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             }
         }
 
-        // set mood type
+        // Set mood type
         emotionRadioGroup.check(getEmotionRadioId(moodEvent.getMoodType()));
 
-        // set date and time
+        // Set date and time
         Format f = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
         dateET.setText(f.format(moodEvent.getDate()));
 
@@ -477,7 +479,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     private void onDoneClicked() {
         Mood mood = getSelectedMood(emotionRadioGroup.getCheckedRadioButtonId());
         if (mood == null) {
-            //Replace handleError with the error popup
+            // Replace handleError with the error popup
             errorPopUp();
             return;
         }
@@ -497,14 +499,13 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             date = format.parse(dateET.getText().toString() + " " +
                     timeET.getText().toString());
         } catch (Exception e) {
-            //Replace handleError with the error popup
+            // Replace handleError with the error popup
             errorPopUp();
             return;
         }
 
         Integer socialCondition = getSelectedSocialCondition(socialSpinner.getSelectedItem().toString());
 
-        // TODO: Photo and Geolocation Support
         MoodEvent moodEvent = new MoodEvent(mood.getMoodType(), user.getUid(), description, date,
                 socialCondition, originalPhotoURL, location);
         if (isEdit) {
@@ -641,7 +642,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * @param group RadioGroup in the AddPostFragment
      */
     private void radioGroupOnClick(RadioGroup group) {
-        //get selected radio button Id from radio group
+        // Get selected radio button Id from radio group
         int selectedId = group.getCheckedRadioButtonId();
 
         /*
@@ -653,10 +654,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             RadioButton currentButton = (RadioButton) group.getChildAt(i);
 
             if (currentButton.getId() == selectedId) {
-                //make the selectedButton darker, to show that it is Selected
+                // Make the selectedButton darker, to show that it is Selected
                 currentButton.getBackground().setColorFilter( ContextCompat.getColor(mActivity,R.color.selected_color), PorterDuff.Mode.MULTIPLY);
             }else{
-                //make the unselected buttons white
+                // Make the unselected buttons white
                 currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             }
         }

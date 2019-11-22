@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,12 +28,12 @@ import java.util.HashMap;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventFriendsAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
-
 
 public class FriendsMoodsFragment extends Fragment {
 
@@ -47,7 +49,9 @@ public class FriendsMoodsFragment extends Fragment {
     private User user;
     private HashMap<String, String> friendUsernames;
 
-    // Filter spinner related variables
+    private Button mapButton;
+
+    //Filter spinner related variables
     private Spinner moodFilter;
     private @Mood.MoodType Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
@@ -116,7 +120,7 @@ public class FriendsMoodsFragment extends Fragment {
                 }
 
                 // If chosenMoodType is a number between 0-6, filter!
-                if(chosenMoodType != -1){
+                if (chosenMoodType != -1) {
                     for(MoodEvent mood : moodDataList){
                         if(mood.getMoodType() == chosenMoodType){
                             filteredMoodList.add(mood);
@@ -126,8 +130,7 @@ public class FriendsMoodsFragment extends Fragment {
                     moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, filteredMoodList, friendUsernames);
                     moodList.setAdapter(moodArrayAdapter);
                 }
-
-                else{
+                else {
                     moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList, friendUsernames);
                     moodList.setAdapter(moodArrayAdapter);
                 }
@@ -149,9 +152,24 @@ public class FriendsMoodsFragment extends Fragment {
                 replacement.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                transaction.replace(R.id.nav_host_fragment, replacement );
+                transaction.replace(R.id.nav_host_fragment, replacement);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        // Map Button
+        mapButton = mView.findViewById(R.id.show_on_map_button_friends);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                if (moodFilter.getSelectedItemPosition() < 0) {
+                    intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                } else {
+                    intent.putParcelableArrayListExtra("EVENTS", filteredMoodList);
+                }
+                startActivity(intent);
             }
         });
 
@@ -212,6 +230,7 @@ public class FriendsMoodsFragment extends Fragment {
         moodDataList.add(newMoodEvent);
         moodArrayAdapter.notifyDataSetChanged();
     }
+
     /*
      * Used to set up the spinner, populate it with a string array from resource.xml
      */
