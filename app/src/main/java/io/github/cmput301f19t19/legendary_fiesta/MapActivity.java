@@ -3,6 +3,8 @@ package io.github.cmput301f19t19.legendary_fiesta;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -11,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -238,7 +240,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .snippet("Description: "  + moodEvent.getDescription()
                                     + "\n Social Condition: "
                                     + getSelectedSocialCondition(moodEvent.getCondition()))
-                            .icon(BitmapDescriptorFactory.fromResource(resource)));
+                            .icon(bitmapDescriptor(getApplicationContext(), resource,
+                                    getEmotionColor(moodEvent.getMoodType()))));
                 }
             }
         }
@@ -252,7 +255,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * @return
      *  Returns the Resource ID of the respective mood type
      */
-    public int getEmotionRadioId(@Mood.MoodType int moodId) {
+    private int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
             case Mood.NEUTRAL:
                 return R.drawable.icon_neutral;
@@ -272,6 +275,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return R.id.icon_neutral;
     }
 
+    private int getEmotionColor(@Mood.MoodType int moodId) {
+        switch (moodId) {
+            case Mood.NEUTRAL:
+                return R.color.color_neutral;
+            case Mood.HAPPY:
+                return R.color.color_happy;
+            case Mood.ANGRY:
+                return R.color.color_angry;
+            case Mood.DISGUSTED:
+                return R.color.color_disgusted;
+            case Mood.SAD:
+                return R.color.color_sad;
+            case Mood.SCARED:
+                return R.color.color_scared;
+            case Mood.SURPRISED:
+                return R.color.color_surprised;
+        }
+        return R.id.icon_neutral;
+    }
+
     /**
      * Returns the selected social condition
      * @param socialCondition
@@ -280,7 +303,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      *  Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
-    public String getSelectedSocialCondition(int socialCondition) {
+    private String getSelectedSocialCondition(int socialCondition) {
         switch (socialCondition) {
             case MoodEvent.SocialCondition.SINGLE:
                 return "Single";
@@ -293,5 +316,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 return "NONE";
         }
+    }
+
+    private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
+        Drawable drawable = ContextCompat.getDrawable(context, resID);
+        drawable.setBounds(0, 0, 150, 150);
+        drawable.setTint(ContextCompat.getColor(context, colorID));
+        Bitmap bitmap = Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
