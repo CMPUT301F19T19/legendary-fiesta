@@ -1,7 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -275,6 +274,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return R.id.icon_neutral;
     }
 
+    /**
+     * Get the Color ID for the respective mood types
+     * @param moodId
+     * Mood type of the MoodEvent
+     * @return
+     * Returns the Color ID for that mood type.
+     */
     private int getEmotionColor(@Mood.MoodType int moodId) {
         switch (moodId) {
             case Mood.NEUTRAL:
@@ -318,6 +324,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     *
+     * @param context
+     *  Context of the application
+     * @param resID
+     *  Resource ID (referring to Image)
+     * @param colorID
+     *  Color ID
+     * @return
+     * Returns the definition of a bitmap image (map marker)
+     */
     private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
         Drawable drawable = ContextCompat.getDrawable(context, resID);
         drawable.setBounds(0, 0, 150, 150);
