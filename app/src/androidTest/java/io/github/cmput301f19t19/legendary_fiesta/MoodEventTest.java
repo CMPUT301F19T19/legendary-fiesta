@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 
 import java.util.Date;
 
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
+
 @RunWith(AndroidJUnit4.class)
 public class MoodEventTest {
     private MoodEvent moodEvent;
@@ -24,7 +26,7 @@ public class MoodEventTest {
     private Date date = new Date();
     private @MoodEvent.SocialCondition.SocialConditionType Integer condition = MoodEvent.SocialCondition.CROWD;
     private String photoURL = "https://example.com/photo.jpg";
-    private LatLng location = new LatLng(100, 100);
+    private ProxyLatLng location = new ProxyLatLng(100, 100);
 
     @Before
     public void setUp() {
@@ -45,6 +47,7 @@ public class MoodEventTest {
         Assert.assertEquals(deFrosted.getDate(), date);
         Assert.assertEquals(deFrosted.getCondition(), condition);
         Assert.assertEquals(deFrosted.getPhotoURL(), photoURL);
-        Assert.assertEquals(deFrosted.getLocation(), location);
+        Assert.assertEquals(deFrosted.getLocation().latitude, location.latitude, 0.0d);
+        Assert.assertEquals(deFrosted.getLocation().longitude, location.longitude, 0.0d);
     }
 }
