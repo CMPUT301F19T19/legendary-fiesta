@@ -27,7 +27,7 @@ import static org.awaitility.Awaitility.await;
 public class ProfileTest {
 
     private ProfileFragment fragment;
-    private User user;
+    private User user; //keep reference of test user
 
     @Rule
     public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);

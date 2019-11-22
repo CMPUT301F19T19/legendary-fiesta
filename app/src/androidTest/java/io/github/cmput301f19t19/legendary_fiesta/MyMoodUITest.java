@@ -1,11 +1,8 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
-import android.media.Image;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
-import androidx.test.espresso.IdlingPolicies;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -14,10 +11,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
@@ -25,28 +20,14 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.OwnMoodsFragment;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.swipeDown;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withChild;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.TestCase.assertNotNull;
-import static org.hamcrest.Matchers.allOf;
+import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 
@@ -54,13 +35,23 @@ import static org.hamcrest.core.StringEndsWith.endsWith;
 public class MyMoodUITest {
 
     private OwnMoodsFragment fragment;
+    private User user;
 
     @Rule
     public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
+
     @Before
     public void init() throws Throwable {
+        await().until(()-> mainActivityRule.getActivity().getTestUser() != null);
+
+        user = mainActivityRule.getActivity().getTestUser();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER_PROFILE", user);
+        Log.d("FeelsLog", "user bundle " + user.getUsername());
+
         fragment = new OwnMoodsFragment();
+        fragment.setArguments(bundle);
 
         mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction().add(1, fragment,"FROM_UI_TESTS").commit();
 
