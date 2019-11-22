@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +34,7 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventAdapt
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
-public class OwnMoodsFragment extends Fragment {
+public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private Activity mActivity; //reference to associated activity class, initialized in onAttach function
     private View mView; //reference to associated view, initialized in onCreateView
@@ -88,68 +84,10 @@ public class OwnMoodsFragment extends Fragment {
         }
 
         moodList = mView.findViewById(R.id.mood_list);
-
         moodFilter = mView.findViewById(R.id.filter_spinner);
 
         //When an item is selected from the spinner
-        moodFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                filteredMoodList = new ArrayList<>();
-                chosenMoodType = -1;
-
-                //Assign the correct value to chosenMoodType depending on what the user has selected
-                switch (i){
-                    case 0: //Scared
-                        chosenMoodType = Mood.SCARED;
-                        break;
-                    case 1: //Happy
-                        chosenMoodType = Mood.HAPPY;
-                        break;
-                    case 2: //Surprised
-                        chosenMoodType = Mood.SURPRISED;
-                        break;
-                    case 3: //Sad
-                        chosenMoodType = Mood.SAD;
-                        break;
-                    case 4: //Angry
-                        chosenMoodType = Mood.ANGRY;
-                        break;
-                    case 5: //Disgusted
-                        chosenMoodType = Mood.DISGUSTED;
-                        break;
-                    case 6: //Neutral
-                        chosenMoodType = Mood.NEUTRAL;
-                        break;
-                    default:    //None
-                        break;
-                }
-
-                //If chosenMoodType is a number between 0-6, filter!
-                if(chosenMoodType != -1){
-                    for(MoodEvent mood : moodDataList){
-                        if(mood.getMoodType() == chosenMoodType){
-                            filteredMoodList.add(mood);
-                        }
-                    }
-                    //Update adapter and listview
-                    moodArrayAdapter = deleteCallback(filteredMoodList);
-                    moodList.setAdapter(moodArrayAdapter);
-                }
-
-                else{
-                    moodArrayAdapter = deleteCallback(moodDataList);
-                    moodList.setAdapter(moodArrayAdapter);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                moodArrayAdapter = deleteCallback(moodDataList);
-                moodList.setAdapter(moodArrayAdapter);
-            }
-        });
-
+        moodFilter.setOnItemSelectedListener(this);
 
         moodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -297,4 +235,59 @@ public class OwnMoodsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        filteredMoodList = new ArrayList<>();
+        chosenMoodType = -1;
+
+        //Assign the correct value to chosenMoodType depending on what the user has selected
+        switch (position){
+            case 0: //Scared
+                chosenMoodType = Mood.SCARED;
+                break;
+            case 1: //Happy
+                chosenMoodType = Mood.HAPPY;
+                break;
+            case 2: //Surprised
+                chosenMoodType = Mood.SURPRISED;
+                break;
+            case 3: //Sad
+                chosenMoodType = Mood.SAD;
+                break;
+            case 4: //Angry
+                chosenMoodType = Mood.ANGRY;
+                break;
+            case 5: //Disgusted
+                chosenMoodType = Mood.DISGUSTED;
+                break;
+            case 6: //Neutral
+                chosenMoodType = Mood.NEUTRAL;
+                break;
+            default:    //None
+                break;
+        }
+
+        //If chosenMoodType is a number between 0-6, filter!
+        if(chosenMoodType != -1){
+            for(MoodEvent mood : moodDataList){
+                if(mood.getMoodType() == chosenMoodType){
+                    filteredMoodList.add(mood);
+                }
+            }
+            //Update adapter and listview
+            moodArrayAdapter = deleteCallback(filteredMoodList);
+            moodList.setAdapter(moodArrayAdapter);
+        }
+
+        else{
+            moodArrayAdapter = deleteCallback(moodDataList);
+            moodList.setAdapter(moodArrayAdapter);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        moodArrayAdapter = deleteCallback(moodDataList);
+        moodList.setAdapter(moodArrayAdapter);
+    }
 }
