@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/searchInputLayout"
+        android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -30,7 +30,7 @@
 
 
         <TextView
-            android:id="@+id/searchView"
+            android:id="@+id/usernameView"
             style="@style/InputButtonText"
             android:layout_width="85dp"
             android:layout_height="35dp"
@@ -40,24 +40,23 @@
             android:text="@string/user_name_button" />
 
         <EditText
-            android:id="@+id/search_friends_edittext"
+            android:id="@+id/usernameEditText"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_alignTop="@+id/searchView"
+            android:layout_alignTop="@+id/usernameView"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="false"
             android:layout_marginStart="83dp"
             android:layout_marginLeft="-2dp"
             android:layout_marginTop="0dp"
-            android:layout_toRightOf="@+id/searchView"
+            android:layout_toRightOf="@+id/usernameView"
             android:background="@drawable/button_right_long"
-            android:clickable="true"
             android:ems="10"
             android:gravity="center"
             android:inputType="text"
-            android:maxLines="1"
             android:maxLength="@integer/max_name_length"
+            android:maxLines="1"
             android:textSize="15dp" />
 
     </RelativeLayout>
@@ -70,7 +69,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/user_profile"
-        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/usernameLayout">
 
 
         <TextView
@@ -99,7 +98,8 @@
             android:clickable="true"
             android:ems="10"
             android:gravity="center"
-            android:inputType="text"
+            android:focusable="false"
+            android:inputType="date"
             android:maxLines="1"
             android:textSize="15dp" />
 

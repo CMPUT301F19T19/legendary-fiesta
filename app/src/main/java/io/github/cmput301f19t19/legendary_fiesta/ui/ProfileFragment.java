@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         doneButton = mView.findViewById(R.id.done_button);
 
         // EditText
-        userEditText = mView.findViewById(R.id.search_friends_edittext);
+        userEditText = mView.findViewById(R.id.usernameEditText);
         birthDateEditText = mView.findViewById(R.id.birthEditText);
         bioEditText = mView.findViewById(R.id.bioEditText);
 
