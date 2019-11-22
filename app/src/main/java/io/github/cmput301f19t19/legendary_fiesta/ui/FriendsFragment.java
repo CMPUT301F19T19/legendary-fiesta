@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
 
-public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener {
+public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener, TextWatcher {
 
     private View mView;
     private Activity mActivity;
@@ -37,7 +37,6 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
     private String searchName;      //searchName is the text that is entered in the Search EditText
     private ArrayList<String> searchFriendsArray;   //A list temporarily used to contain all names that match the search text
 
-
     private ImageButton requestButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,50 +46,15 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
 
         friendsListView = mView.findViewById(R.id.friend_list);
         requestButton = mView.findViewById(R.id.follow_request_button);
+        search = mView.findViewById(R.id.search_friends_edittext);
 
         friendsArray = getFriendsList();
         friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friendsArray);
-
         friendsListView.setAdapter(friendsArrayAdapter);
 
         requestButton.setOnClickListener(this);
-
-        search = mView.findViewById(R.id.search_friends_edittext);
-
-
         //Search EditText onchange listener
-        search.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                searchName = search.getText().toString();
-                searchFriendsArray = new ArrayList<>();
-
-                //Don't have to search if the string at the search editText is empty
-                if(searchName != ""){
-                    //Loop through all friends to find matching names
-                    for(String name:friendsArray){
-                        if(name.toUpperCase().contains(searchName.toUpperCase())){
-                            searchFriendsArray.add(name);
-                        }
-                    }
-                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, searchFriendsArray);
-                    friendsListView.setAdapter(friendsArrayAdapter);
-                }
-
-                //Else, if no name is searched, set adapter back to user friendsArray
-                else{
-                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friendsArray);
-                    friendsListView.setAdapter(friendsArrayAdapter);
-                }
-            }
-        });
+        search.addTextChangedListener(this);
 
         return mView;
     }
@@ -121,7 +85,36 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        searchName = search.getText().toString();
+        searchFriendsArray = new ArrayList<>();
+
+        //Don't have to search if the string at the search editText is empty
+        if(searchName != ""){
+            //Loop through all friends to find matching names
+            for(String name:friendsArray){
+                if(name.toUpperCase().contains(searchName.toUpperCase())){
+                    searchFriendsArray.add(name);
+                }
+            }
+            friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, searchFriendsArray);
+            friendsListView.setAdapter(friendsArrayAdapter);
+        }
+
+        //Else, if no name is searched, set adapter back to user friendsArray
+        else{
+            friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friendsArray);
+            friendsListView.setAdapter(friendsArrayAdapter);
+        }
     }
+
 }
