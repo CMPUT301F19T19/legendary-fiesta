@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -78,20 +79,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Get list of MoodEvents from OwnMoods or FriendsMoods Fragment
         dataList  = new ArrayList<>();
-        // Dummy Data
-        @Mood.MoodType Integer moodType = Mood.NEUTRAL;
-        String user = "TestUser";
-        Date date = new Date();
-        String description = "TestDescription";
-        Integer condition = MoodEvent.SocialCondition.SINGLE;
-        String photoURL = "https://example.com/photo.jpg";
-        ProxyLatLng location = new ProxyLatLng(53.521231, -113.524631);
-
-        dataList.add(new MoodEvent(moodType, user, description, date,
-                condition, photoURL, location));
-        dataList.add(new MoodEvent(Mood.ANGRY, "USERB", "Test user B", new Date(), MoodEvent.SocialCondition.CROWD, photoURL, new ProxyLatLng(53.510317, -113.514320)));
-
-        // dataList = getIntent().getParcelableArrayListExtra("EVENTS");
+        // Get MoodEvents from fragment
+        dataList = getIntent().getParcelableArrayListExtra("EVENTS");
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -299,7 +288,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      *  Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
-    private String getSelectedSocialCondition(int socialCondition) {
+    private String getSelectedSocialCondition(@Nullable Integer socialCondition) {
+        if (socialCondition == null) {
+            return "NONE";
+        }
         switch (socialCondition) {
             case MoodEvent.SocialCondition.SINGLE:
                 return "Single";
