@@ -3,6 +3,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
@@ -40,14 +43,18 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventH
 
 public class OwnMoodsFragment extends Fragment {
 
-    private Activity mActivity; //reference to associated activity class, initialized in onAttach function
-    private View mView; //reference to associated view, initialized in onCreateView
+    // Reference to associated activity class, initialized in onAttach function
+    private Activity mActivity;
+    // Reference to associated view, initialized in onCreateView
+    private View mView;
 
     private User user;
 
-    private ListView moodList;  //reference to the ListView on own moods page
+    // Reference to the ListView on own moods page
+    private ListView moodList;
     private ArrayList<MoodEvent> moodDataList;
     private MoodEventAdapter moodArrayAdapter;
+    private Button mapButton;
 
     private Spinner filterSpinner;
 
@@ -163,6 +170,17 @@ public class OwnMoodsFragment extends Fragment {
                 transaction.replace(R.id.nav_host_fragment, replacement );
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        // Map Button
+        mapButton = mView.findViewById(R.id.show_on_map_button);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                startActivity(intent);
             }
         });
 

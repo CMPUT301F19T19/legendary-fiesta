@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,11 +21,11 @@ import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventFriendsAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
-
 
 public class FriendsMoodsFragment extends Fragment {
 
@@ -36,11 +38,13 @@ public class FriendsMoodsFragment extends Fragment {
 
     private Spinner filterSpinner;
 
+    // View Elements
+    private Button mapButton;
+
     //Filter spinner related variables
     private Spinner moodFilter;
     private @Mood.MoodType Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -89,14 +93,14 @@ public class FriendsMoodsFragment extends Fragment {
                         break;
                 }
 
-                //If chosenMoodType is a number between 0-6, filter!
+                // If chosenMoodType is a number between 0-6, filter!
                 if(chosenMoodType != -1){
                     for(MoodEvent mood : moodDataList){
                         if(mood.getMoodType() == chosenMoodType){
                             filteredMoodList.add(mood);
                         }
                     }
-                    //Update adapter and listview
+                    // Update adapter and listview
                     moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, filteredMoodList);
                     moodList.setAdapter(moodArrayAdapter);
                 }
@@ -111,6 +115,18 @@ public class FriendsMoodsFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
                 moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList);
                 moodList.setAdapter(moodArrayAdapter);
+            }
+        });
+
+        // Map Button
+        mapButton = mView.findViewById(R.id.show_on_map_button_friends);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                // TODO: Add dataList here.
+                // intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                startActivity(intent);
             }
         });
 
