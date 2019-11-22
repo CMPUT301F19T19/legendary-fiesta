@@ -1,7 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -48,7 +47,6 @@ public class MyMoodUITest {
         user = mainActivityRule.getActivity().getTestUser();
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER_PROFILE", user);
-        Log.d("FeelsLog", "user bundle " + user.getUsername());
 
         fragment = new OwnMoodsFragment();
         fragment.setArguments(bundle);

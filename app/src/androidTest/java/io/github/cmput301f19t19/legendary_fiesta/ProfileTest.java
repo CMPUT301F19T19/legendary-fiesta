@@ -1,7 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -34,12 +33,13 @@ public class ProfileTest {
 
     @Before
     public void init(){
+        //wait for fragmentEmptyClass to finish retrieving test user from database
         await().until(()-> mainActivityRule.getActivity().getTestUser() != null);
 
-        user = mainActivityRule.getActivity().getTestUser();
+        user = mainActivityRule.getActivity().getTestUser(); //get the test user;
+        //put the user in a bundle and pass it to fragment object
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER_PROFILE", user);
-        Log.d("FeelsLog", "user bundle " + user.getUsername());
 
         fragment = new ProfileFragment();
         fragment.setArguments(bundle);
