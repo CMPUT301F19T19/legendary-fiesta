@@ -90,7 +90,7 @@ public class OwnMoodsFragment extends Fragment {
 
         moodDataList = new ArrayList<>();
 
-        if(getTag() != MY_MOOD_UI_TEST_TAG){
+        if(!(getTag() != null && getTag().equals(MY_MOOD_UI_TEST_TAG))){
             loadMoodData();
         }
 
@@ -195,7 +195,7 @@ public class OwnMoodsFragment extends Fragment {
                 for (QueryDocumentSnapshot document : documentSnapshots) {
                     moodDataList.add(document.toObject(MoodEvent.class));
                 }
-                moodArrayAdapter.notifyDataSetChanged();
+                if (moodArrayAdapter != null) moodArrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -283,7 +283,7 @@ public class OwnMoodsFragment extends Fragment {
                                         });
                                         //Also delete this moodEvent from moodDataList
                                         for(MoodEvent mood : moodDataList){
-                                            if(mood.getMoodId() == moodData.get(position).getMoodId()){
+                                            if(mood.getMoodId().equals(moodData.get(position).getMoodId())){
                                                 moodToDelete = mood;
                                             }
                                         }
