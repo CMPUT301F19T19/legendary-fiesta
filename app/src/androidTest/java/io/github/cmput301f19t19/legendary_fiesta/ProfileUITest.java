@@ -23,7 +23,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.awaitility.Awaitility.await;
 
 @RunWith(AndroidJUnit4.class)
-public class ProfileTest {
+public class ProfileUITest {
 
     private ProfileFragment fragment;
     private User user; //keep reference of test user
@@ -57,14 +57,14 @@ public class ProfileTest {
     @Test
     public void UsernameTextTest(){
         //clear default username
-        onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(clearText());
+        onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(clearText());
 
         //basic text input
         onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(typeText("Johnathan"));
         onView(withText("Johnathan")).check(matches(isDisplayed()));
 
         //clear default username
-        onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(clearText());
+        onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(clearText());
 
         //text with more than 15 chars
         onView(withId(R.id.search_friends_edittext)).perform(typeText("12345678901234567"));
