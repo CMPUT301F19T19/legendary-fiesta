@@ -246,9 +246,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case Mood.SCARED:
                 return R.drawable.icon_scared;
             case Mood.SURPRISED:
-                return R.id.icon_surprised;
+                return R.drawable.icon_surprised;
             default:
-                return R.id.icon_neutral;
+                return R.drawable.icon_neutral;
         }
     }
 
