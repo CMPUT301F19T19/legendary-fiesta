@@ -1,12 +1,17 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +44,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
@@ -55,8 +61,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<MoodEvent> dataList;
 
     // Date Format
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.CANADA);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +91,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 condition, photoURL, location));
         dataList.add(new MoodEvent(Mood.ANGRY, "USERB", "Test user B", new Date(), MoodEvent.SocialCondition.CROWD, photoURL, new ProxyLatLng(53.510317, -113.514320)));
 
-        // Intent intent = getIntent();
-        // dataList = intent.getParcelableArrayListExtra("EVENTS");
-        // MoodEvent[] moodEventArray = (MoodEvent[]) intent.getParcelableArrayExtra("EVENTARY");
+        // dataList = getIntent().getParcelableArrayListExtra("EVENTS");
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -112,13 +116,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             // Set the map's camera position to the current location of the device.
                             mLastKnownLocation = task.getResult();
                             assert mLastKnownLocation != null;
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                         } else {
                             Log.e("FeelsLog", "Exception: %s", task.getException());
-                            googleMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
                         }
                     }
                 });
@@ -203,27 +202,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         CameraPosition cameraPosition;
 
-        // University of Alberta
-        LatLng defaultPosition = new LatLng(53.523047, -113.526329);
-        // Set camera position to University of Alberta
-        cameraPosition = new CameraPosition.Builder()
-                .target(defaultPosition)
-                .zoom(12)
-                .bearing(0)
-                .build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        // Default camera position
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
         // Set camera and markers
         if (dataList.size() != 0) {
             // Set default camera to position of first MoodEvent
             MoodEvent firstEvent = dataList.get(0);
-            cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(firstEvent.getLocation().latitude,
-                            firstEvent.getLocation().longitude))
-                    .zoom(12)
-                    .bearing(0)
-                    .build();
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(firstEvent.getLocation().latitude, firstEvent.getLocation().longitude)
+                    , DEFAULT_ZOOM));
 
             // Set Markers
             for (MoodEvent moodEvent : dataList) {
@@ -270,8 +258,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.drawable.icon_scared;
             case Mood.SURPRISED:
                 return R.id.icon_surprised;
+            default:
+                return R.id.icon_neutral;
         }
-        return R.id.icon_neutral;
     }
 
     /**
@@ -297,8 +286,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.color.color_scared;
             case Mood.SURPRISED:
                 return R.color.color_surprised;
+            default:
+                return R.id.icon_neutral;
         }
-        return R.id.icon_neutral;
     }
 
     /**
@@ -336,12 +326,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * Returns the definition of a bitmap image (map marker)
      */
     private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
+        // Marker size (dp)
+        int height = 150, width = 150;
+
+        // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
         drawable.setBounds(0, 0, 150, 150);
-        drawable.setTint(ContextCompat.getColor(context, colorID));
-        Bitmap bitmap = Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888);
+
+        // Circle shape with colors according to mood type
+        ShapeDrawable circle = new ShapeDrawable(new OvalShape());
+        circle.setIntrinsicHeight(height);
+        circle.setIntrinsicWidth(width);
+        circle.getPaint().setColor(ContextCompat.getColor(context, colorID));
+        circle.setBounds(new Rect(0, 0, height, width));
+
+        // Layered image (circle, mood icon)
+        LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {circle, drawable});
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        drawable.draw(canvas);
+
+        finalDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
