@@ -1,5 +1,8 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -17,22 +20,31 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.awaitility.Awaitility.await;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileTest {
 
     private ProfileFragment fragment;
+    private User user;
 
     @Rule
     public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
     @Before
     public void init(){
-       // String uid = "TPgV90AKmsZM33xpgblYQYH6Abh1";
+        await().until(()-> mainActivityRule.getActivity().getTestUser() != null);
 
-        //fragment = new ProfileFragment();
-        //mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
-          //      .add(1, fragment, null).commit();
+        user = mainActivityRule.getActivity().getTestUser();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER_PROFILE", user);
+        Log.d("FeelsLog", "user bundle " + user.getUsername());
+
+        fragment = new ProfileFragment();
+        fragment.setArguments(bundle);
+
+        mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
+                .add(1, fragment, null).commit();
     }
 
     @Test

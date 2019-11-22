@@ -61,8 +61,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         mView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        //if(user ==)
-        //user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+        user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+
+        if(user == null){
+            Bundle receiveBundle = this.getArguments();
+            assert receiveBundle != null;
+            user = receiveBundle.getParcelable("USER_PROFILE");
+        }
 
         // Buttons
         cancelButton = mView.findViewById(R.id.cancel_button);

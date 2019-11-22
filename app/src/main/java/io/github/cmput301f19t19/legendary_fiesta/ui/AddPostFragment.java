@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.ImageDecoder;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -42,31 +41,29 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.firebase.FirebaseApp;
+import com.schibstedspain.leku.LocationPickerActivity;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.FirebaseApp;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.schibstedspain.leku.LocationPickerActivity;
 import io.github.cmput301f19t19.legendary_fiesta.BuildConfig;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SocialArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
-import io.github.cmput301f19t19.legendary_fiesta.User;
 
 import static com.schibstedspain.leku.LocationPickerActivityKt.LATITUDE;
 import static com.schibstedspain.leku.LocationPickerActivityKt.LONGITUDE;
@@ -479,6 +476,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         }
 
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+
+        if(user == null){
+            Bundle receiveBundle = this.getArguments();
+            assert receiveBundle != null;
+            user = receiveBundle.getParcelable("USER_PROFILE");
+        }
         String description = descET.getText().toString();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm aa", Locale.CANADA);
         Date date;
