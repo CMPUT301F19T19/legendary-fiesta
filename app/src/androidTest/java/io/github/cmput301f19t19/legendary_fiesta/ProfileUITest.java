@@ -1,5 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+import android.os.Bundle;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -12,23 +14,36 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProfileFragment;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.awaitility.Awaitility.await;
 
 @RunWith(AndroidJUnit4.class)
-public class ProfileTest {
+public class ProfileUITest {
 
     private ProfileFragment fragment;
+    private User user; //keep reference of test user
 
     @Rule
     public ActivityTestRule<FragmentEmptyClass> mainActivityRule = new ActivityTestRule<>(FragmentEmptyClass.class);
 
     @Before
     public void init(){
+        //wait for fragmentEmptyClass to finish retrieving test user from database
+        await().until(()-> mainActivityRule.getActivity().getTestUser() != null);
+
+        user = mainActivityRule.getActivity().getTestUser(); //get the test user;
+        //put the user in a bundle and pass it to fragment object
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("USER_PROFILE", user);
+
         fragment = new ProfileFragment();
+        fragment.setArguments(bundle);
+
         mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
                 .add(1, fragment, null).commit();
     }
@@ -41,9 +56,15 @@ public class ProfileTest {
 
     @Test
     public void UsernameTextTest(){
+        //clear default username
+        onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(clearText());
+
         //basic text input
         onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(typeText("Johnathan"));
         onView(withText("Johnathan")).check(matches(isDisplayed()));
+
+        //clear default username
+        onView(withId(R.id.search_friends_edittext)).check(matches(isDisplayed())).perform(clearText());
 
         //text with more than 15 chars
         onView(withId(R.id.search_friends_edittext)).perform(typeText("12345678901234567"));

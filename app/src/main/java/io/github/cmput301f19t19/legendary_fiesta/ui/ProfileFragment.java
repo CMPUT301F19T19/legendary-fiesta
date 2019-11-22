@@ -63,6 +63,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
+        if(user == null){
+            Bundle receiveBundle = this.getArguments();
+            assert receiveBundle != null;
+            user = receiveBundle.getParcelable("USER_PROFILE");
+        }
+
         // Buttons
         cancelButton = mView.findViewById(R.id.cancel_button);
         doneButton = mView.findViewById(R.id.done_button);
@@ -111,6 +117,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             birthDateEditText.setText(selectedDate);
         }
     }
+
 
     /**
      * Click handler for ProfileFragment and switches based on what is clicked.

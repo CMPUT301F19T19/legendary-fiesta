@@ -2,14 +2,13 @@ package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.os.Parcel;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Date;
@@ -28,7 +27,7 @@ public class MoodEventTest {
 
     @Before
     public void setUp() {
-        moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
+        //moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
     }
 
     @Test
