@@ -55,8 +55,10 @@ public class OwnMoodsFragment extends Fragment {
 
     //Filter spinner related variables
     private Spinner moodFilter;
-    private @Mood.MoodType Integer chosenMoodType;       //Refers to the chosen mood in filter spinner
+    private @Mood.MoodType Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
+    private Integer oriListLength;
+    private MoodEvent moodToDelete;  //to avoid ConcurrentModificationException
     private MoodEventAdapter tempMoodArrayAdapter;
 
 
@@ -82,6 +84,7 @@ public class OwnMoodsFragment extends Fragment {
 
         moodFilter = mView.findViewById(R.id.filter_spinner);
 
+        //When an item is selected from the spinner
         moodFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -227,7 +230,12 @@ public class OwnMoodsFragment extends Fragment {
     }
 
 
+    /*
+     * This function returns a MoodEventAdapter with the appropriate data list depending on the filter/spinner
+     */
     private MoodEventAdapter deleteCallback(ArrayList<MoodEvent> moodData){
+        oriListLength = moodDataList.size();
+
         tempMoodArrayAdapter = new MoodEventAdapter(mActivity, moodData, new MoodEventAdapter.AdapterCallback() {
             @Override
             public void onDelete(int position) {
@@ -252,10 +260,17 @@ public class OwnMoodsFragment extends Fragment {
                                         //Also delete this moodEvent from moodDataList
                                         for(MoodEvent mood : moodDataList){
                                             if(mood.getMoodId() == moodData.get(position).getMoodId()){
-                                                moodDataList.remove(mood);
+                                                moodToDelete = mood;
                                             }
                                         }
                                         moodData.remove(position);
+
+                                        //To check if moodData is actually moodDataList
+                                        //Avoid deleting 2 things from moodDataList
+                                        if(moodDataList.size() == oriListLength){
+                                            moodDataList.remove(moodToDelete);
+                                        }
+
                                         tempMoodArrayAdapter.notifyDataSetChanged();
                                         dialog.dismiss();
                                     }
