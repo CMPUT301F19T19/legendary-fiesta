@@ -65,25 +65,25 @@ public class FriendsMoodsFragment extends Fragment {
                 //Assign the correct value to chosenMoodType depending on what the user has selected
                 switch (i){
                     case 0: //Scared
-                        chosenMoodType = 4;
+                        chosenMoodType = Mood.SCARED;
                         break;
                     case 1: //Happy
-                        chosenMoodType = 1;
+                        chosenMoodType = Mood.HAPPY;
                         break;
                     case 2: //Surprised
-                        chosenMoodType = 2;
+                        chosenMoodType = Mood.SURPRISED;
                         break;
                     case 3: //Sad
-                        chosenMoodType = 6;
+                        chosenMoodType = Mood.SAD;
                         break;
                     case 4: //Angry
-                        chosenMoodType = 3;
+                        chosenMoodType = Mood.ANGRY;
                         break;
                     case 5: //Disgusted
-                        chosenMoodType = 5;
+                        chosenMoodType = Mood.DISGUSTED;
                         break;
                     case 6: //Neutral
-                        chosenMoodType = 0;
+                        chosenMoodType = Mood.NEUTRAL;
                         break;
                     case 7: //None
                         chosenMoodType = -1;
