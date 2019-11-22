@@ -115,7 +115,6 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
      */
     public ArrayList<String> getFriendsList(){
         ArrayList<String> friendsList = new ArrayList<>();
-
         return friendsList;
     }
 

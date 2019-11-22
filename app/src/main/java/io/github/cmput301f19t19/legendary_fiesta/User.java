@@ -129,6 +129,13 @@ public class User implements Parcelable {
     }
 
     /**
+     * @return ArrayList<String> other users being followed by the user
+     */
+    public ArrayList<String> getFollowing() {
+        return following;
+    }
+
+    /**
      * Accept another users request to follow your mood events
      *
      * @param uid the userId of the requesting user

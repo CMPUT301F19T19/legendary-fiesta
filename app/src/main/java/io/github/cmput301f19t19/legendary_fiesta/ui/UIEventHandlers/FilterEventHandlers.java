@@ -3,8 +3,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers;
 import android.view.View;
 import android.widget.AdapterView;
 
-
-// TODO: Filter function (after Reading Week)
 public class FilterEventHandlers implements AdapterView.OnItemSelectedListener {
 
     @Override

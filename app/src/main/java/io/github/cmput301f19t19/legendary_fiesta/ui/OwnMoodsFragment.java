@@ -58,9 +58,7 @@ public class OwnMoodsFragment extends Fragment {
     private MoodEvent moodToDelete;  //to avoid ConcurrentModificationException
     private MoodEventAdapter tempMoodArrayAdapter;
 
-
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

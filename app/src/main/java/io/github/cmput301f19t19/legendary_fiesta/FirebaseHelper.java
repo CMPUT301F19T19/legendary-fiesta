@@ -7,10 +7,14 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A helper class for Firebase operations
@@ -62,6 +66,17 @@ public class FirebaseHelper {
      */
     public void getUserByUID(String uid, final FirebaseCallback<DocumentSnapshot> callback) {
         db.collection("users").document(uid).get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
+     */
+    public void getAllUsers(final FirebaseCallback<QuerySnapshot> callback) {
+        db.collection("users")
+                .orderBy("username")
+                .get()
                 .addOnSuccessListener(callback::onSuccess)
                 .addOnFailureListener(callback::onFailure);
     }
@@ -120,9 +135,25 @@ public class FirebaseHelper {
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
             .whereEqualTo("user", uid)
+            .orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener(callback::onSuccess)
             .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * get friend's mood events
+     *
+     * @param uids User's UserIDs
+     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     */
+    public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
+        db.collection("moodEvents")
+                .whereIn("user", uids)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
