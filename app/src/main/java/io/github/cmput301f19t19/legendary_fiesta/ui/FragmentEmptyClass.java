@@ -2,7 +2,6 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +42,6 @@ public class FragmentEmptyClass extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot document = task.getResult();
                     user = document.toObject(User.class);
-                    Log.d("FeelsLog", "User:" + user.getUsername());
                 });
         return user;
     }

@@ -15,6 +15,7 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProfileFragment;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -55,9 +56,15 @@ public class ProfileTest {
 
     @Test
     public void UsernameTextTest(){
+        //clear default username
+        onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(clearText());
+
         //basic text input
         onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(typeText("Johnathan"));
         onView(withText("Johnathan")).check(matches(isDisplayed()));
+
+        //clear default username
+        onView(withId(R.id.userEditText)).check(matches(isDisplayed())).perform(clearText());
 
         //text with more than 15 chars
         onView(withId(R.id.userEditText)).perform(typeText("12345678901234567"));
