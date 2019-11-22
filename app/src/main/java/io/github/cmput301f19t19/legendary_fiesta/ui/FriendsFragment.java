@@ -83,6 +83,12 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
                     friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, searchFriendsArray);
                     friendsListView.setAdapter(friendsArrayAdapter);
                 }
+
+                //Else, if no name is searched, set adapter back to user friendsArray
+                else{
+                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friendsArray);
+                    friendsListView.setAdapter(friendsArrayAdapter);
+                }
             }
         });
 
