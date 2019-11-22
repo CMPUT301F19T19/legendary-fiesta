@@ -113,7 +113,7 @@ public class MoodEvent implements Parcelable {
             this.photoURL = photoURL;
         }
 
-        location = in.readParcelable(LatLng.class.getClassLoader());
+        location = in.readParcelable(ProxyLatLng.class.getClassLoader());
     }
 
     /**

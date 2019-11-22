@@ -40,7 +40,7 @@
             android:text="@string/user_name_button" />
 
         <EditText
-            android:id="@+id/userEditText"
+            android:id="@+id/search_friends_edittext"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="35dp"

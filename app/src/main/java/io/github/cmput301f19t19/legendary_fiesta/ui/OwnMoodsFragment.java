@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +54,15 @@ public class OwnMoodsFragment extends Fragment {
     public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
     public static final String MY_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
 
+    //Filter spinner related variables
+    private Spinner moodFilter;
+    private @Mood.MoodType Integer chosenMoodType;
+    private ArrayList<MoodEvent> filteredMoodList;
+    private Integer oriListLength;
+    private MoodEvent moodToDelete;  //to avoid ConcurrentModificationException
+    private MoodEventAdapter tempMoodArrayAdapter;
+
+
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
 
@@ -74,47 +87,69 @@ public class OwnMoodsFragment extends Fragment {
             loadMoodData();
         }
 
-
         moodList = mView.findViewById(R.id.mood_list);
 
-        moodArrayAdapter = new MoodEventAdapter(mActivity, moodDataList, new MoodEventAdapter.AdapterCallback() {
+        moodFilter = mView.findViewById(R.id.filter_spinner);
+
+        //When an item is selected from the spinner
+        moodFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDelete(int position) {
-                new AlertDialog.Builder(mActivity).setTitle("Confirm Delete?")
-                    .setMessage("Are you sure you want to delete this event?")
-                    .setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filteredMoodList = new ArrayList<>();
+                chosenMoodType = -1;
 
-                                firebaseHelper.deleteMoodEventById(moodDataList.get(position).getMoodId(), new FirebaseHelper.FirebaseCallback<Void>() {
-                                    @Override
-                                    public void onSuccess(Void v) {
-                                        Toast.makeText(mActivity, R.string.event_delete_success, Toast.LENGTH_LONG).show();
-                                    }
+                //Assign the correct value to chosenMoodType depending on what the user has selected
+                switch (i){
+                    case 0: //Scared
+                        chosenMoodType = Mood.SCARED;
+                        break;
+                    case 1: //Happy
+                        chosenMoodType = Mood.HAPPY;
+                        break;
+                    case 2: //Surprised
+                        chosenMoodType = Mood.SURPRISED;
+                        break;
+                    case 3: //Sad
+                        chosenMoodType = Mood.SAD;
+                        break;
+                    case 4: //Angry
+                        chosenMoodType = Mood.ANGRY;
+                        break;
+                    case 5: //Disgusted
+                        chosenMoodType = Mood.DISGUSTED;
+                        break;
+                    case 6: //Neutral
+                        chosenMoodType = Mood.NEUTRAL;
+                        break;
+                    default:    //None
+                        break;
+                }
 
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(mActivity, R.string.event_delete_fail,
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                moodDataList.remove(position);
-                                moodArrayAdapter.notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Do nothing
-                            dialog.dismiss();
+                //If chosenMoodType is a number between 0-6, filter!
+                if(chosenMoodType != -1){
+                    for(MoodEvent mood : moodDataList){
+                        if(mood.getMoodType() == chosenMoodType){
+                            filteredMoodList.add(mood);
                         }
-                    })
-                    .create()
-                    .show();
+                    }
+                    //Update adapter and listview
+                    moodArrayAdapter = deleteCallback(filteredMoodList);
+                    moodList.setAdapter(moodArrayAdapter);
+                }
+
+                else{
+                    moodArrayAdapter = deleteCallback(moodDataList);
+                    moodList.setAdapter(moodArrayAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                moodArrayAdapter = deleteCallback(moodDataList);
+                moodList.setAdapter(moodArrayAdapter);
             }
         });
-        moodList.setAdapter(moodArrayAdapter);
+
 
         moodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -199,5 +234,67 @@ public class OwnMoodsFragment extends Fragment {
         moodDataList.add(newMoodEvent);
         moodArrayAdapter.notifyDataSetChanged();
     }
+
+
+    /*
+     * This function returns a MoodEventAdapter with the appropriate data list depending on the filter/spinner
+     */
+    private MoodEventAdapter deleteCallback(ArrayList<MoodEvent> moodData){
+        oriListLength = moodDataList.size();
+
+        tempMoodArrayAdapter = new MoodEventAdapter(mActivity, moodData, new MoodEventAdapter.AdapterCallback() {
+            @Override
+            public void onDelete(int position) {
+                new AlertDialog.Builder(mActivity).setTitle("Confirm Delete?")
+                        .setMessage("Are you sure you want to delete this event?")
+                        .setPositiveButton("Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        firebaseHelper.deleteMoodEventById(moodData.get(position).getMoodId(), new FirebaseHelper.FirebaseCallback<Void>() {
+                                            @Override
+                                            public void onSuccess(Void v) {
+                                                Toast.makeText(mActivity, R.string.event_delete_success, Toast.LENGTH_LONG).show();
+                                            }
+
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(mActivity, R.string.event_delete_fail,
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                        //Also delete this moodEvent from moodDataList
+                                        for(MoodEvent mood : moodDataList){
+                                            if(mood.getMoodId() == moodData.get(position).getMoodId()){
+                                                moodToDelete = mood;
+                                            }
+                                        }
+                                        moodData.remove(position);
+
+                                        //To check if moodData is actually moodDataList
+                                        //Avoid deleting 2 things from moodDataList
+                                        if(moodDataList.size() == oriListLength){
+                                            moodDataList.remove(moodToDelete);
+                                        }
+
+                                        tempMoodArrayAdapter.notifyDataSetChanged();
+                                        dialog.dismiss();
+                                    }
+                                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                                dialog.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        });
+
+        return tempMoodArrayAdapter;
+    }
+
 
 }
