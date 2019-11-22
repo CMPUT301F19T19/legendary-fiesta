@@ -114,8 +114,7 @@ public class OwnMoodsFragment extends Fragment {
                     case 6: //Neutral
                         chosenMoodType = Mood.NEUTRAL;
                         break;
-                    case 7: //None
-                        chosenMoodType = -1;
+                    default:    //None
                         break;
                 }
 
