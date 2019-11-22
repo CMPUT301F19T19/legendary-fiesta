@@ -27,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -85,6 +86,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Intent intent = getIntent();
         // dataList = intent.getParcelableArrayListExtra("EVENTS");
+        // MoodEvent[] moodEventArray = (MoodEvent[]) intent.getParcelableArrayExtra("EVENTARY");
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -198,26 +200,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        // Set default camera to position of first MoodEvent
+        CameraPosition cameraPosition;
 
-        // Set Markers
-        for (MoodEvent moodEvent : dataList) {
-            // Skip MoodEvents that has no location
-            if (moodEvent.getLocation() != null) {
-                LatLng location = new LatLng(moodEvent.getLocation().latitude,
-                        moodEvent.getLocation().longitude);
-                int resource = getEmotionRadioId(moodEvent.getMoodType());
+        // University of Alberta
+        LatLng defaultPosition = new LatLng(53.523047, -113.526329);
+        // Set camera position to University of Alberta
+        cameraPosition = new CameraPosition.Builder()
+                .target(defaultPosition)
+                .zoom(12)
+                .bearing(0)
+                .build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                googleMap.addMarker(new MarkerOptions().position(location)
-                        .title("Date: " + dateFormat.format(moodEvent.getDate())
-                                + "\nTime: " + timeFormat.format(moodEvent.getDate()))
-                        .snippet("Description: "  + moodEvent.getDescription()
-                                + "\n Social Condition: "
-                                + getSelectedSocialCondition(moodEvent.getCondition()))
-                        .icon(BitmapDescriptorFactory.fromResource(resource)));
+        // Set camera and markers
+        if (dataList.size() != 0) {
+            // Set default camera to position of first MoodEvent
+            MoodEvent firstEvent = dataList.get(0);
+            cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(firstEvent.getLocation().latitude,
+                            firstEvent.getLocation().longitude))
+                    .zoom(12)
+                    .bearing(0)
+                    .build();
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            // Set Markers
+            for (MoodEvent moodEvent : dataList) {
+                // Skip MoodEvents that has no location
+                if (moodEvent.getLocation() != null) {
+                    LatLng location = new LatLng(moodEvent.getLocation().latitude,
+                            moodEvent.getLocation().longitude);
+                    int resource = getEmotionRadioId(moodEvent.getMoodType());
+
+                    googleMap.addMarker(new MarkerOptions().position(location)
+                            .title("Date: " + dateFormat.format(moodEvent.getDate())
+                                    + "\nTime: " + timeFormat.format(moodEvent.getDate()))
+                            .snippet("Description: "  + moodEvent.getDescription()
+                                    + "\n Social Condition: "
+                                    + getSelectedSocialCondition(moodEvent.getCondition()))
+                            .icon(BitmapDescriptorFactory.fromResource(resource)));
+                }
             }
         }
-
         getLocationPermission();
     }
 
