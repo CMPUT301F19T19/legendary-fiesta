@@ -54,14 +54,14 @@ public class FriendsMoodsFragment extends Fragment {
 
         moodList.setAdapter(moodEventAdapter);
 
-        // Map Button Click Listener
-        mapButton = mView.findViewById(R.id.show_on_map_button);
+        // Map Button
+        mapButton = mView.findViewById(R.id.show_on_map_button_friends);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                // TODO: Add moodDataList
-                // intent.putParcelableArrayListExtra("MOODEVENTS", moodDataList);
+                // intent.putExtra("EVENTARY", moodDataList.toArray());
+                // intent.putParcelableArrayListExtra("EVENTS", moodDataList);
                 startActivity(intent);
             }
         });
