@@ -12,16 +12,18 @@
             android:layout_height="wrap_content" app:srcCompat="@drawable/logo" android:id="@+id/login_logo"
             tools:layout_editor_absoluteX="0dp" app:layout_constraintBottom_toTopOf="@+id/login_signup_form"
             android:scaleType="fitEnd"/>
+
     <Button
+        android:id="@+id/btn_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/btn_sign_in"
         android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="showLogin"
         android:text="@string/login_sign_in"
-        android:onClick="showLogin" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
             android:orientation="vertical"

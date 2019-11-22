@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.android.gms.maps.model.LatLng;
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 import org.junit.runner.RunWith;
 
