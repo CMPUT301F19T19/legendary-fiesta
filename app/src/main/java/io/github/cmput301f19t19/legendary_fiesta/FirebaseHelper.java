@@ -3,8 +3,6 @@ package io.github.cmput301f19t19.legendary_fiesta;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.*;
 import com.google.firebase.storage.FirebaseStorage;
@@ -12,7 +10,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -72,13 +69,15 @@ public class FirebaseHelper {
             callback.onFailure(new Exception("Cannot send yourself friend requests"));
             return;
         }
-        db.collection("requests").whereEqualTo("from",fromUID).whereEqualTo("to", toUID)
-            .get()
+        db.collection("requests").whereEqualTo("from", fromUID).whereEqualTo("to", toUID)
+                .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> callback.onSuccess(!queryDocumentSnapshots.isEmpty()))
                 .addOnFailureListener(callback::onFailure);
     }
 
     /**
+     * get all the pending requests for the specified user
+     *
      * @param UID
      * @param callback
      */
@@ -137,19 +136,21 @@ public class FirebaseHelper {
                     }
                     // approve: update the status to true
                     db.collection("requests").document(request.getId()).update("status", true)
-                        .addOnSuccessListener(aVoid -> {
-                            toUser.acceptFollowRequest(fromUID);
-                            db.collection("users").document(toUser.getUid())
-                                    .update("followedBy", toUser.getFollowedBy())
-                                    .addOnSuccessListener(callback::onSuccess)
-                                    .addOnFailureListener(callback::onFailure);
-                        })
-                        .addOnFailureListener(callback::onFailure);
+                            .addOnSuccessListener(aVoid -> {
+                                toUser.acceptFollowRequest(fromUID);
+                                db.collection("users").document(toUser.getUid())
+                                        .update("followedBy", toUser.getFollowedBy())
+                                        .addOnSuccessListener(callback::onSuccess)
+                                        .addOnFailureListener(callback::onFailure);
+                            })
+                            .addOnFailureListener(callback::onFailure);
                 })
                 .addOnFailureListener(callback::onFailure);
     }
 
     /**
+     * finish the friend request "hand-shaking" process
+     *
      * @param myUser
      * @param callback
      */
@@ -157,7 +158,7 @@ public class FirebaseHelper {
         db.collection("requests").whereEqualTo("from", myUser.getUid()).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     ArrayList<DocumentReference> pendingDeletion = new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                         FriendRequest request = documentSnapshot.toObject(FriendRequest.class);
                         if (request != null && request.getStatus()) {
                             myUser.finishFollowing(request.getTo());
@@ -166,7 +167,7 @@ public class FirebaseHelper {
                     }
                     db.runBatch(writeBatch -> {
                         // delete all the completed requests
-                        for (DocumentReference reference: pendingDeletion) {
+                        for (DocumentReference reference : pendingDeletion) {
                             writeBatch.delete(reference);
                         }
                     }).addOnSuccessListener(Void -> db.collection("users").document(myUser.getUid())
@@ -178,6 +179,8 @@ public class FirebaseHelper {
     }
 
     /**
+     * get the user with specific UID
+     *
      * @param uid      UID generated and tracked by Firebase
      * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
@@ -188,6 +191,8 @@ public class FirebaseHelper {
     }
 
     /**
+     * get all the users from the database
+     *
      * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
     public void getAllUsers(final FirebaseCallback<QuerySnapshot> callback) {
@@ -251,18 +256,18 @@ public class FirebaseHelper {
      */
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
-            .whereEqualTo("user", uid)
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener(callback::onSuccess)
-            .addOnFailureListener(callback::onFailure);
+                .whereEqualTo("user", uid)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
      * get friend's mood events
      *
-     * @param uids User's UserIDs
-     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     * @param uids     User's UserIDs
+     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
