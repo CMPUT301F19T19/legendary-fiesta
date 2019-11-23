@@ -2,6 +2,7 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -38,10 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SocialArrayAdapter;
+import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
 public class ViewPostFragment extends Fragment implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
@@ -64,6 +67,8 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
     // Fragment view
     private View mView;
     private Activity mActivity;
+
+    private MoodEvent moodEvent;
 
     // Navigation Controller
     private NavController navController;
@@ -91,7 +96,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         cancelButton.setVisibility(View.GONE);
 
         doneButton = mView.findViewById(R.id.done_button);
-        doneButton.setOnClickListener(this);
+        doneButton.setVisibility(View.GONE);
 
         // EditText
         dateET = mView.findViewById(R.id.dateEditText);
@@ -104,6 +109,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         disableEditText(descET);
 
         locET = mView.findViewById(R.id.locationEditText);
+        locET.setOnClickListener(this);
 
         emotionRadioGroup = mView.findViewById(R.id.emotionRadioGroup);
         emotionRadioGroup.setOnCheckedChangeListener(this);
@@ -115,18 +121,19 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
             currentButton.setFocusable(false);
         }
 
-        setUpSocialSpinner();
-
         try {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         }catch (IllegalArgumentException e){
             Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
         }
 
+        setUpSocialSpinner();
+
         Bundle args = getArguments();
         if (args != null) {
             MoodEvent moodEvent = args.getParcelable(OwnMoodsFragment.MOOD_EVENT_TAG);
             if (moodEvent != null) {
+                this.moodEvent = moodEvent;
                 setViewMoodEvent(moodEvent);
             }
         }
@@ -144,6 +151,9 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
     public void setViewMoodEvent(MoodEvent moodEvent) {
         // set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
+        System.out.println(moodEvent.getCondition());
+        System.out.println(moodSocialCondition);
+        System.out.println(conditionsArray.indexOf(moodSocialCondition));
         socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
 
         // set description
@@ -183,8 +193,14 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.done_button:
-                closeFragment();
+            case R.id.locationEditText:
+                if (moodEvent.getLocation() != null) {
+                    Intent intent = new Intent(getActivity(), MapActivity.class);
+                    ArrayList<MoodEvent> moodDataList = new ArrayList<>();
+                    moodDataList.add(moodEvent);
+                    intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -198,7 +214,9 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
 
             if (currentButton.getId() == selectedId) {
                 currentButton.getBackground().setColorFilter( ContextCompat.getColor(mActivity,R.color.selected_color), PorterDuff.Mode.MULTIPLY);
-                break;
+            } else {
+                // Make the unselected buttons white
+                currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             }
         }
     }
@@ -234,26 +252,8 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
 
         int defaultIndex = conditionsArray.indexOf(getResources().getString(R.string.spinner_empty));
         socialSpinner.setSelection(defaultIndex);
-    }
 
-    /**
-     * Resets the fragment and navigate to 'Own List Fragment'
-     */
-    private void closeFragment() {
-        dateET.setText("");
-        timeET.setText("");
-        descET.setText("");
-        locET.setText("");
-
-        emotionRadioGroup.clearCheck();
-        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
-            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
-            //make the unselected buttons white
-            currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        }
-
-        if(navController != null)
-            navController.navigate(R.id.navigation_friends_moods);
+        socialSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
     private int getEmotionRadioId(@Mood.MoodType int moodId) {
