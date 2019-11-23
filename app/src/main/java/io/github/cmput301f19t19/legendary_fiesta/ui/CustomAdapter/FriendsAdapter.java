@@ -5,10 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 
@@ -69,6 +66,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Failed to deliver friend request", Toast.LENGTH_LONG).show();
                         view1.setVisibility(View.VISIBLE);
                     }
                 });
