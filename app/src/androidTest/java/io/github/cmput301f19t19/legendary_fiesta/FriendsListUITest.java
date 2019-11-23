@@ -7,11 +7,16 @@ import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import io.github.cmput301f19t19.legendary_fiesta.ui.FriendsFragment;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.awaitility.Awaitility.await;
 
 @RunWith(AndroidJUnit4.class)
@@ -38,6 +43,11 @@ public class FriendsListUITest {
 
         mainActivityRule.getActivity().getSupportFragmentManager().beginTransaction()
                 .add(1, fragment, null).commit();
+    }
+
+    @Test
+    public void LaunchFragment(){
+        onView(withId(R.id.follower_view)).check(matches(isDisplayed()));
     }
 
 }
