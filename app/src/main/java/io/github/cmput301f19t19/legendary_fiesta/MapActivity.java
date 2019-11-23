@@ -44,10 +44,7 @@ import com.google.android.gms.tasks.Task;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
-
-import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted = false;
@@ -189,8 +186,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        CameraPosition cameraPosition;
-
         // Default camera position
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
@@ -213,6 +208,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         marked = true;
                     }
 
+                    // Add markers
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
                                     + "\nTime: " + timeFormat.format(moodEvent.getDate()))
@@ -250,9 +246,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.drawable.icon_scared;
             case Mood.SURPRISED:
                 return R.drawable.icon_surprised;
-            default:
-                return R.drawable.icon_neutral;
         }
+        return R.drawable.icon_neutral;
     }
 
     /**
@@ -278,9 +273,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.color.color_scared;
             case Mood.SURPRISED:
                 return R.color.color_surprised;
-            default:
-                return R.id.icon_neutral;
         }
+        return R.color.color_neutral;
     }
 
     /**
@@ -326,7 +320,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
-        drawable.setBounds(0, 0, 150, 150);
+        drawable.setBounds(0, 0, width, height);
 
         // Circle shape with colors according to mood type
         ShapeDrawable circle = new ShapeDrawable(new OvalShape());
