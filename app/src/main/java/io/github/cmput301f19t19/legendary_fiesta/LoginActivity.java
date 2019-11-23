@@ -209,13 +209,30 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 uid = user.getUid();
+                Context context = this;
                 // check if the user already registered
                 firebaseHelper.getUserByUID(uid, new FirebaseHelper.FirebaseCallback<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot document) {
                         if (document.exists()) {
-                            // if yes, then redirect to the main page
-                            launchMainActivity(document.toObject(User.class));
+                            User currentUser = document.toObject(User.class);
+                            // if yes, then check if there is any pending friend requests that
+                            // have been approved by the other user
+                            assert currentUser != null;
+                            firebaseHelper.finishFriendRequest(currentUser, new FirebaseHelper.FirebaseCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void document) {
+                                    // redirect to the main page
+                                    launchMainActivity(currentUser);
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("FeelsLog", "onFailure: ", e);
+                                    Toast.makeText(context, "Database transaction problem", Toast.LENGTH_LONG);
+                                }
+                            });
+
                         } else {
                             // if no, time to take out the sign up form
                             showSignup(true);
