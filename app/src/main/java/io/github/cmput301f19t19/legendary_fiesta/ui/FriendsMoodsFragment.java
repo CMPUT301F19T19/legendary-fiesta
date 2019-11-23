@@ -164,7 +164,7 @@ public class FriendsMoodsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                if (moodFilter.getSelectedItemPosition() < 0) {
+                if (moodFilter.getSelectedItemPosition() == Mood.MoodTypes.size()) { // None selected
                     intent.putParcelableArrayListExtra("EVENTS", moodDataList);
                 } else {
                     intent.putParcelableArrayListExtra("EVENTS", filteredMoodList);
