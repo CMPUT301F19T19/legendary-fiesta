@@ -67,7 +67,7 @@ public class RequestAdapter extends ArrayAdapter<FriendRequest> {
         helper.flipFriendRequest(UID, myUID, false, new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
             public void onSuccess(Void document) {
-                // TODO:
+                Log.d("FeelsLog", "rejectRequest");
             }
 
             @Override

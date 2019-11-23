@@ -60,14 +60,6 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         friendView = mView.findViewById(R.id.friendView);
         followView = mView.findViewById(R.id.followView);
         friends = new ArrayList<>();
-
-        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends);
-
-        friendsListView.setAdapter(friendsArrayAdapter);
-
-        requestButton.setOnClickListener(this);
-
-        search = mView.findViewById(R.id.search_friends_edittext);
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
         if (user == null) {
@@ -75,6 +67,14 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
             assert receiveBundle != null;
             user = receiveBundle.getParcelable("USER_PROFILE");
         }
+
+        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user);
+
+        friendsListView.setAdapter(friendsArrayAdapter);
+
+        requestButton.setOnClickListener(this);
+
+        search = mView.findViewById(R.id.search_friends_edittext);
 
         FirebaseHelper helper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -126,14 +126,14 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                             searchFriendsArray.add(user);
                         }
                     }
-                    requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray);
+                    requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user);
                     friendsListView.setAdapter(requestArrayAdapter);
                 }
 
                 //Else, if no name is searched, set adapter back to user friendsArray
                 else {
                     toggleControls(true);
-                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends);
+                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user);
                     friendsListView.setAdapter(friendsArrayAdapter);
                 }
             }

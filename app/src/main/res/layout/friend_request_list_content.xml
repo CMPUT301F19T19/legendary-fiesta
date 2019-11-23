@@ -23,16 +23,15 @@
             android:maxLength="@integer/max_name_length"
             tools:ignore="RtlCompat"/>
     <Button
-            android:id="@+id/done_button"
+            android:id="@+id/follow_button"
             style="@style/WhiteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
-            android:background="@color/transparent_background"
             android:text="Follow"
             android:textAllCaps="false"
-            android:textColor="@drawable/button_pressed"/>
+            android:textColor="@drawable/button_pressed" android:background="@android:color/transparent"/>
 
 </LinearLayout>
