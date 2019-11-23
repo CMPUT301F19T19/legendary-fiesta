@@ -170,6 +170,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
      */
     public void AddMoodEvent(MoodEvent newMoodEvent){
         moodDataList.add(newMoodEvent);
+        assert moodArrayAdapter != null;
         moodArrayAdapter.notifyDataSetChanged();
     }
 
