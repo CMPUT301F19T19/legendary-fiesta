@@ -1,7 +1,6 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -34,7 +33,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,10 +45,17 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    // Map defaults
     private boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 177;
     private static final int DEFAULT_ZOOM = 15;
     private static final LatLng DEFAULT_LOCATION = new LatLng(53.523,-113.527); // near UofA
+
+    // Marker values
+    private static final int MARKER_HEIGHT = 150;
+    private static final int MARKER_WIDTH = 150;
+
+    // Geolocation
     private GoogleMap googleMap = null;
     private Location mLastKnownLocation = null;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -121,7 +126,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) { // If request is cancelled, the result arrays are empty.
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
@@ -203,8 +209,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     // Move camera to the first MoodEvent in the list
                     if (!marked) {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                new LatLng(moodEvent.getLocation().latitude, moodEvent.getLocation().longitude)
-                                , DEFAULT_ZOOM));
+                                new LatLng(moodEvent.getLocation().latitude,
+                                        moodEvent.getLocation().longitude), DEFAULT_ZOOM));
                         marked = true;
                     }
 
@@ -213,7 +219,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
                                     + "\nTime: " + timeFormat.format(moodEvent.getDate()))
                             .snippet("Description: "  + moodEvent.getDescription()
-                                    + "\n Social Condition: "
+                                    + "\nSocial Condition: "
                                     + getSelectedSocialCondition(moodEvent.getCondition()))
                             .icon(bitmapDescriptor(getApplicationContext(), resource,
                                     getEmotionColor(moodEvent.getMoodType()))));
@@ -287,7 +293,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     // TODO: TEST
     private String getSelectedSocialCondition(@Nullable Integer socialCondition) {
         if (socialCondition == null) {
-            return "NONE";
+            return "None";
         }
         switch (socialCondition) {
             case MoodEvent.SocialCondition.SINGLE:
@@ -299,7 +305,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case MoodEvent.SocialCondition.CROWD:
                 return "Crowd";
             default:
-                return "NONE";
+                return "None";
         }
     }
 
@@ -315,25 +321,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * Returns the definition of a bitmap image (map marker)
      */
     private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
-        // Marker size (dp)
-        int height = 150, width = 150;
-
         // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
-        drawable.setBounds(0, 0, width, height);
+        drawable.setBounds(0, 0, MARKER_WIDTH, MARKER_HEIGHT);
 
         // Circle shape with colors according to mood type
         ShapeDrawable circle = new ShapeDrawable(new OvalShape());
-        circle.setIntrinsicHeight(height);
-        circle.setIntrinsicWidth(width);
+        circle.setIntrinsicHeight(MARKER_HEIGHT);
+        circle.setIntrinsicWidth(MARKER_WIDTH);
         circle.getPaint().setColor(ContextCompat.getColor(context, colorID));
-        circle.setBounds(new Rect(0, 0, height, width));
+        circle.setBounds(new Rect(0, 0, MARKER_WIDTH, MARKER_HEIGHT));
 
         // Layered image (circle, mood icon)
         LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {circle, drawable});
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(MARKER_WIDTH, MARKER_HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-
         finalDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
