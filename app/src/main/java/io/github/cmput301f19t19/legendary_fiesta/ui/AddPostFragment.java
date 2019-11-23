@@ -314,15 +314,12 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // Create string ArrayAdapter that will be used for filterSpinner
         ArrayAdapter<String> spinnerAdapter = new SocialArrayAdapter(mActivity,
                 R.layout.spinner_item, spinnerObject);
-        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown);
+        socialSpinner.setEnabled(false);
         socialSpinner.setAdapter(spinnerAdapter);
 
         // Set default selection to None
         int defaultIndex = conditionsArray.indexOf(getResources().getString(R.string.spinner_empty));
         socialSpinner.setSelection(defaultIndex);
-
-        // Assign filter selected listener
-        socialSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
     /**
@@ -460,6 +457,8 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         dateET.setText("");
         timeET.setText("");
         descET.setText("");
+        locET.setText("");
+
         emotionRadioGroup.clearCheck();
 
         if(navController != null)
