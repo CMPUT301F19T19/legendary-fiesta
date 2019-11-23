@@ -196,7 +196,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
         // Set camera and markers
-        if (dataList.size() != 0) {
+        if (dataList != null && dataList.size() != 0) {
             // Set Markers
             boolean marked = false;
             for (MoodEvent moodEvent : dataList) {
