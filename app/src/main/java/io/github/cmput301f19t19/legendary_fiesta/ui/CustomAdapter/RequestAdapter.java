@@ -12,21 +12,33 @@ import androidx.annotation.NonNull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import org.jetbrains.annotations.NotNull;
 
-public class RequestAdapter extends ArrayAdapter<User> {
+public class RequestAdapter extends ArrayAdapter<FriendRequest> {
 
     Context context;
     int resource;
-    ArrayList<User> dataList;
+    ArrayList<FriendRequest> dataList;
+    ArrayList<User> users;
 
-    public RequestAdapter(@NonNull Context context, int resource, @NonNull ArrayList<User> objects) {
+    public RequestAdapter(@NonNull Context context, int resource, @NonNull ArrayList<FriendRequest> objects, ArrayList<User> users) {
         super(context, resource, objects);
         this.resource = resource;
         this.context = context;
+        this.users = users;
         dataList = objects;
+    }
+
+    private String UIDToName(String UID) {
+        for (User user : users) {
+            if (user.getUid().equals(UID)) {
+                return user.getUsername();
+            }
+        }
+        return null;
     }
 
     @NotNull
@@ -39,7 +51,8 @@ public class RequestAdapter extends ArrayAdapter<User> {
         }
 
         TextView nameView = view.findViewById(R.id.name);
-        nameView.setText(dataList.get(position).getUsername());
+        String uid = dataList.get(position).getFrom();
+        nameView.setText(UIDToName(uid));
 
         return view;
     }

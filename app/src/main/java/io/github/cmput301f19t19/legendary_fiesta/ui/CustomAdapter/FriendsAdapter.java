@@ -12,14 +12,15 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 
-public class FriendsAdapter extends ArrayAdapter<String> {
+public class FriendsAdapter extends ArrayAdapter<User> {
 
-    ArrayList<String> dataList;
+    ArrayList<User> dataList;
     Context context;
     int resource;
 
-    public FriendsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<String> objects) {
+    public FriendsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<User> objects) {
         super(context, resource, objects);
         dataList = objects;
         this.context = context;
@@ -35,7 +36,7 @@ public class FriendsAdapter extends ArrayAdapter<String> {
         }
 
         TextView nameView = view.findViewById(R.id.name);
-        nameView.setText(dataList.get(position));
+        nameView.setText(dataList.get(position).getUsername());
 
         return view;
     }
