@@ -61,19 +61,18 @@ public class FirebaseHelper {
     }
 
     /**
-     * check if there is already a friend request concerning the two users in either direction
+     * check if there is already a friend request concerning the two users
      *
-     * @param oneUID User A's UID
-     * @param anotherUID User B's UID
+     * @param fromUID
+     * @param toUID
      * @param callback
      */
-    public void checkRequestExists(String oneUID, String anotherUID, final FirebaseCallback<Boolean> callback) {
-        String[] UIDs = {oneUID, anotherUID};
-        if (oneUID.equals(anotherUID)) {
+    public void checkRequestExists(String fromUID, String toUID, final FirebaseCallback<Boolean> callback) {
+        if (fromUID.equals(toUID)) {
             callback.onFailure(new Exception("Cannot send yourself friend requests"));
             return;
         }
-        db.collection("requests").whereIn("from", Arrays.asList(UIDs)).whereIn("to", Arrays.asList(UIDs))
+        db.collection("requests").whereEqualTo("from",fromUID).whereEqualTo("to", toUID)
             .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> callback.onSuccess(!queryDocumentSnapshots.isEmpty()))
                 .addOnFailureListener(callback::onFailure);
@@ -140,7 +139,10 @@ public class FirebaseHelper {
                     db.collection("requests").document(request.getId()).update("status", true)
                         .addOnSuccessListener(aVoid -> {
                             toUser.acceptFollowRequest(fromUID);
-                            db.collection("users").document(toUser.getUid()).set(toUser);
+                            db.collection("users").document(toUser.getUid())
+                                    .update("followedBy", toUser.getFollowedBy())
+                                    .addOnSuccessListener(callback::onSuccess)
+                                    .addOnFailureListener(callback::onFailure);
                         })
                         .addOnFailureListener(callback::onFailure);
                 })
@@ -168,7 +170,7 @@ public class FirebaseHelper {
                             writeBatch.delete(reference);
                         }
                     }).addOnSuccessListener(Void -> db.collection("users").document(myUser.getUid())
-                            .set(myUser)
+                            .update("following", myUser.getFollowing())
                             .addOnSuccessListener(callback::onSuccess) // return with success
                             .addOnFailureListener(callback::onFailure));
                 })
@@ -197,9 +199,9 @@ public class FirebaseHelper {
     }
 
     /**
-     * add an user to the database
+     * add an user to the database, can also be an update action
      *
-     * @param user     user to be added
+     * @param user     user to be added or updated
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
     public void addUser(User user, final FirebaseCallback<DocumentReference> callback) {

@@ -53,7 +53,7 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
         backButton.setOnClickListener(this);
 
-        requestAdapter = new RequestAdapter(this, R.layout.request_list_content, requestDataList, users);
+        requestAdapter = new RequestAdapter(this, R.layout.request_list_content, requestDataList, users, user);
         requestList.setAdapter(requestAdapter);
 
         //hide action bar
