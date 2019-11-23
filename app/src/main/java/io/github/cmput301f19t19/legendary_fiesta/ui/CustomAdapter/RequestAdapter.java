@@ -13,22 +13,25 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
+import org.jetbrains.annotations.NotNull;
 
-public class RequestAdapter extends ArrayAdapter<String> {
+public class RequestAdapter extends ArrayAdapter<User> {
 
     Context context;
     int resource;
-    ArrayList<String> dataList;
+    ArrayList<User> dataList;
 
-    public RequestAdapter(@NonNull Context context, int resource, @NonNull ArrayList<String> objects) {
+    public RequestAdapter(@NonNull Context context, int resource, @NonNull ArrayList<User> objects) {
         super(context, resource, objects);
         this.resource = resource;
         this.context = context;
         dataList = objects;
     }
 
+    @NotNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, @NotNull ViewGroup parent){
         View view = convertView;
 
         if(view == null){
@@ -36,7 +39,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
         }
 
         TextView nameView = view.findViewById(R.id.name);
-        nameView.setText(dataList.get(position));
+        nameView.setText(dataList.get(position).getUsername());
 
         return view;
     }

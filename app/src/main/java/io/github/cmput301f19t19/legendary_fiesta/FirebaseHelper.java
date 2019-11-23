@@ -3,6 +3,7 @@ package io.github.cmput301f19t19.legendary_fiesta;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -15,6 +16,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A helper class for Firebase operations
@@ -61,6 +63,85 @@ public class FirebaseHelper {
     }
 
     /**
+     * check if there is already a friend request concerning the two users in either direction
+     *
+     * @param oneUID User A's UID
+     * @param anotherUID User B's UID
+     * @param callback
+     */
+    public void checkRequestExists(String oneUID, String anotherUID, final FirebaseCallback<Boolean> callback) {
+        String[] UIDs = {oneUID, anotherUID};
+        if (oneUID.equals(anotherUID)) {
+            callback.onFailure(new Exception("Cannot send yourself friend requests"));
+            return;
+        }
+        db.collection("requests").whereIn("from", Arrays.asList(UIDs)).whereIn("to", Arrays.asList(UIDs))
+            .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> callback.onSuccess(!queryDocumentSnapshots.isEmpty()))
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * add new friend request to the database
+     *
+     * @param friendRequest friend request to be added
+     * @param callback
+     */
+    public void sendFriendRequest(FriendRequest friendRequest, final FirebaseCallback<Void> callback) {
+        db.collection("requests").document().set(friendRequest)
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * flip the friend request (either approve or deny)
+     *
+     * @param fromUID
+     * @param toUID
+     * @param approve
+     */
+    public void flipFriendRequest(String fromUID, String toUID, boolean approve, final FirebaseCallback<Void> callback) {
+        db.collection("requests").whereEqualTo("from", fromUID).whereEqualTo("to", toUID).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<DocumentSnapshot> documentSnapshots = queryDocumentSnapshots.getDocuments();
+                    DocumentSnapshot request;
+                    // there should be only one request for each fromUID <-> toUID
+                    if (documentSnapshots.size() != 1) {
+                        callback.onFailure(new Exception("Unexpected number of requests: "));
+                        return;
+                    }
+                    request = documentSnapshots.get(0);
+                    // request shouldn't be null
+                    assert request != null;
+                    if (!approve) {
+                        // if it's reject, we then remove the request
+                        db.collection("requests").document(request.getId()).delete()
+                                .addOnFailureListener(callback::onFailure)
+                                .addOnSuccessListener(callback::onSuccess);
+                        return;
+                    }
+                    // approve: update the status to true
+                    // TODO: add the followed user
+                    db.collection("requests").document(request.getId()).update("status", true)
+                        .addOnSuccessListener(aVoid -> db.collection("users").document(toUID))
+                        .addOnFailureListener(callback::onFailure);
+                })
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    public void finishFriendRequest(String myUID, final FirebaseCallback<Void> callback) {
+        // TODO:
+    }
+
+
+    public void getAllUsers(final FirebaseCallback<QuerySnapshot> callback) {
+        db.collection("users").get()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
+    }
+
+
+    /**
      * @param uid      UID generated and tracked by Firebase
      * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
@@ -97,7 +178,7 @@ public class FirebaseHelper {
      * add a mood event to the database
      *
      * @param moodEvent MoodEvent to be added
-     * @param photo photo to be attached
+     * @param photo     photo to be attached
      * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void addMoodEvent(MoodEvent moodEvent, @Nullable byte[] photo, final FirebaseCallback<Void> callback) {
@@ -129,8 +210,8 @@ public class FirebaseHelper {
     /**
      * get mood events by a user
      *
-     * @param uid User's UserID
-     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     * @param uid      User's UserID
+     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
@@ -159,21 +240,21 @@ public class FirebaseHelper {
     /**
      * delete mood event by ID
      *
-     * @param moodId MoodEvent ID
+     * @param moodId   MoodEvent ID
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void deleteMoodEventById(String moodId, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodId)
-            .delete()
-            .addOnSuccessListener(callback::onSuccess)
-            .addOnFailureListener(callback::onFailure);
+                .delete()
+                .addOnSuccessListener(callback::onSuccess)
+                .addOnFailureListener(callback::onFailure);
     }
 
     /**
      * upload files to the firestore storage
      *
      * @param filename filename on the firestore storage
-     * @param data data to be uploaded
+     * @param data     data to be uploaded
      * @param callback callback of type FirebaseCallback<Uri>, called when upload and public sharing link creation
      *                 has finished, returns public URL to the uploaded file
      */

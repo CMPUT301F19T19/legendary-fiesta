@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter;
 
 public class FollowerRequestActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,7 +25,7 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     private ImageButton backButton;
     private ListView requestList;
 
-    private ArrayList<String> requestDataList;
+    private ArrayList<User> requestDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,8 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private ArrayList<String> getRequest(){
-        ArrayList<String> list = new ArrayList<>();
+    private ArrayList<User> getRequest(){
+        ArrayList<User> list = new ArrayList<>();
 
         return list;
     }
