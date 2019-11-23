@@ -196,19 +196,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Set camera and markers
         if (dataList.size() != 0) {
-            // Set default camera to position of first MoodEvent
-            MoodEvent firstEvent = dataList.get(0);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(firstEvent.getLocation().latitude, firstEvent.getLocation().longitude)
-                    , DEFAULT_ZOOM));
-
             // Set Markers
+            boolean marked = false;
             for (MoodEvent moodEvent : dataList) {
                 // Skip MoodEvents that has no location
                 if (moodEvent.getLocation() != null) {
                     LatLng location = new LatLng(moodEvent.getLocation().latitude,
                             moodEvent.getLocation().longitude);
                     int resource = getEmotionRadioId(moodEvent.getMoodType());
+
+                    // Move camera to the first MoodEvent in the list
+                    if (!marked) {
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(moodEvent.getLocation().latitude, moodEvent.getLocation().longitude)
+                                , DEFAULT_ZOOM));
+                        marked = true;
+                    }
 
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
@@ -246,9 +249,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case Mood.SCARED:
                 return R.drawable.icon_scared;
             case Mood.SURPRISED:
-                return R.id.icon_surprised;
+                return R.drawable.icon_surprised;
             default:
-                return R.id.icon_neutral;
+                return R.drawable.icon_neutral;
         }
     }
 
