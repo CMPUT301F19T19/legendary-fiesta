@@ -58,6 +58,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
     public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
     public static final String FRIENDS_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
+    private static final int MARKER_MODE = 72;
 
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -109,7 +110,10 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                if (moodFilter.getSelectedItemPosition() == Mood.MoodTypes.size()) { // None selected
+                intent.putExtra("FRIEND_MODE", MARKER_MODE);
+                intent.putStringArrayListExtra("FRIENDS", createNamesList(moodDataList));
+                if (moodFilter.getSelectedItemPosition() == Mood.MoodTypes.size()) {
+                    // No filter selected
                     intent.putParcelableArrayListExtra("EVENTS", moodDataList);
                 } else {
                     intent.putParcelableArrayListExtra("EVENTS", filteredMoodList);
@@ -124,7 +128,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // get reference to associated activity
+        // Get reference to associated activity
         mActivity = (Activity) context;
     }
 
@@ -263,5 +267,13 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> adapterView) {
         moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList, friendUsernames);
         moodList.setAdapter(moodArrayAdapter);
+    }
+
+    private ArrayList<String> createNamesList(ArrayList<MoodEvent> dataList) {
+        ArrayList<String> names = new ArrayList<String>();
+        for (MoodEvent moodEvent : dataList) {
+            names.add(friendUsernames.get(moodEvent.getUser()));
+        }
+        return names;
     }
 }

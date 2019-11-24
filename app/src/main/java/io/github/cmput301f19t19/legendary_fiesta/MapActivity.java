@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -54,6 +55,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     // Marker values
     private static final int MARKER_HEIGHT = 150;
     private static final int MARKER_WIDTH = 150;
+    private static final int MARKER_MODE = 72;
+    private static final int MARKER_FONT = 30;
 
     // Geolocation
     private GoogleMap googleMap = null;
@@ -62,6 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // MoodEvents
     private ArrayList<MoodEvent> dataList;
+    private ArrayList<String> nameList;
 
     // Date Format
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
@@ -83,6 +87,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         dataList  = new ArrayList<>();
         // Get MoodEvents from fragment
         dataList = getIntent().getParcelableArrayListExtra("EVENTS");
+
+        if (getIntent().getIntExtra("FRIEND_MODE", 0) == MARKER_MODE) {
+            nameList = new ArrayList<>();
+            nameList = getIntent().getStringArrayListExtra("FRIENDS");
+        }
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -199,6 +208,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (dataList != null && dataList.size() != 0) {
             // Set Markers
             boolean marked = false;
+            int index = 0;
             for (MoodEvent moodEvent : dataList) {
                 // Skip MoodEvents that has no location
                 if (moodEvent.getLocation() != null) {
@@ -214,6 +224,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         marked = true;
                     }
 
+                    String name = "";
+                    if (nameList != null) {
+                        name = nameList.get(index);
+                    }
+
                     // Add markers
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
@@ -222,8 +237,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     + "\nSocial Condition: "
                                     + getSelectedSocialCondition(moodEvent.getCondition()))
                             .icon(bitmapDescriptor(getApplicationContext(), resource,
-                                    getEmotionColor(moodEvent.getMoodType()))));
+                                    getEmotionColor(moodEvent.getMoodType()), name)));
                 }
+                index++;
             }
         }
         getLocationPermission();
@@ -320,7 +336,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * @return
      * Returns the definition of a bitmap image (map marker)
      */
-    private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
+    private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID, String username) {
         // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
         drawable.setBounds(0, 0, MARKER_WIDTH, MARKER_HEIGHT);
@@ -332,11 +348,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         circle.getPaint().setColor(ContextCompat.getColor(context, colorID));
         circle.setBounds(new Rect(0, 0, MARKER_WIDTH, MARKER_HEIGHT));
 
+        // Username
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(MARKER_FONT);
+        paint.setShadowLayer(10, 0, 0, Color.LTGRAY);
+
+
         // Layered image (circle, mood icon)
         LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {circle, drawable});
-        Bitmap bitmap = Bitmap.createBitmap(MARKER_WIDTH, MARKER_HEIGHT, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(MARKER_WIDTH, MARKER_HEIGHT + 50, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         finalDrawable.draw(canvas);
+
+        if (nameList != null && nameList.size() == dataList.size()) {
+            canvas.drawText(username, 0, MARKER_HEIGHT + 20, paint);
+        }
+
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
