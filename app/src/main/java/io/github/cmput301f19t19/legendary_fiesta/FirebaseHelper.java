@@ -141,7 +141,7 @@ public class FirebaseHelper {
                             .addOnSuccessListener(aVoid -> {
                                 toUser.acceptFollowRequest(fromUID);
                                 db.collection("users").document(toUser.getUid())
-                                        .update("followedBy", toUser.getFollowedBy())
+                                        .update("followedBy", FieldValue.arrayUnion(fromUID))
                                         .addOnSuccessListener(callback::onSuccess)
                                         .addOnFailureListener(callback::onFailure);
                             })
@@ -173,7 +173,7 @@ public class FirebaseHelper {
                             writeBatch.delete(reference);
                         }
                     }).addOnSuccessListener(Void -> db.collection("users").document(myUser.getUid())
-                            .update("following", myUser.getFollowing())
+                            .update("following", FieldValue.arrayUnion(myUser.getFollowing().toArray()))
                             .addOnSuccessListener(callback::onSuccess) // return with success
                             .addOnFailureListener(callback::onFailure));
                 })
