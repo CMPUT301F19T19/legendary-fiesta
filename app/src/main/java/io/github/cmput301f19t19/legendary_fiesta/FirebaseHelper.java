@@ -1,6 +1,8 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.firebase.FirebaseApp;
@@ -174,6 +176,24 @@ public class FirebaseHelper {
                             .update("following", myUser.getFollowing())
                             .addOnSuccessListener(callback::onSuccess) // return with success
                             .addOnFailureListener(callback::onFailure));
+                })
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * unfollows the toUser by the myUser
+     * @param fromUID
+     * @param toUID
+     * @param callback
+     */
+    public void unfollowUser(String fromUID, String toUID, final FirebaseCallback<Void> callback){
+        db.collection("users").document(fromUID)
+                .update("following",  FieldValue.arrayRemove(toUID))
+                .addOnSuccessListener(Void -> {
+                    db.collection("users").document(toUID)
+                            .update("followedBy", FieldValue.arrayRemove(fromUID))
+                            .addOnSuccessListener(callback::onSuccess)
+                            .addOnFailureListener(callback::onFailure);
                 })
                 .addOnFailureListener(callback::onFailure);
     }

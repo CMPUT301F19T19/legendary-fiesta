@@ -47,6 +47,8 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
     private ImageButton requestButton;
 
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -78,9 +80,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
         search = mView.findViewById(R.id.search_friends_edittext);
 
-        FirebaseHelper helper = new FirebaseHelper(FirebaseApp.getInstance());
-
-        helper.getAllUsers(new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
+        firebaseHelper.getAllUsers(new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot document) {
                 users = new ArrayList<>();
@@ -131,7 +131,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                     requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user, new FriendsAdapter.AdapterCallback() {
                         @Override
                         public void onDelete(int position) {
-                            this.onDelete(position);
+                            // no-op because no deleting searches
                         }
                     });
                     friendsListView.setAdapter(requestArrayAdapter);
@@ -155,7 +155,20 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void onDeleteCallback(int position) {
-        //TODO: Actually delete
+        String toUID = friends.get(position).getUid();
+        firebaseHelper.unfollowUser(user.getUid(), toUID, new FirebaseHelper.FirebaseCallback<Void>() {
+            @Override
+            public void onSuccess(Void document) {
+                friends.remove(position);
+                user.removeFollowing(toUID);
+                friendsArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(mActivity, "Could not unfollow user", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
