@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.*;
 import com.google.firebase.storage.FirebaseStorage;
@@ -141,7 +142,7 @@ public class FirebaseHelper {
                             .addOnSuccessListener(aVoid -> {
                                 toUser.acceptFollowRequest(fromUID);
                                 db.collection("users").document(toUser.getUid())
-                                        .update("followedBy", toUser.getFollowedBy())
+                                        .update("followedBy", FieldValue.arrayUnion(fromUID))
                                         .addOnSuccessListener(callback::onSuccess)
                                         .addOnFailureListener(callback::onFailure);
                             })
@@ -164,8 +165,8 @@ public class FirebaseHelper {
                         FriendRequest request = documentSnapshot.toObject(FriendRequest.class);
                         if (request != null && request.getStatus()) {
                             myUser.finishFollowing(request.getTo());
+                            pendingDeletion.add(documentSnapshot.getReference());
                         }
-                        pendingDeletion.add(documentSnapshot.getReference());
                     }
                     db.runBatch(writeBatch -> {
                         // delete all the completed requests
@@ -173,7 +174,7 @@ public class FirebaseHelper {
                             writeBatch.delete(reference);
                         }
                     }).addOnSuccessListener(Void -> db.collection("users").document(myUser.getUid())
-                            .update("following", myUser.getFollowing())
+                            .update("following", FieldValue.arrayUnion(myUser.getFollowing().toArray()))
                             .addOnSuccessListener(callback::onSuccess) // return with success
                             .addOnFailureListener(callback::onFailure));
                 })
@@ -290,12 +291,15 @@ public class FirebaseHelper {
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
-        db.collection("moodEvents")
-                .whereIn("user", uids)
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(callback::onSuccess)
-                .addOnFailureListener(callback::onFailure);
+        for (String uid: uids) {
+            db.collection("moodEvents")
+                    .whereEqualTo("user", uid)
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener(callback::onSuccess)
+                    .addOnFailureListener(callback::onFailure);
+        }
     }
 
     /**
