@@ -198,6 +198,7 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
                     // no-op because no deleting searches
                 }
             });
+            //friendsListView.setPadding();
             friendsListView.setAdapter(requestArrayAdapter);
         }
 
