@@ -23,14 +23,20 @@ public class FriendsAdapter extends ArrayAdapter<User> {
     int resource;
     FirebaseHelper helper;
     User user;
+    AdapterCallback onDeleteCallback;
 
-    public FriendsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<User> objects, User user) {
+    public interface AdapterCallback{
+        void onDelete(int position);
+    }
+
+    public FriendsAdapter(@NonNull Context context, int resource, @NonNull ArrayList<User> objects, User user, AdapterCallback onDeleteCallback) {
         super(context, resource, objects);
         dataList = objects;
         this.context = context;
         this.resource = resource;
         this.user = user;
         this.helper = new FirebaseHelper(FirebaseApp.getInstance());
+        this.onDeleteCallback = onDeleteCallback;
     }
 
     @Override
@@ -77,8 +83,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
             ImageView deleteButton = view.findViewById(R.id.delete_event);
             View finalView = view;
             deleteButton.setOnClickListener(view1 -> {
-                finalView.setVisibility(View.GONE);
-                // TODO: actually delete the friend
+                onDeleteCallback.onDelete(position);
             });
         }
 

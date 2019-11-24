@@ -16,16 +16,13 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
-import androidx.transition.Visibility;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
-import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
-import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter;
 
 public class FriendsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -68,7 +65,12 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
             user = receiveBundle.getParcelable("USER_PROFILE");
         }
 
-        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user);
+        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
+            @Override
+            public void onDelete(int position) {
+                onDeleteCallback(position);
+            }
+        });
 
         friendsListView.setAdapter(friendsArrayAdapter);
 
@@ -126,20 +128,34 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                             searchFriendsArray.add(user);
                         }
                     }
-                    requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user);
+                    requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user, new FriendsAdapter.AdapterCallback() {
+                        @Override
+                        public void onDelete(int position) {
+                            this.onDelete(position);
+                        }
+                    });
                     friendsListView.setAdapter(requestArrayAdapter);
                 }
 
                 //Else, if no name is searched, set adapter back to user friendsArray
                 else {
                     toggleControls(true);
-                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user);
+                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
+                        @Override
+                        public void onDelete(int position) {
+                            this.onDelete(position);
+                        }
+                    });
                     friendsListView.setAdapter(friendsArrayAdapter);
                 }
             }
         });
 
         return mView;
+    }
+
+    private void onDeleteCallback(int position) {
+        //TODO: Actually delete
     }
 
     @Override
