@@ -1,5 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+import android.util.Log;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.google.firebase.FirebaseApp;
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter;
 
 public class FollowerRequestActivity extends AppCompatActivity implements View.OnClickListener {
@@ -23,21 +30,31 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     //UI Elements
     private ImageButton backButton;
     private ListView requestList;
+    private User user;
+    private ArrayList<User> users; // all the users
 
-    private ArrayList<String> requestDataList;
+    private ArrayList<FriendRequest> requestDataList;
+    private RequestAdapter requestAdapter;
+    private FirebaseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follower_request);
 
+        user = getIntent().getParcelableExtra("USER_PROFILE");
+        users = getIntent().getParcelableArrayListExtra("USERS");
+        requestDataList = new ArrayList<>();
+        helper = new FirebaseHelper(FirebaseApp.getInstance());
+        getRequest();
+
         backButton = findViewById(R.id.back_button);
         requestList = findViewById(R.id.request_list);
 
         backButton.setOnClickListener(this);
 
-        requestDataList = getRequest();
-        requestList.setAdapter(new RequestAdapter(this, R.layout.request_list_content, requestDataList));
+        requestAdapter = new RequestAdapter(this, R.layout.request_list_content, requestDataList, users, user);
+        requestList.setAdapter(requestAdapter);
 
         //hide action bar
         ActionBar actionBar = getSupportActionBar();
@@ -56,9 +73,18 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private ArrayList<String> getRequest(){
-        ArrayList<String> list = new ArrayList<>();
+    private void getRequest(){
+        helper.getPendingRequests(user.getUid(), new FirebaseHelper.FirebaseCallback<List<FriendRequest>>() {
+            @Override
+            public void onSuccess(List<FriendRequest> document) {
+                requestDataList.addAll(document);
+                requestAdapter.notifyDataSetChanged();
+            }
 
-        return list;
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FeelsLog", "onFailure: ", e);
+            }
+        });
     }
 }

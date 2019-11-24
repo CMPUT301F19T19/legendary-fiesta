@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
 
-import com.google.android.gms.maps.model.LatLng;
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 import java.lang.annotation.Retention;
@@ -85,8 +84,6 @@ public class MoodEvent implements Parcelable {
     }
 
     protected MoodEvent(Parcel in) {
-        in.setDataPosition(0);
-
         moodId = in.readString();
         moodType = in.readInt();
         user = in.readString();
