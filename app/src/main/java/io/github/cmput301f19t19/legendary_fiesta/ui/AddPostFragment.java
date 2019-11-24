@@ -56,8 +56,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-import com.google.firebase.FirebaseApp;
-
 import io.github.cmput301f19t19.legendary_fiesta.BuildConfig;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -65,7 +63,6 @@ import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SocialArrayAdapter;
-import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
 
 import static com.schibstedspain.leku.LocationPickerActivityKt.LATITUDE;
 import static com.schibstedspain.leku.LocationPickerActivityKt.LONGITUDE;
@@ -314,7 +311,6 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // Create string ArrayAdapter that will be used for filterSpinner
         ArrayAdapter<String> spinnerAdapter = new SocialArrayAdapter(mActivity,
                 R.layout.spinner_item, spinnerObject);
-        socialSpinner.setEnabled(false);
         socialSpinner.setAdapter(spinnerAdapter);
 
         // Set default selection to None
