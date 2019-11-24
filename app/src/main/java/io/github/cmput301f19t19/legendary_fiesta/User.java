@@ -153,12 +153,13 @@ public class User implements Parcelable {
     }
 
     /**
-     * Reject another users request to follow your mood events
-     *
+     * removes a freind
      * @param uid the userId of the requesting user
      */
-    public void rejectFollowRequest(String uid) {
-        // TODO
+    public void removeFollowing(String uid) {
+        if (this.following != null) {
+            this.following.remove(uid);
+        }
     }
 
     /**
