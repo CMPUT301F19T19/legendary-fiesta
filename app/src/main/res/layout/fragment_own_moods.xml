@@ -77,6 +77,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/navBar_distance"
+        android:dividerHeight="-0.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/filterSpinnerLayout"
         app:layout_constraintStart_toStartOf="@+id/filterSpinnerLayout"

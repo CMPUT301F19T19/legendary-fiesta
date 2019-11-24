@@ -78,6 +78,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         }
 
         moodDataList = new ArrayList<>();
+        moodArrayAdapter = deleteCallback(moodDataList);
 
         if(getTag() != MY_MOOD_UI_TEST_TAG){
             loadMoodData();
@@ -170,7 +171,6 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
      */
     public void AddMoodEvent(MoodEvent newMoodEvent){
         moodDataList.add(newMoodEvent);
-        assert moodArrayAdapter != null;
         moodArrayAdapter.notifyDataSetChanged();
     }
 
