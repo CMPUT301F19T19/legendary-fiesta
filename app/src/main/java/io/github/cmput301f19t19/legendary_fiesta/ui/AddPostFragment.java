@@ -500,6 +500,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             moodEvent.setMoodId(editMoodId);
         }
 
+        doneButton.setEnabled(false);
         firebaseHelper.addMoodEvent(moodEvent, moodEventImage,
                 new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
@@ -511,6 +512,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
             @Override
             public void onFailure(@NonNull Exception e) {
+                doneButton.setEnabled(true);
                 handleError("Failed to save event");
             }
         });
