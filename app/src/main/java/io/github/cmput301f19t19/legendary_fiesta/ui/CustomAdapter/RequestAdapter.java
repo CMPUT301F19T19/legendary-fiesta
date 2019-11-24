@@ -90,14 +90,15 @@ public class RequestAdapter extends ArrayAdapter<FriendRequest> {
         String uid = dataList.get(position).getFrom();
         Button accept = view.findViewById(R.id.accept_button);
         Button reject = view.findViewById(R.id.reject_button);
+        View finalView = view;
         accept.setOnClickListener(view1 -> {
             view1.setEnabled(false);
-            reject.setVisibility(View.INVISIBLE);
+            finalView.setVisibility(View.GONE);
             acceptRequest(uid);
         });
         reject.setOnClickListener(view12 -> {
             view12.setEnabled(false);
-            accept.setVisibility(View.INVISIBLE);
+            finalView.setVisibility(View.GONE);
             rejectRequest(uid);
         });
         nameView.setText(UIDToName(uid));
