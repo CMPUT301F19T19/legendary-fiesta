@@ -53,11 +53,13 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
     //Filter spinner related variables
     private Spinner moodFilter;
-    private @Mood.MoodType Integer chosenMoodType;
+    private @Mood.MoodType
+    Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
 
     public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
     public static final String FRIENDS_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
+    private static final int MARKER_MODE = 72;
 
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
@@ -69,7 +71,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
         setUpFilterSpinner();
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
-        if (user == null){
+        if (user == null) {
             Bundle receiveBundle = this.getArguments();
             assert receiveBundle != null;
             user = receiveBundle.getParcelable("USER_PROFILE");
@@ -77,7 +79,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
         friendUsernames = new HashMap<>();
         moodDataList = new ArrayList<>();
-        if (getTag() != FRIENDS_MOOD_UI_TEST_TAG){
+        if (getTag() != FRIENDS_MOOD_UI_TEST_TAG) {
             loadData();
         }
 
@@ -109,10 +111,15 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                if (moodFilter.getSelectedItemPosition() == Mood.MoodTypes.size()) { // None selected
+                intent.putExtra("FRIEND_MODE", MARKER_MODE);
+
+                if (moodFilter.getSelectedItemPosition() == Mood.MoodTypes.size()) {
+                    // No filter selected
                     intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                    intent.putStringArrayListExtra("FRIENDS", createNamesList(moodDataList));
                 } else {
                     intent.putParcelableArrayListExtra("EVENTS", filteredMoodList);
+                    intent.putStringArrayListExtra("FRIENDS", createNamesList(filteredMoodList));
                 }
                 startActivity(intent);
             }
@@ -124,7 +131,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // get reference to associated activity
+        // Get reference to associated activity
         mActivity = (Activity) context;
     }
 
@@ -171,7 +178,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     /*
      * This function is used in tests to add a mood event into the data list
      */
-    public void AddMoodEvent(MoodEvent newMoodEvent){
+    public void AddMoodEvent(MoodEvent newMoodEvent) {
         moodDataList.add(newMoodEvent);
         moodArrayAdapter.notifyDataSetChanged();
     }
@@ -216,7 +223,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
         chosenMoodType = -1;
 
         // Assign the correct value to chosenMoodType depending on what the user has selected
-        switch (i){
+        switch (i) {
             case 0: //Scared
                 chosenMoodType = Mood.SCARED;
                 break;
@@ -244,16 +251,15 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
         // If chosenMoodType is a number between 0-6, filter!
         if (chosenMoodType != -1) {
-            for(MoodEvent mood : moodDataList){
-                if(mood.getMoodType() == chosenMoodType){
+            for (MoodEvent mood : moodDataList) {
+                if (mood.getMoodType() == chosenMoodType) {
                     filteredMoodList.add(mood);
                 }
             }
             // Update adapter and listview
             moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, filteredMoodList, friendUsernames);
             moodList.setAdapter(moodArrayAdapter);
-        }
-        else {
+        } else {
             moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList, friendUsernames);
             moodList.setAdapter(moodArrayAdapter);
         }
@@ -263,5 +269,20 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> adapterView) {
         moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList, friendUsernames);
         moodList.setAdapter(moodArrayAdapter);
+    }
+
+    /**
+     * Returns an ArrayList of names that corresponds to the MoodEvents
+     * @param dataList
+     * ArrayList of MoodEvents
+     * @return
+     * Returns an ArrayList of names
+     */
+    private ArrayList<String> createNamesList(ArrayList<MoodEvent> dataList) {
+        ArrayList<String> names = new ArrayList<>();
+        for (MoodEvent moodEvent : dataList) {
+            names.add(friendUsernames.get(moodEvent.getUser()));
+        }
+        return names;
     }
 }

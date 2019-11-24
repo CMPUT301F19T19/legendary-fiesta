@@ -1,11 +1,11 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +35,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,22 +44,29 @@ import com.google.android.gms.tasks.Task;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
-import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
-
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    // Map defaults
     private boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 177;
     private static final int DEFAULT_ZOOM = 15;
-    private static final LatLng DEFAULT_LOCATION = new LatLng(53.523,-113.527); // near UofA
+    private static final LatLng DEFAULT_LOCATION = new LatLng(53.523, -113.527); // near UofA
+
+    // Marker values
+    private static final int MARKER_HEIGHT = 150;
+    private static final int MARKER_WIDTH = 150;
+    private static final int MARKER_MODE = 72;
+    private static final int MARKER_FONT = 30;
+
+    // Geolocation
     private GoogleMap googleMap = null;
     private Location mLastKnownLocation = null;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     // MoodEvents
     private ArrayList<MoodEvent> dataList;
+    private ArrayList<String> nameList;
 
     // Date Format
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
@@ -78,9 +85,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             actionBar.hide();
 
         // Get list of MoodEvents from OwnMoods or FriendsMoods Fragment
-        dataList  = new ArrayList<>();
+        dataList = new ArrayList<>();
         // Get MoodEvents from fragment
         dataList = getIntent().getParcelableArrayListExtra("EVENTS");
+
+        if (getIntent().getIntExtra("FRIEND_MODE", 0) == MARKER_MODE) {
+            nameList = new ArrayList<>();
+            nameList = getIntent().getStringArrayListExtra("FRIENDS");
+        }
 
         // Get the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -111,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -124,7 +136,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) { // If request is cancelled, the result arrays are empty.
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
@@ -189,15 +202,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        CameraPosition cameraPosition;
-
         // Default camera position
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
 
         // Set camera and markers
-        if (dataList.size() != 0) {
+        if (dataList != null && dataList.size() != 0) {
             // Set Markers
             boolean marked = false;
+            int index = 0;
             for (MoodEvent moodEvent : dataList) {
                 // Skip MoodEvents that has no location
                 if (moodEvent.getLocation() != null) {
@@ -208,20 +220,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     // Move camera to the first MoodEvent in the list
                     if (!marked) {
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                new LatLng(moodEvent.getLocation().latitude, moodEvent.getLocation().longitude)
-                                , DEFAULT_ZOOM));
+                                new LatLng(moodEvent.getLocation().latitude,
+                                        moodEvent.getLocation().longitude), DEFAULT_ZOOM));
                         marked = true;
                     }
 
+                    String name = "";
+                    if (nameList != null) {
+                        name = nameList.get(index);
+                    }
+
+                    // Add markers
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
                                     + "\nTime: " + timeFormat.format(moodEvent.getDate()))
-                            .snippet("Description: "  + moodEvent.getDescription()
-                                    + "\n Social Condition: "
+                            .snippet("Description: " + moodEvent.getDescription()
+                                    + "\nSocial Condition: "
                                     + getSelectedSocialCondition(moodEvent.getCondition()))
                             .icon(bitmapDescriptor(getApplicationContext(), resource,
-                                    getEmotionColor(moodEvent.getMoodType()))));
+                                    getEmotionColor(moodEvent.getMoodType()), name)));
                 }
+                index++;
             }
         }
         getLocationPermission();
@@ -229,10 +248,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Get the Resource ID (Image) for the respective mood types
-     * @param moodId
-     *  Mood type of the Mood Event
-     * @return
-     *  Returns the Resource ID of the respective mood type
+     *
+     * @param moodId Mood type of the Mood Event
+     * @return Returns the Resource ID of the respective mood type
      */
     private int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
@@ -250,17 +268,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.drawable.icon_scared;
             case Mood.SURPRISED:
                 return R.drawable.icon_surprised;
-            default:
-                return R.drawable.icon_neutral;
         }
+        return R.drawable.icon_neutral;
     }
 
     /**
      * Get the Color ID for the respective mood types
-     * @param moodId
-     * Mood type of the MoodEvent
-     * @return
-     * Returns the Color ID for that mood type.
+     *
+     * @param moodId Mood type of the MoodEvent
+     * @return Returns the Color ID for that mood type.
      */
     private int getEmotionColor(@Mood.MoodType int moodId) {
         switch (moodId) {
@@ -278,22 +294,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return R.color.color_scared;
             case Mood.SURPRISED:
                 return R.color.color_surprised;
-            default:
-                return R.id.icon_neutral;
         }
+        return R.color.color_neutral;
     }
 
     /**
      * Returns the selected social condition
-     * @param socialCondition
-     *  Selected social condition from the dropdown (spinner)
-     * @return
-     *  Returns an integer that corresponds to the selected social condition
+     *
+     * @param socialCondition Selected social condition from the dropdown (spinner)
+     * @return Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
     private String getSelectedSocialCondition(@Nullable Integer socialCondition) {
         if (socialCondition == null) {
-            return "NONE";
+            return "None";
         }
         switch (socialCondition) {
             case MoodEvent.SocialCondition.SINGLE:
@@ -305,42 +319,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case MoodEvent.SocialCondition.CROWD:
                 return "Crowd";
             default:
-                return "NONE";
+                return "None";
         }
     }
 
     /**
-     *
-     * @param context
-     *  Context of the application
-     * @param resID
-     *  Resource ID (referring to Image)
-     * @param colorID
-     *  Color ID
-     * @return
-     * Returns the definition of a bitmap image (map marker)
+     * @param context Context of the application
+     * @param resID   Resource ID (referring to Image)
+     * @param colorID Color ID
+     * @return Returns the definition of a bitmap image (map marker)
      */
-    private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID) {
-        // Marker size (dp)
-        int height = 150, width = 150;
-
+    private BitmapDescriptor bitmapDescriptor(Context context, int resID, int colorID, String username) {
         // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
-        drawable.setBounds(0, 0, 150, 150);
+        drawable.setBounds(0, 0, MARKER_WIDTH, MARKER_HEIGHT);
 
         // Circle shape with colors according to mood type
         ShapeDrawable circle = new ShapeDrawable(new OvalShape());
-        circle.setIntrinsicHeight(height);
-        circle.setIntrinsicWidth(width);
+        circle.setIntrinsicHeight(MARKER_HEIGHT);
+        circle.setIntrinsicWidth(MARKER_WIDTH);
         circle.getPaint().setColor(ContextCompat.getColor(context, colorID));
-        circle.setBounds(new Rect(0, 0, height, width));
+        circle.setBounds(new Rect(0, 0, MARKER_WIDTH, MARKER_HEIGHT));
+
+        // Username
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(MARKER_FONT);
+        paint.setShadowLayer(10, 0, 0, Color.LTGRAY);
+
 
         // Layered image (circle, mood icon)
-        LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {circle, drawable});
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        LayerDrawable finalDrawable = new LayerDrawable(new Drawable[]{circle, drawable});
+        Bitmap bitmap = Bitmap.createBitmap(MARKER_WIDTH, MARKER_HEIGHT + 50, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-
         finalDrawable.draw(canvas);
+
+        if (nameList != null && nameList.size() == dataList.size()) {
+            canvas.drawText(username, 0, MARKER_HEIGHT + 20, paint);
+        }
+
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
