@@ -81,10 +81,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
         if (resource == R.layout.friend_list_content) {
             ImageView deleteButton = view.findViewById(R.id.delete_event);
-            View finalView = view;
-            deleteButton.setOnClickListener(view1 -> {
-                onDeleteCallback.onDelete(position);
-            });
+            deleteButton.setOnClickListener(view1 -> onDeleteCallback.onDelete(position));
         }
 
         TextView nameView = view.findViewById(R.id.name);

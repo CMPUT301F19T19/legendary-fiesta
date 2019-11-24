@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -159,7 +160,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
                 for (QueryDocumentSnapshot document : documentSnapshots) {
                     moodDataList.add(document.toObject(MoodEvent.class));
                 }
-                moodDataList.sort(Comparator.comparing(MoodEvent::getDate));
+                moodDataList.sort(Comparator.comparing(MoodEvent::getDate, Collections.reverseOrder()));
                 moodArrayAdapter.notifyDataSetChanged();
             }
 

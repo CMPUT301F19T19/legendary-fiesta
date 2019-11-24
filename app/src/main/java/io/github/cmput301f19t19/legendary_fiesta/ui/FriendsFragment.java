@@ -77,8 +77,7 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
         assert user != null;
         firebaseHelper.finishFriendRequest(user, new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
-            public void onSuccess(Void document) {
-            }
+            public void onSuccess(Void document) {}
 
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -87,12 +86,7 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
             }
         });
 
-        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
-            @Override
-            public void onDelete(int position) {
-                onDeleteCallback(position);
-            }
-        });
+        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, this::onDeleteCallback);
 
         friendsListView.setAdapter(friendsArrayAdapter);
 

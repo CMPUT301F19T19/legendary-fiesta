@@ -165,8 +165,8 @@ public class FirebaseHelper {
                         FriendRequest request = documentSnapshot.toObject(FriendRequest.class);
                         if (request != null && request.getStatus()) {
                             myUser.finishFollowing(request.getTo());
+                            pendingDeletion.add(documentSnapshot.getReference());
                         }
-                        pendingDeletion.add(documentSnapshot.getReference());
                     }
                     db.runBatch(writeBatch -> {
                         // delete all the completed requests
