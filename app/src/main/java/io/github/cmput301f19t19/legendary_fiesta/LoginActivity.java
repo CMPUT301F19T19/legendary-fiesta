@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * show/hide the sign up form
+     * Show/hide the sign up form
      *
      * @param show whether to show the sign up form
      */
@@ -141,6 +141,9 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseHelper.addUser(user, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference document) {
+                            name.setText("");
+                            birthDate.setText("");
+                            bio.setText("");
                             showSignup(false);
                             launchMainActivity(user);
                         }
