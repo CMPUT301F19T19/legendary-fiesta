@@ -59,6 +59,7 @@
             android:clickable="true"
             android:ems="10"
             android:gravity="center"
+            android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="15dp" />
@@ -71,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Friends List"
+        android:text="@string/following_list"
         app:layout_constraintBottom_toTopOf="@+id/friend_list"
         app:layout_constraintStart_toStartOf="@+id/follow_request_button"
         app:layout_constraintTop_toBottomOf="@+id/follow_request_button" />

@@ -86,10 +86,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         doneButton.setOnClickListener(this);
 
         userEditText.setText(user.getUsername());
-        bioEditText.setText(user.getDescription());
+        if (user.getDescription() != null) {
+            bioEditText.setText(user.getDescription());
+        }
 
         Format f = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
-        birthDateEditText.setText(f.format(user.getBirthDate()));
+        try {
+            birthDateEditText.setText(f.format(user.getBirthDate()));
+        } catch (Exception e) {
+            birthDateEditText.setText("");
+        }
 
         try {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
@@ -142,8 +148,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 try {
                     date = format.parse(birthDateEditText.getText().toString());
                 } catch (Exception e) {
-                    Log.e("FeelsLog", "onFailure: ");
-                    return;
+                    date = new Date();
                 }
                 args.putInt(DatePickerFragment.DATE_TAG, date.getDate());
                 args.putInt(DatePickerFragment.MONTH_TAG, date.getMonth());

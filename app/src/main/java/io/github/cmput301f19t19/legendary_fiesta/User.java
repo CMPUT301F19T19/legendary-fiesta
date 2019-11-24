@@ -3,6 +3,9 @@ package io.github.cmput301f19t19.legendary_fiesta;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,9 +14,13 @@ import java.util.Date;
  * Username is unique to each user and not changeable
  */
 public class User implements Parcelable {
+    @NotNull
     private String username;
+    @Nullable
     private Date birthDate;
+    @Nullable
     private String description;
+    @NotNull
     private String uid;
 
     private ArrayList<String> following;
