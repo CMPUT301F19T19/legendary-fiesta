@@ -19,11 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/searchInputLayout"
+        android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/followView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
@@ -32,28 +33,28 @@
 
 
         <TextView
-            android:id="@+id/searchView"
+            android:id="@+id/usernameView"
             style="@style/InputButtonText"
-            android:textSize="20dp"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:background="@drawable/input_button_white"
             android:gravity="center"
-            android:text="@string/search_input_text" />
+            android:text="@string/search_input_text"
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/search_friends_edittext"
             style="@style/WhiteText"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_alignTop="@+id/searchView"
+            android:layout_alignTop="@+id/usernameView"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="false"
             android:layout_marginStart="83dp"
             android:layout_marginLeft="-2dp"
             android:layout_marginTop="0dp"
-            android:layout_toRightOf="@+id/searchView"
+            android:layout_toRightOf="@+id/usernameView"
             android:background="@drawable/button_right_long"
             android:clickable="true"
             android:ems="10"
@@ -70,7 +71,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="Friends List"
         app:layout_constraintBottom_toTopOf="@+id/friend_list"
         app:layout_constraintStart_toStartOf="@+id/follow_request_button"
@@ -80,6 +80,7 @@
         android:id="@+id/friend_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/navBar_distance"
         android:dividerHeight="-0.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -107,11 +108,11 @@
         style="@style/WhiteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Follow Requests"
         app:layout_constraintBottom_toTopOf="@+id/follow_request_button"
-        app:layout_constraintStart_toStartOf="@+id/searchInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/searchInputLayout" />
+        app:layout_constraintStart_toStartOf="@+id/usernameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/usernameLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

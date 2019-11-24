@@ -9,22 +9,28 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
-
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
 
-public class FriendsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener, TextWatcher {
 
     private View mView;
     private Activity mActivity;
@@ -103,53 +109,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         });
 
         //Search EditText onchange listener
-        search.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                searchName = search.getText().toString();
-                searchFriendsArray = new ArrayList<>();
-                FriendsAdapter requestArrayAdapter;
-
-                //Don't have to search if the string at the search editText is empty
-                if (!searchName.equals("")) {
-                    toggleControls(false);
-                    //Loop through all friends to find matching names
-                    for (User user : users) {
-                        if (user.getUsername().toUpperCase().contains(searchName.toUpperCase())) {
-                            searchFriendsArray.add(user);
-                        }
-                    }
-                    requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user, new FriendsAdapter.AdapterCallback() {
-                        @Override
-                        public void onDelete(int position) {
-                            // no-op because no deleting searches
-                        }
-                    });
-                    friendsListView.setAdapter(requestArrayAdapter);
-                }
-
-                //Else, if no name is searched, set adapter back to user friendsArray
-                else {
-                    toggleControls(true);
-                    friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
-                        @Override
-                        public void onDelete(int position) {
-                            this.onDelete(position);
-                        }
-                    });
-                    friendsListView.setAdapter(friendsArrayAdapter);
-                }
-            }
-        });
+        search.addTextChangedListener(this);
 
         return mView;
     }
@@ -206,7 +166,52 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
     }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        searchName = search.getText().toString();
+        searchFriendsArray = new ArrayList<>();
+        FriendsAdapter requestArrayAdapter;
+
+        //Don't have to search if the string at the search editText is empty
+        if (!searchName.equals("")) {
+            toggleControls(false);
+            //Loop through all friends to find matching names
+            for (User user : users) {
+                if (user.getUsername().toUpperCase().contains(searchName.toUpperCase())) {
+                    searchFriendsArray.add(user);
+                }
+            }
+            requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user, new FriendsAdapter.AdapterCallback() {
+                @Override
+                public void onDelete(int position) {
+                    // no-op because no deleting searches
+                }
+            });
+            friendsListView.setAdapter(requestArrayAdapter);
+        }
+
+        //Else, if no name is searched, set adapter back to user friendsArray
+        else {
+            toggleControls(true);
+            friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
+                @Override
+                public void onDelete(int position) {
+                    this.onDelete(position);
+                }
+            });
+            friendsListView.setAdapter(friendsArrayAdapter);
+        }
+    }
+
 }
