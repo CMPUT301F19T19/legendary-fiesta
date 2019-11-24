@@ -2,7 +2,9 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +12,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventFriendsAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.SpinnerArrayAdapter;
 import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventHandlers;
@@ -35,11 +47,20 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
     private Spinner filterSpinner;
 
+    private User user;
+    private HashMap<String, String> friendUsernames;
+
+    private Button mapButton;
+
     //Filter spinner related variables
     private Spinner moodFilter;
     private @Mood.MoodType Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
 
+    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
+    public static final String FRIENDS_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
+
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +69,18 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
         setUpFilterSpinner();
 
+        user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
+        if (user == null){
+            Bundle receiveBundle = this.getArguments();
+            assert receiveBundle != null;
+            user = receiveBundle.getParcelable("USER_PROFILE");
+        }
+
+        friendUsernames = new HashMap<>();
         moodDataList = new ArrayList<>();
+        if (getTag() != FRIENDS_MOOD_UI_TEST_TAG){
+            loadData();
+        }
 
         moodList = mView.findViewById(R.id.mood_list_friends);
 
@@ -65,6 +97,54 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
         super.onAttach(context);
         // get reference to associated activity
         mActivity = (Activity) context;
+    }
+
+    public void loadData() {
+        firebaseHelper.getAllUsers(new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documents) {
+                for (QueryDocumentSnapshot document : documents) {
+                    friendUsernames.put(document.getId(), document.getString("username"));
+                }
+                moodArrayAdapter = new MoodEventFriendsAdapter(mActivity, moodDataList, friendUsernames);
+                moodList.setAdapter(moodArrayAdapter);
+                loadMoodData();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FeelsLog", "onFailure: ");
+            }
+        });
+    }
+
+    public void loadMoodData() {
+        if (user.getFollowing().size() == 0) {
+            return;
+        }
+        firebaseHelper.getFriendsMoodEvents(user.getFollowing(), new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                moodDataList.clear();
+                for (QueryDocumentSnapshot document : documentSnapshots) {
+                    moodDataList.add(document.toObject(MoodEvent.class));
+                }
+                moodArrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FeelsLog", "onFailure: ");
+            }
+        });
+    }
+
+    /*
+     * This function is used in tests to add a mood event into the data list
+     */
+    public void AddMoodEvent(MoodEvent newMoodEvent){
+        moodDataList.add(newMoodEvent);
+        moodArrayAdapter.notifyDataSetChanged();
     }
 
     /*

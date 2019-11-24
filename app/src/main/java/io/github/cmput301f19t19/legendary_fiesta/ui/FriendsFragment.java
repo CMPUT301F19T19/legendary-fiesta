@@ -9,33 +9,44 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+import androidx.transition.Visibility;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
+import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
+import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter;
 
 public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener, TextWatcher {
 
     private View mView;
     private Activity mActivity;
+    private User user;
+
+    // text views
+    private TextView friendView;
+    private TextView followView;
 
     //Friend's List variables
     private ListView friendsListView;
-    private ArrayList<String> friendsArray;
     private FriendsAdapter friendsArrayAdapter;
 
     //Variables for Search
     private EditText search;        //Refers to the Search EditText in fragment_friends.xml
     private String searchName;      //searchName is the text that is entered in the Search EditText
-    private ArrayList<String> searchFriendsArray;   //A list temporarily used to contain all names that match the search text
+    private ArrayList<User> searchFriendsArray;   //A list temporarily used to contain all names that match the search text
+    private ArrayList<User> users; // all the users
+    private ArrayList<User> friends;
 
     private ImageButton requestButton;
 
@@ -60,27 +71,36 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
     }
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (Activity)context;
+        mActivity = (Activity) context;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.follow_request_button:
-                Intent followIntent = new Intent(mActivity, FollowerRequestActivity.class);
+                Intent followIntent = new Intent(mActivity, FollowerRequestActivity.class)
+                        .putExtra("USER_PROFILE", user)
+                        .putParcelableArrayListExtra("USERS", users);
                 startActivityForResult(followIntent, 1);
         }
     }
-    
-    /*
-    This function needs the dataList that will be past into the adapter
-     */
-    public ArrayList<String> getFriendsList(){
-        ArrayList<String> friendsList = new ArrayList<>();
 
-        return friendsList;
+    private User UIDToUser(String UID) {
+        for (User user : users) {
+            if (user.getUid().equals(UID)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public void toggleControls(boolean visible) {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        requestButton.setVisibility(visibility);
+        friendView.setVisibility(visibility);
+        followView.setVisibility(visibility);
     }
 
 

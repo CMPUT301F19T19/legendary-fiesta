@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
@@ -23,11 +24,13 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 public class MoodEventFriendsAdapter extends ArrayAdapter<MoodEvent> {
 
     private ArrayList<MoodEvent> moodEventList;
+    private HashMap<String, String> friendsUsernames;
     private Context context;
 
-    public MoodEventFriendsAdapter(Context context, ArrayList<MoodEvent> moodEventList){
+    public MoodEventFriendsAdapter(Context context, ArrayList<MoodEvent> moodEventList, HashMap<String, String> friendsUsernames){
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
+        this.friendsUsernames = friendsUsernames;
         this.context = context;
     }
 
@@ -53,7 +56,7 @@ public class MoodEventFriendsAdapter extends ArrayAdapter<MoodEvent> {
         displayed_emoji.setBackgroundColor(context.getColor(mood.getColorId()));
 
         // Set the name
-        displayed_name.setText(moodEvent.getUser());
+        displayed_name.setText(friendsUsernames.get(moodEvent.getUser()));
         displayed_name.setBackgroundColor(context.getColor(mood.getColorId()));
 
         Date date = moodEvent.getDate();

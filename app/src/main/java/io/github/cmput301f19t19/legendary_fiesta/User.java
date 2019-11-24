@@ -129,12 +129,27 @@ public class User implements Parcelable {
     }
 
     /**
+     * @return ArrayList<String> other users being followed by the user
+     */
+    public ArrayList<String> getFollowing() {
+        return following;
+    }
+
+    /**
+     * @return ArrayList<String> other users being followed by the user
+     */
+    public ArrayList<String> getFollowedBy() {
+        return followedBy;
+    }
+
+    /**
      * Accept another users request to follow your mood events
      *
      * @param uid the userId of the requesting user
      */
     public void acceptFollowRequest(String uid) {
-        // TODO
+        if (this.followedBy == null) this.followedBy = new ArrayList<>();
+        this.followedBy.add(uid);
     }
 
     /**
@@ -147,12 +162,13 @@ public class User implements Parcelable {
     }
 
     /**
-     * Request to follow another users mood events
+     * Finish the following process
      *
      * @param uid the userId of the user to be followed
      */
-    public void requestToFollow(String uid) {
-        // TODO
+    public void finishFollowing(String uid) {
+        if (this.following == null) this.following = new ArrayList<>();
+        this.following.add(uid);
     }
 
 
