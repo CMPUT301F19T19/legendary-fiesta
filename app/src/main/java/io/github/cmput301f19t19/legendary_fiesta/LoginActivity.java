@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.e("FeelsLog", "onFailure: ", e);
-                                    Toast.makeText(context, "Database transaction problem", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Database transaction problem", Toast.LENGTH_LONG);
                                 }
                             });
 
