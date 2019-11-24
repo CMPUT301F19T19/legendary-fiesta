@@ -26,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,7 +51,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 177;
     private static final int DEFAULT_ZOOM = 15;
-    private static final LatLng DEFAULT_LOCATION = new LatLng(53.523,-113.527); // near UofA
+    private static final LatLng DEFAULT_LOCATION = new LatLng(53.523, -113.527); // near UofA
 
     // Marker values
     private static final int MARKER_HEIGHT = 150;
@@ -84,7 +85,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             actionBar.hide();
 
         // Get list of MoodEvents from OwnMoods or FriendsMoods Fragment
-        dataList  = new ArrayList<>();
+        dataList = new ArrayList<>();
         // Get MoodEvents from fragment
         dataList = getIntent().getParcelableArrayListExtra("EVENTS");
 
@@ -122,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
     }
@@ -233,7 +234,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title("Date: " + dateFormat.format(moodEvent.getDate())
                                     + "\nTime: " + timeFormat.format(moodEvent.getDate()))
-                            .snippet("Description: "  + moodEvent.getDescription()
+                            .snippet("Description: " + moodEvent.getDescription()
                                     + "\nSocial Condition: "
                                     + getSelectedSocialCondition(moodEvent.getCondition()))
                             .icon(bitmapDescriptor(getApplicationContext(), resource,
@@ -247,10 +248,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Get the Resource ID (Image) for the respective mood types
-     * @param moodId
-     *  Mood type of the Mood Event
-     * @return
-     *  Returns the Resource ID of the respective mood type
+     *
+     * @param moodId Mood type of the Mood Event
+     * @return Returns the Resource ID of the respective mood type
      */
     private int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
@@ -274,10 +274,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Get the Color ID for the respective mood types
-     * @param moodId
-     * Mood type of the MoodEvent
-     * @return
-     * Returns the Color ID for that mood type.
+     *
+     * @param moodId Mood type of the MoodEvent
+     * @return Returns the Color ID for that mood type.
      */
     private int getEmotionColor(@Mood.MoodType int moodId) {
         switch (moodId) {
@@ -301,10 +300,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Returns the selected social condition
-     * @param socialCondition
-     *  Selected social condition from the dropdown (spinner)
-     * @return
-     *  Returns an integer that corresponds to the selected social condition
+     *
+     * @param socialCondition Selected social condition from the dropdown (spinner)
+     * @return Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
     private String getSelectedSocialCondition(@Nullable Integer socialCondition) {
@@ -326,17 +324,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     *
-     * @param context
-     *  Context of the application
-     * @param resID
-     *  Resource ID (referring to Image)
-     * @param colorID
-     *  Color ID
-     * @return
-     * Returns the definition of a bitmap image (map marker)
+     * @param context Context of the application
+     * @param resID   Resource ID (referring to Image)
+     * @param colorID Color ID
+     * @return Returns the definition of a bitmap image (map marker)
      */
-    private BitmapDescriptor bitmapDescriptor (Context context, int resID, int colorID, String username) {
+    private BitmapDescriptor bitmapDescriptor(Context context, int resID, int colorID, String username) {
         // Mood Icon
         Drawable drawable = ContextCompat.getDrawable(context, resID);
         drawable.setBounds(0, 0, MARKER_WIDTH, MARKER_HEIGHT);
@@ -359,7 +352,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         // Layered image (circle, mood icon)
-        LayerDrawable finalDrawable = new LayerDrawable(new Drawable[] {circle, drawable});
+        LayerDrawable finalDrawable = new LayerDrawable(new Drawable[]{circle, drawable});
         Bitmap bitmap = Bitmap.createBitmap(MARKER_WIDTH, MARKER_HEIGHT + 50, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         finalDrawable.draw(canvas);
