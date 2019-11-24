@@ -128,18 +128,18 @@ public class OwnMoodsFragment extends Fragment {
                     case 6: //Neutral
                         chosenMoodType = Mood.NEUTRAL;
                         break;
-                    default:    //None
+                    default: //None
                         break;
                 }
 
-                //If chosenMoodType is a number between 0-6, filter!
+                // If chosenMoodType is a number between 0-6, filter!
                 if(chosenMoodType != -1){
                     for(MoodEvent mood : moodDataList){
-                        if(mood.getMoodType() == chosenMoodType){
+                        if(mood.getMoodType().equals(chosenMoodType)){
                             filteredMoodList.add(mood);
                         }
                     }
-                    //Update adapter and listview
+                    // Update adapter and ListView
                     moodArrayAdapter = deleteCallback(filteredMoodList);
                     moodList.setAdapter(moodArrayAdapter);
                 }
@@ -313,6 +313,4 @@ public class OwnMoodsFragment extends Fragment {
 
         return tempMoodArrayAdapter;
     }
-
-
 }
