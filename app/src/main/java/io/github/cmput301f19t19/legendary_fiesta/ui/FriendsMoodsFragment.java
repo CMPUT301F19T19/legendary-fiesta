@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
@@ -151,13 +152,14 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
         if (user.getFollowing().size() == 0) {
             return;
         }
+        moodDataList.clear();
         firebaseHelper.getFriendsMoodEvents(user.getFollowing(), new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
-                moodDataList.clear();
                 for (QueryDocumentSnapshot document : documentSnapshots) {
                     moodDataList.add(document.toObject(MoodEvent.class));
                 }
+                moodDataList.sort(Comparator.comparing(MoodEvent::getDate));
                 moodArrayAdapter.notifyDataSetChanged();
             }
 

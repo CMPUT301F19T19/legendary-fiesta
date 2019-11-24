@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.*;
 import com.google.firebase.storage.FirebaseStorage;
@@ -290,12 +291,15 @@ public class FirebaseHelper {
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
-        db.collection("moodEvents")
-                .whereIn("user", uids)
-                .orderBy("date", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(callback::onSuccess)
-                .addOnFailureListener(callback::onFailure);
+        for (String uid: uids) {
+            db.collection("moodEvents")
+                    .whereEqualTo("user", uid)
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .addOnSuccessListener(callback::onSuccess)
+                    .addOnFailureListener(callback::onFailure);
+        }
     }
 
     /**
