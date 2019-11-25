@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.IntDef;
 
-import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collections;
@@ -18,40 +16,27 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
+
 /**
  * Represents a single mood event
  */
 public class MoodEvent implements Parcelable {
-    /**
-     * Class representing SocialCondition for a mood
-     */
-    public static class SocialCondition {
-        @Retention(RetentionPolicy.SOURCE)
-        @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
-        public @interface SocialConditionType {}
-
-        public static final int NONE = -1;
-        public static final int SINGLE = 0;
-        public static final int PAIR = 1;
-        public static final int SMALL_GROUP = 2;
-        public static final int CROWD = 3;
-
-        public static final Map<Integer, String> SocialConditionStrings;
-        static {
-            HashMap<Integer, String> socialConditions = new HashMap<Integer, String>();
-            socialConditions.put(NONE, "None");
-            socialConditions.put(SINGLE, "Single");
-            socialConditions.put(PAIR, "Pair");
-            socialConditions.put(SMALL_GROUP, "Small Group");
-            socialConditions.put(CROWD, "Crowd");
-            SocialConditionStrings = Collections.unmodifiableMap(socialConditions);
+    public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
+        @Override
+        public MoodEvent createFromParcel(Parcel in) {
+            return new MoodEvent(in);
         }
 
-    }
-
+        @Override
+        public MoodEvent[] newArray(int size) {
+            return new MoodEvent[size];
+        }
+    };
     private String moodId;
 
-    private @Mood.MoodType Integer moodType;
+    private @Mood.MoodType
+    Integer moodType;
     private String user;
     private String description;
     private Date date;
@@ -117,19 +102,8 @@ public class MoodEvent implements Parcelable {
      * Constructor for a MoodEvent (for use with Serializers)
      * for Firebase database automated serialization
      */
-    public MoodEvent() { }
-
-    public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {
-        @Override
-        public MoodEvent createFromParcel(Parcel in) {
-            return new MoodEvent(in);
-        }
-
-        @Override
-        public MoodEvent[] newArray(int size) {
-            return new MoodEvent[size];
-        }
-    };
+    public MoodEvent() {
+    }
 
     /**
      * @return String moodId of the MoodEvent
@@ -148,7 +122,8 @@ public class MoodEvent implements Parcelable {
     /**
      * @return Integer MoodType of the MoodEvent
      */
-    public @Mood.MoodType Integer getMoodType() {
+    public @Mood.MoodType
+    Integer getMoodType() {
         return moodType;
     }
 
@@ -165,7 +140,6 @@ public class MoodEvent implements Parcelable {
     public String getUser() {
         return user;
     }
-
 
     /**
      * @return The 20 char or less String description of the MoodEvent
@@ -202,7 +176,8 @@ public class MoodEvent implements Parcelable {
     /**
      * @return Integer SocialConditionType representing socialCondition
      */
-    public @SocialCondition.SocialConditionType Integer getCondition() {
+    public @SocialCondition.SocialConditionType
+    Integer getCondition() {
         return condition;
     }
 
@@ -214,14 +189,14 @@ public class MoodEvent implements Parcelable {
     }
 
     /**
-     * @return String firebase storage photo url for the MoodEvent
+     * @return String FireBase storage photo url for the MoodEvent
      */
     public String getPhotoURL() {
         return photoURL;
     }
 
     /**
-     * @param photoURL firebase storage photo url for the MoodEvent
+     * @param photoURL FireBase storage photo url for the MoodEvent
      */
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
@@ -241,7 +216,6 @@ public class MoodEvent implements Parcelable {
         this.location = location;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -255,8 +229,36 @@ public class MoodEvent implements Parcelable {
         dest.writeString(description);
         dest.writeLong(date == null ? -1 : date.getTime());
         dest.writeInt(condition == null ? -1 : condition);
-        dest.writeString(photoURL == null ? "": photoURL);
+        dest.writeString(photoURL == null ? "" : photoURL);
         dest.writeParcelable(location, flags);
+    }
+
+    /**
+     * Class representing SocialCondition for a mood
+     */
+    public static class SocialCondition {
+        public static final int NONE = -1;
+        public static final int SINGLE = 0;
+        public static final int PAIR = 1;
+        public static final int SMALL_GROUP = 2;
+        public static final int CROWD = 3;
+        public static final Map<Integer, String> SocialConditionStrings;
+
+        static {
+            HashMap<Integer, String> socialConditions = new HashMap<Integer, String>();
+            socialConditions.put(NONE, "None");
+            socialConditions.put(SINGLE, "Single");
+            socialConditions.put(PAIR, "Pair");
+            socialConditions.put(SMALL_GROUP, "Small Group");
+            socialConditions.put(CROWD, "Crowd");
+            SocialConditionStrings = Collections.unmodifiableMap(socialConditions);
+        }
+
+        @Retention(RetentionPolicy.SOURCE)
+        @IntDef({SINGLE, PAIR, SMALL_GROUP, CROWD})
+        public @interface SocialConditionType {
+        }
+
     }
 
 }

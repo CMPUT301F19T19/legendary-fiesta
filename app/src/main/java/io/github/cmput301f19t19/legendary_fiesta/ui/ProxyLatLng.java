@@ -2,14 +2,26 @@ package io.github.cmput301f19t19.legendary_fiesta.ui;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Replacement implementation for `LatLng`
- *
- * This class could be serialized and de-serialized by Firebase
+ * <p>
+ * This class could be serialized and de-serialized by FireBase
  */
 public class ProxyLatLng implements Parcelable {
+    public static final Creator<ProxyLatLng> CREATOR = new Creator<ProxyLatLng>() {
+        @Override
+        public ProxyLatLng createFromParcel(Parcel in) {
+            return new ProxyLatLng(in);
+        }
+
+        @Override
+        public ProxyLatLng[] newArray(int size) {
+            return new ProxyLatLng[size];
+        }
+    };
     public double latitude;
     public double longitude;
 
@@ -22,15 +34,17 @@ public class ProxyLatLng implements Parcelable {
         this.longitude = lng;
     }
 
-    /** Mainly reserved for Firebase
-     *
+    /**
+     * Mainly reserved for FireBase
      */
     public ProxyLatLng() {
         this.latitude = 0.0d;
         this.longitude = 0.0d;
     }
 
-    /** Conversion constructor
+    /**
+     * Conversion constructor
+     *
      * @param in LatLng object to be converted
      */
     public ProxyLatLng(LatLng in) {
@@ -53,16 +67,4 @@ public class ProxyLatLng implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ProxyLatLng> CREATOR = new Creator<ProxyLatLng>() {
-        @Override
-        public ProxyLatLng createFromParcel(Parcel in) {
-            return new ProxyLatLng(in);
-        }
-
-        @Override
-        public ProxyLatLng[] newArray(int size) {
-            return new ProxyLatLng[size];
-        }
-    };
 }

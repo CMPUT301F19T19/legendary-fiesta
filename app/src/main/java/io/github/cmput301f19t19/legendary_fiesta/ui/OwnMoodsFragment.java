@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -39,11 +39,15 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventH
 
 public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
+    public static final String MY_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
     // Reference to associated activity class, initialized in onAttach function
     private Activity mActivity;
+
     // Reference to associated view, initialized in onCreateView
     private View mView;
-
     private User user;
 
     // Reference to the ListView on own moods page
@@ -51,21 +55,16 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
     private ArrayList<MoodEvent> moodDataList;
     private MoodEventAdapter moodArrayAdapter;
     private Button mapButton;
-
     private Spinner filterSpinner;
-
-    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
-    public static final String MY_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
 
     //Filter spinner related variables
     private Spinner moodFilter;
-    private @Mood.MoodType Integer chosenMoodType;
+    private @Mood.MoodType
+    Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
     private Integer oriListLength;
     private MoodEvent moodToDelete;  //to avoid ConcurrentModificationException
     private MoodEventAdapter tempMoodArrayAdapter;
-
-    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        if(user == null){
+        if (user == null) {
             Bundle receiveBundle = this.getArguments();
             assert receiveBundle != null;
             user = receiveBundle.getParcelable("USER_PROFILE");
@@ -85,7 +84,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         moodDataList = new ArrayList<>();
         moodArrayAdapter = deleteCallback(moodDataList);
 
-        if(!(getTag() != null && getTag().equals(MY_MOOD_UI_TEST_TAG))){
+        if (!(getTag() != null && getTag().equals(MY_MOOD_UI_TEST_TAG))) {
             loadMoodData();
         }
 
@@ -104,7 +103,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
                 replacement.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                transaction.replace(R.id.nav_host_fragment, replacement );
+                transaction.replace(R.id.nav_host_fragment, replacement);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -185,7 +184,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
     /*
      * This function is used in tests to add a mood event into the data list
      */
-    public void AddMoodEvent(MoodEvent newMoodEvent){
+    public void AddMoodEvent(MoodEvent newMoodEvent) {
         moodDataList.add(newMoodEvent);
         moodArrayAdapter.notifyDataSetChanged();
     }
@@ -194,7 +193,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
     /*
      * This function returns a MoodEventAdapter with the appropriate data list depending on the filter/spinner
      */
-    private MoodEventAdapter deleteCallback(ArrayList<MoodEvent> moodData){
+    private MoodEventAdapter deleteCallback(ArrayList<MoodEvent> moodData) {
         oriListLength = moodDataList.size();
 
         tempMoodArrayAdapter = new MoodEventAdapter(mActivity, moodData, new MoodEventAdapter.AdapterCallback() {
@@ -219,8 +218,8 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
                                             }
                                         });
                                         //Also delete this moodEvent from moodDataList
-                                        for(MoodEvent mood : moodDataList){
-                                            if(mood.getMoodId().equals(moodData.get(position).getMoodId())){
+                                        for (MoodEvent mood : moodDataList) {
+                                            if (mood.getMoodId().equals(moodData.get(position).getMoodId())) {
                                                 moodToDelete = mood;
                                             }
                                         }
@@ -228,7 +227,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
 
                                         //To check if moodData is actually moodDataList
                                         //Avoid deleting 2 things from moodDataList
-                                        if(moodDataList.size() == oriListLength){
+                                        if (moodDataList.size() == oriListLength) {
                                             moodDataList.remove(moodToDelete);
                                         }
 
@@ -258,7 +257,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         chosenMoodType = -1;
 
         //Assign the correct value to chosenMoodType depending on what the user has selected
-        switch (position){
+        switch (position) {
             case 0: //Scared
                 chosenMoodType = Mood.SCARED;
                 break;
@@ -285,18 +284,16 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         }
 
         //If chosenMoodType is a number between 0-6, filter!
-        if(chosenMoodType != -1){
-            for(MoodEvent mood : moodDataList){
-                if(mood.getMoodType() == chosenMoodType){
+        if (chosenMoodType != -1) {
+            for (MoodEvent mood : moodDataList) {
+                if (mood.getMoodType() == chosenMoodType) {
                     filteredMoodList.add(mood);
                 }
             }
             //Update adapter and listview
             moodArrayAdapter = deleteCallback(filteredMoodList);
             moodList.setAdapter(moodArrayAdapter);
-        }
-
-        else{
+        } else {
             moodArrayAdapter = deleteCallback(moodDataList);
             moodList.setAdapter(moodArrayAdapter);
         }

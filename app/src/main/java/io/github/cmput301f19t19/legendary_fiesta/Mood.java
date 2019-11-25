@@ -14,11 +14,6 @@ import java.util.Map;
  */
 public class Mood {
 
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({NEUTRAL, HAPPY, SURPRISED, ANGRY, SCARED, DISGUSTED, SAD})
-    public @interface MoodType {
-    }
-
     public static final int NEUTRAL = 0;
     public static final int HAPPY = 1;
     public static final int SURPRISED = 2;
@@ -26,8 +21,8 @@ public class Mood {
     public static final int SCARED = 4;
     public static final int DISGUSTED = 5;
     public static final int SAD = 6;
-
     public static final Map<String, Integer> MoodTypes;
+
     static {
         HashMap<String, Integer> moodTypes = new HashMap<String, Integer>();
         moodTypes.put("NEUTRAL", NEUTRAL);
@@ -44,7 +39,6 @@ public class Mood {
     private int colorId;
     private int nameId;
     private int moodType;
-
     /**
      * Constructor for a mood instance
      *
@@ -126,5 +120,10 @@ public class Mood {
     @MoodType
     public final int getMoodType() {
         return moodType;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({NEUTRAL, HAPPY, SURPRISED, ANGRY, SCARED, DISGUSTED, SAD})
+    public @interface MoodType {
     }
 }

@@ -1,24 +1,21 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.drm.DrmStore;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.FirebaseApp;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.firebase.FirebaseApp;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
@@ -67,13 +64,13 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.back_button:
                 finish();
         }
     }
 
-    private void getRequest(){
+    private void getRequest() {
         helper.getPendingRequests(user.getUid(), new FirebaseHelper.FirebaseCallback<List<FriendRequest>>() {
             @Override
             public void onSuccess(List<FriendRequest> document) {

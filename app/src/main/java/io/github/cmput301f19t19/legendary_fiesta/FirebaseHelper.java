@@ -1,12 +1,17 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.*;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -29,22 +34,6 @@ public class FirebaseHelper {
     public FirebaseHelper(FirebaseApp app) {
         db = FirebaseFirestore.getInstance(app);
         storage = FirebaseStorage.getInstance(app);
-    }
-
-    public interface FirebaseCallback<T> {
-        /**
-         * callback handler for handling success cases, returned the value is stored in `document` variable
-         *
-         * @param document depending on the operation, this variable can hold different type of values
-         */
-        void onSuccess(T document);
-
-        /**
-         * callback handler for handling failure cases
-         *
-         * @param e Exception thrown by the Firebase library
-         */
-        void onFailure(@NonNull Exception e);
     }
 
     /**
@@ -182,13 +171,14 @@ public class FirebaseHelper {
 
     /**
      * unfollows the toUser by the myUser
+     *
      * @param fromUID
      * @param toUID
      * @param callback
      */
-    public void unfollowUser(String fromUID, String toUID, final FirebaseCallback<Void> callback){
+    public void unfollowUser(String fromUID, String toUID, final FirebaseCallback<Void> callback) {
         db.collection("users").document(fromUID)
-                .update("following",  FieldValue.arrayRemove(toUID))
+                .update("following", FieldValue.arrayRemove(toUID))
                 .addOnSuccessListener(Void -> {
                     db.collection("users").document(toUID)
                             .update("followedBy", FieldValue.arrayRemove(fromUID))
@@ -325,6 +315,22 @@ public class FirebaseHelper {
         uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
                 .addOnSuccessListener(callback::onSuccess)
                 .addOnFailureListener(callback::onFailure)).addOnFailureListener(callback::onFailure);
+    }
+
+    public interface FirebaseCallback<T> {
+        /**
+         * callback handler for handling success cases, returned the value is stored in `document` variable
+         *
+         * @param document depending on the operation, this variable can hold different type of values
+         */
+        void onSuccess(T document);
+
+        /**
+         * callback handler for handling failure cases
+         *
+         * @param e Exception thrown by the Firebase library
+         */
+        void onFailure(@NonNull Exception e);
     }
 
 }

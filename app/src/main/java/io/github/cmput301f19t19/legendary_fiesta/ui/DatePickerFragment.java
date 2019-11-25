@@ -16,12 +16,11 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class DatePickerFragment extends AppCompatDialogFragment implements DatePickerDialog.OnDateSetListener {
-    private static final String TAG = "DatePickerFragment";
-    final Calendar calendar = Calendar.getInstance();
-
     public static final String DATE_TAG = "DATE_DATE";
     public static final String MONTH_TAG = "DATE_MONTH";
     public static final String YEAR_TAG = "DATE_YEAR";
+    private static final String TAG = "DatePickerFragment";
+    final Calendar calendar = Calendar.getInstance();
 
     @NonNull
     @Override

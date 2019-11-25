@@ -40,10 +40,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     public static final int DATE_REQUEST_CODE = 66;
 
+    // FireBase Helper
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
+    // EditTexts and Buttons
     private EditText userEditText;
     private EditText birthDateEditText;
     private EditText bioEditText;
-
     private Button cancelButton;
     private Button doneButton;
     private Button logoutButton;
@@ -51,13 +54,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     // Fragment view
     private View mView;
     private Activity mActivity;
-
     private NavController navController;
 
+    // User
     private User user;
-
-    // FireBase Helper
-    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        if(user == null){
+        if (user == null) {
             Bundle receiveBundle = this.getArguments();
             assert receiveBundle != null;
             user = receiveBundle.getParcelable("USER_PROFILE");
@@ -104,7 +104,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         try {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
         }
 
@@ -198,14 +198,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             public void onSuccess(QuerySnapshot document) {
                 if (!userEditText.getText().toString().equals(user.getUsername()) && !document.isEmpty()) {
                     new AlertDialog.Builder(mActivity)
-                        .setTitle("Username taken!")
-                        .setMessage("Please try a different username")
-                        .setPositiveButton("Ok", (dialogInterface, i) -> {
-                            //Go back without changing anything
-                            dialogInterface.dismiss();
-                        })
-                        .create()
-                        .show();
+                            .setTitle("Username taken!")
+                            .setMessage("Please try a different username")
+                            .setPositiveButton("Ok", (dialogInterface, i) -> {
+                                //Go back without changing anything
+                                dialogInterface.dismiss();
+                            })
+                            .create()
+                            .show();
                 } else {
                     String bio = bioEditText.getText().toString();
                     String username = userEditText.getText().toString();

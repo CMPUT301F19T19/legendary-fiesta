@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.MoodEvent;
-import io.github.cmput301f19t19.legendary_fiesta.MapActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.MoodEventFriendsAdapter;
@@ -37,31 +37,28 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers.FilterEventH
 
 public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
+    public static final String FRIENDS_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
+    private static final int MARKER_MODE = 72;
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
+
+    // View elements
     private Activity mActivity;
     private View mView;
-
     private ListView moodList;
     private ArrayList<MoodEvent> moodDataList;
     private MoodEventFriendsAdapter moodArrayAdapter;
 
-    private Spinner filterSpinner;
-
     private User user;
     private HashMap<String, String> friendUsernames;
-
     private Button mapButton;
 
     //Filter spinner related variables
     private Spinner moodFilter;
+    private Spinner filterSpinner;
     private @Mood.MoodType
     Integer chosenMoodType;
     private ArrayList<MoodEvent> filteredMoodList;
-
-    public static final String MOOD_EVENT_TAG = "MOOD_EVENT";
-    public static final String FRIENDS_MOOD_UI_TEST_TAG = "FROM_UI_TESTS";
-    private static final int MARKER_MODE = 72;
-
-    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -273,10 +270,9 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
     /**
      * Returns an ArrayList of names that corresponds to the MoodEvents
-     * @param dataList
-     * ArrayList of MoodEvents
-     * @return
-     * Returns an ArrayList of names
+     *
+     * @param dataList ArrayList of MoodEvents
+     * @return Returns an ArrayList of names
      */
     private ArrayList<String> createNamesList(ArrayList<MoodEvent> dataList) {
         ArrayList<String> names = new ArrayList<>();

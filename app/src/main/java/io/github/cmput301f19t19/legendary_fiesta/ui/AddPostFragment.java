@@ -70,28 +70,6 @@ import static com.schibstedspain.leku.LocationPickerActivityKt.LONGITUDE;
 public class AddPostFragment extends Fragment implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
-    // UI variables
-    private TextView dateET;
-    private TextView timeET;
-    private EditText descET;
-    private EditText locET;
-    private ImageButton addPictureButton;
-    private Button cancelButton;
-    private Button doneButton;
-    private RadioGroup emotionRadioGroup;
-    private Spinner socialSpinner;
-
-    private String selectedDate;
-    private String selectedTime;
-
-    private boolean isEdit;
-    private String editMoodId;
-    private String originalPhotoURL;
-    private byte[] moodEventImage;
-    private ProxyLatLng location;
-    private String cameraFilePath;
-
-
     // Date result identifier
     public static final int DATE_REQUEST_CODE = 66;
     // Time result identifier
@@ -102,19 +80,33 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     public static final int GALLERY_REQUEST_CODE = 13;
     // Map result identifier
     private static final int LOCATION_REQUEST_CODE = 64;
-
     // Storage permission code
     private static final int STORAGE_PERMISSION_CODE = 42;
-
-    private ArrayList<String> conditionsArray;
-
-    // Fragment view
-    private View mView;
-    private Activity mActivity;
-
     // FireBase Helper
     private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
+    // UI variables
+    private TextView dateET;
+    private TextView timeET;
+    private EditText descET;
+    private EditText locET;
+    private ImageButton addPictureButton;
+    private Button cancelButton;
+    private Button doneButton;
+    private RadioGroup emotionRadioGroup;
+    private Spinner socialSpinner;
+    private String selectedDate;
+    private String selectedTime;
+    private boolean isEdit;
+    private String editMoodId;
+    private String originalPhotoURL;
+    private byte[] moodEventImage;
+    private ProxyLatLng location;
+    private String cameraFilePath;
+    private ArrayList<String> conditionsArray;
+    // Fragment view
+    private View mView;
+    private Activity mActivity;
     // Navigation Controller
     private NavController navController;
 
@@ -237,7 +229,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CANADA).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = mActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -681,7 +673,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         int width = Math.round(ratio * bitmap.getWidth());
         int height = Math.round(ratio * bitmap.getHeight());
 
-        if (width <= 0 && height <=0) {
+        if (width <= 0 && height <= 0) {
             return bitmap;
         }
 

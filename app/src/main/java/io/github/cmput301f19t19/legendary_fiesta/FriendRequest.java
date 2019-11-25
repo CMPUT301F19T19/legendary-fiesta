@@ -6,6 +6,17 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class FriendRequest implements Parcelable {
+    public static final Creator<FriendRequest> CREATOR = new Creator<FriendRequest>() {
+        @Override
+        public FriendRequest createFromParcel(Parcel in) {
+            return new FriendRequest(in);
+        }
+
+        @Override
+        public FriendRequest[] newArray(int size) {
+            return new FriendRequest[size];
+        }
+    };
     private Date date;
     private String from;
     private boolean status;
@@ -22,10 +33,10 @@ public class FriendRequest implements Parcelable {
     }
 
     /**
-     * @param date timestamp
-     * @param from UID from which the user sent the request
+     * @param date   timestamp
+     * @param from   UID from which the user sent the request
      * @param status approval status
-     * @param to UID to which user should receive the request
+     * @param to     UID to which user should receive the request
      */
     public FriendRequest(Date date, String from, boolean status, String to) {
         this.from = from;
@@ -45,18 +56,6 @@ public class FriendRequest implements Parcelable {
         status = in.readByte() != 0;
         to = in.readString();
     }
-
-    public static final Creator<FriendRequest> CREATOR = new Creator<FriendRequest>() {
-        @Override
-        public FriendRequest createFromParcel(Parcel in) {
-            return new FriendRequest(in);
-        }
-
-        @Override
-        public FriendRequest[] newArray(int size) {
-            return new FriendRequest[size];
-        }
-    };
 
     public Date getDate() {
         return date;

@@ -30,30 +30,25 @@ import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
 import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.FriendsAdapter;
 
-public class FriendsFragment extends Fragment implements  View.OnClickListener, AdapterView.OnItemClickListener, TextWatcher {
+public class FriendsFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, TextWatcher {
 
+    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
     private View mView;
     private Activity mActivity;
     private User user;
-
     // text views
     private TextView friendView;
     private TextView followView;
-
     //Friend's List variables
     private ListView friendsListView;
     private FriendsAdapter friendsArrayAdapter;
-
     //Variables for Search
     private EditText search;        //Refers to the Search EditText in fragment_friends.xml
     private String searchName;      //searchName is the text that is entered in the Search EditText
     private ArrayList<User> searchFriendsArray;   //A list temporarily used to contain all names that match the search text
     private ArrayList<User> users; // all the users
     private ArrayList<User> friends;
-
     private ImageButton requestButton;
-
-    private static final FirebaseHelper firebaseHelper = new FirebaseHelper(FirebaseApp.getInstance());
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -166,7 +161,8 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    }
 
 
     @Override

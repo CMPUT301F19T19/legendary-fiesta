@@ -47,30 +47,26 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    // Map defaults
-    private boolean mLocationPermissionGranted = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 177;
     private static final int DEFAULT_ZOOM = 15;
     private static final LatLng DEFAULT_LOCATION = new LatLng(53.523, -113.527); // near UofA
-
     // Marker values
     private static final int MARKER_HEIGHT = 150;
     private static final int MARKER_WIDTH = 150;
     private static final int MARKER_MODE = 72;
     private static final int MARKER_FONT = 30;
-
+    // Date Format
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.CANADA);
+    // Map defaults
+    private boolean mLocationPermissionGranted = false;
     // Geolocation
     private GoogleMap googleMap = null;
     private Location mLastKnownLocation = null;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
     // MoodEvents
     private ArrayList<MoodEvent> dataList;
     private ArrayList<String> nameList;
-
-    // Date Format
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
-    DateFormat timeFormat = new SimpleDateFormat("hh:mm aa", Locale.CANADA);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

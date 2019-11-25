@@ -37,7 +37,7 @@ public class FragmentEmptyClass extends AppCompatActivity {
         setContentView(view);
     }
 
-    public User injectUser(String uid){
+    public User injectUser(String uid) {
         db.collection("users").document(uid).get()
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot document = task.getResult();
@@ -46,7 +46,7 @@ public class FragmentEmptyClass extends AppCompatActivity {
         return user;
     }
 
-    public User getTestUser(){
+    public User getTestUser() {
         return user;
     }
 
