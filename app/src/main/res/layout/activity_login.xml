@@ -8,51 +8,61 @@
     tools:context=".LoginActivity">
 
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/logo" android:id="@+id/login_logo"
-            tools:layout_editor_absoluteX="0dp" app:layout_constraintBottom_toTopOf="@+id/login_signup_form"
-            android:scaleType="fitEnd"/>
+        android:id="@+id/login_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitEnd"
+        app:layout_constraintBottom_toTopOf="@+id/login_signup_form"
+        app:srcCompat="@drawable/logo"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
+        android:id="@+id/btn_sign_in"
+        style="@style/WhiteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/btn_sign_in"
         android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/transparent"
+        android:onClick="showLogin"
         android:text="@string/login_sign_in"
-        android:onClick="showLogin" />
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_pressed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:visibility="invisible"
-            android:id="@+id/login_signup_form" android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/btn_sign_in" app:layout_constraintVertical_bias="1.0"
-            android:layout_marginBottom="16dp">
+        android:id="@+id/login_signup_form"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/login_username"
-                    android:hint="@string/login_username"/>
+                android:id="@+id/login_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/login_username"
+                android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/login_dob"
@@ -70,41 +80,45 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/login_bio"
-                    android:hint="@string/login_bio"/>
+                android:id="@+id/login_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/login_bio"
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_signup"
-                android:text="@string/login_sign_up"
-                android:visibility="visible"
-                android:onClick="addNewUser"/>
+            android:id="@+id/login_signup"
+            style="@style/WhiteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="addNewUser"
+            android:text="@string/login_sign_up"
+            android:textAllCaps="false"
+            android:textColor="@drawable/button_pressed"
+            android:visibility="visible" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/progress_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:alpha="0.5"
         android:animateLayoutChanges="true"
-        android:background="#000000">
+        android:background="#000000"
+        android:visibility="gone">
 
         <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
             android:layout_gravity="center"
-            style="?android:attr/progressBarStyleLarge" />
+            android:indeterminate="true" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
