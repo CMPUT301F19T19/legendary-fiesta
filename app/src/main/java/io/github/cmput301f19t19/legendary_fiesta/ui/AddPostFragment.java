@@ -122,8 +122,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                              ViewGroup container, Bundle savedInstanceState) {
         // to allow loading images on main thread
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -155,7 +154,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         try {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
         }
 
@@ -275,8 +274,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
+
                     addPictureButton.setImageResource(0);
-                    addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
+                    addPictureButton.setBackground(new BitmapDrawable(mView.getResources(),
+                            scaleDown(bitmap, addPictureButton.getHeight())));
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -380,43 +381,43 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                 break;
             case R.id.addPictureButton:
                 new AlertDialog.Builder(getActivity())
-                    .setTitle("Image Picker")
-                    .setMessage("Choose image from")
-                    .setPositiveButton("Photo Gallery",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto , GALLERY_REQUEST_CODE);
-                            }
-                        }
-                    )
-                    .setNegativeButton("Camera",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                        != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                        .setTitle("Image Picker")
+                        .setMessage("Choose image from")
+                        .setPositiveButton("Photo Gallery",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        startActivityForResult(pickPhoto, GALLERY_REQUEST_CODE);
+                                    }
                                 }
-                                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                try {
-                                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(mActivity, BuildConfig.APPLICATION_ID + ".fileprovider", createImageFile()));
-                                    startActivityForResult(takePicture, CAMERA_REQUEST_CODE);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
+                        )
+                        .setNegativeButton("Camera",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                != PackageManager.PERMISSION_GRANTED) {
+                                            ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                                        }
+                                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        try {
+                                            takePicture.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(mActivity, BuildConfig.APPLICATION_ID + ".fileprovider", createImageFile()));
+                                            startActivityForResult(takePicture, CAMERA_REQUEST_CODE);
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    )
-                    .setNeutralButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }
-                    )
-                    .create()
-                    .show();
+                        )
+                        .setNeutralButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        )
+                        .create()
+                        .show();
                 break;
             case R.id.cancel_button:
                 closeFragment();
@@ -436,10 +437,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == STORAGE_PERMISSION_CODE){
-            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            }
-            else{
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
                 Toast.makeText(mActivity, "Cannot use camera without granting storage permission",
                         Toast.LENGTH_SHORT).show();
             }
@@ -457,7 +457,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         emotionRadioGroup.clearCheck();
 
-        if(navController != null)
+        if (navController != null)
             navController.navigate(R.id.navigation_own_list);
     }
 
@@ -474,7 +474,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         User user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
-        if(user == null){
+        if (user == null) {
             Bundle receiveBundle = this.getArguments();
             assert receiveBundle != null;
             user = receiveBundle.getParcelable("USER_PROFILE");
@@ -503,19 +503,19 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         doneButton.setEnabled(false);
         firebaseHelper.addMoodEvent(moodEvent, moodEventImage,
                 new FirebaseHelper.FirebaseCallback<Void>() {
-            @Override
-            public void onSuccess(Void v) {
-                Toast.makeText(getContext(), "Successfully saved event",
-                        Toast.LENGTH_SHORT).show();
-                closeFragment();
-            }
+                    @Override
+                    public void onSuccess(Void v) {
+                        Toast.makeText(getContext(), "Successfully saved event",
+                                Toast.LENGTH_SHORT).show();
+                        closeFragment();
+                    }
 
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                doneButton.setEnabled(true);
-                handleError("Failed to save event");
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        doneButton.setEnabled(true);
+                        handleError("Failed to save event");
+                    }
+                });
     }
 
 
@@ -523,7 +523,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
      * When this function is called
      * an error popup will appear on the screen
      */
-    private void errorPopUp(){
+    private void errorPopUp() {
         new AlertDialog.Builder(mActivity)
                 .setTitle("Oops")
                 .setMessage("Please choose an emotional state or enter a date and time")
@@ -574,7 +574,7 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * @return Return the mood choosen by the RadioGroup
+     * @return Return the mood chosen by the RadioGroup
      */
     // TODO: TEST
     public Mood getSelectedMood(int id) {
@@ -600,10 +600,9 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
     /**
      * Returns the selected social condition
-     * @param socialCondition
-     *  Selected social condition from the dropdown (spinner)
-     * @return
-     *  Returns an integer that corresponds to the selected social condition
+     *
+     * @param socialCondition Selected social condition from the dropdown (spinner)
+     * @return Returns an integer that corresponds to the selected social condition
      */
     // TODO: TEST
     public Integer getSelectedSocialCondition(String socialCondition) {
@@ -645,11 +644,37 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
             if (currentButton.getId() == selectedId) {
                 // Make the selectedButton darker, to show that it is Selected
-                currentButton.getBackground().setColorFilter( ContextCompat.getColor(mActivity,R.color.selected_color), PorterDuff.Mode.MULTIPLY);
-            }else{
+                currentButton.getBackground().setColorFilter(ContextCompat.getColor(mActivity, R.color.selected_color), PorterDuff.Mode.MULTIPLY);
+            } else {
                 // Make the unselected buttons white
                 currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
             }
         }
+    }
+
+    /**
+     * Scales down a Bitmap to a defined max size
+     *
+     * @param bitmap  Bitmap image
+     * @param maxSize Size of the Bitmap to scale to
+     * @return Returns a scaled down version of the original Bitmap
+     */
+    private Bitmap scaleDown(Bitmap bitmap, float maxSize) {
+        // Ratio between the maxSize and the bitmap's width and height
+        float ratio = Math.min(
+                maxSize / bitmap.getWidth(),
+                maxSize / bitmap.getHeight()
+        );
+
+        // If ratio >=1, the bitmap is smaller than the defined max size
+        if (ratio >= 1) {
+            return bitmap;
+        }
+
+        // Width and height reduction
+        int width = Math.round(ratio * bitmap.getWidth());
+        int height = Math.round(ratio * bitmap.getHeight());
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 }
