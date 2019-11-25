@@ -151,9 +151,6 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
     public void setViewMoodEvent(MoodEvent moodEvent) {
         // set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
-        System.out.println(moodEvent.getCondition());
-        System.out.println(moodSocialCondition);
-        System.out.println(conditionsArray.indexOf(moodSocialCondition));
         socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
 
         // set description
