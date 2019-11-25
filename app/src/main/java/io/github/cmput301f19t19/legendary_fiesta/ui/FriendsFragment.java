@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,19 +73,12 @@ public class FriendsFragment extends Fragment implements  View.OnClickListener, 
             user = receiveBundle.getParcelable("USER_PROFILE");
         }
 
-        assert user != null;
-        firebaseHelper.finishFriendRequest(user, new FirebaseHelper.FirebaseCallback<Void>() {
+        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, new FriendsAdapter.AdapterCallback() {
             @Override
-            public void onSuccess(Void document) {}
-
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("FeelsLog", "onFailure: ", e);
-                Toast.makeText(getContext(), "Database transaction problem", Toast.LENGTH_LONG).show();
+            public void onDelete(int position) {
+                onDeleteCallback(position);
             }
         });
-
-        friendsArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_list_content, friends, user, this::onDeleteCallback);
 
         friendsListView.setAdapter(friendsArrayAdapter);
 
