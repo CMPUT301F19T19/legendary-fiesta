@@ -57,17 +57,19 @@ public class LoginActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
-        //hide notification bar
+
+        // Hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         showLogin(button);
     }
 
     private void launchMainActivity(User profile) {
-        // re-enable the sign in button
+        // Re-enable the sign in button
         View button = findViewById(R.id.btn_sign_in);
         showProgressOverlay(false);
         button.setEnabled(true);
+
         // Parse user information to the MainActivity
         startActivity(
                 new Intent(this, MainActivity.class)
@@ -94,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * validate and add new user to the database
+     * Validate and add new user to the database
      *
      * @param v submit button
      */
@@ -137,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    //Go back without changing anything
+                                    // Go back without changing anything
                                     dialogInterface.dismiss();
                                 }
                             })
