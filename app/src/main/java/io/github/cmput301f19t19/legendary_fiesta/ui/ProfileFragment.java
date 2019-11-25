@@ -171,7 +171,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.log_out_button:
                 FirebaseAuth.getInstance().signOut();
                 Intent signInIntent = new Intent(getActivity(), LoginActivity.class);
-                signInIntent.setFlags(signInIntent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                signInIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(signInIntent);
                 break;
         }
