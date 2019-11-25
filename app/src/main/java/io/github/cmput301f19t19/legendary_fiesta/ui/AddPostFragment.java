@@ -456,6 +456,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         locET.setText("");
 
         emotionRadioGroup.clearCheck();
+        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
+            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
+            currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        }
 
         if (navController != null)
             navController.navigate(R.id.navigation_own_list);
