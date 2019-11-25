@@ -274,8 +274,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(mActivity.getContentResolver(), selectedImage);
+
                     addPictureButton.setImageResource(0);
-                    addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), bitmap));
+                    addPictureButton.setBackground(new BitmapDrawable(mView.getResources(),
+                            scaleDown(bitmap, addPictureButton.getHeight())));
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
