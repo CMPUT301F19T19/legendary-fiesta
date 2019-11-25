@@ -165,7 +165,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
                 URL photoURL = new URL(moodEvent.getPhotoURL());
                 Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
                 addPictureButton.setImageResource(0);
-                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), moodEventBmp));
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), scaleDown(moodEventBmp, addPictureButton.getMaxHeight())));
             } catch (MalformedURLException ex) {
                 Toast.makeText(getContext(), "Invalid image URL",
                         Toast.LENGTH_SHORT).show();
@@ -274,5 +274,35 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
                 return R.id.icon_surprised;
         }
         return R.id.icon_neutral;
+    }
+
+    /**
+     * Scales down a Bitmap to a defined max size
+     *
+     * @param bitmap  Bitmap image
+     * @param maxSize Size of the Bitmap to scale to
+     * @return Returns a scaled down version of the original Bitmap
+     */
+    private Bitmap scaleDown(Bitmap bitmap, float maxSize) {
+        // Ratio between the maxSize and the bitmap's width and height
+        float ratio = Math.min(
+                maxSize / bitmap.getWidth(),
+                maxSize / bitmap.getHeight()
+        );
+
+        // If ratio >=1, the bitmap is smaller than the defined max size
+        if (ratio >= 1) {
+            return bitmap;
+        }
+
+        // Width and height reduction
+        int width = Math.round(ratio * bitmap.getWidth());
+        int height = Math.round(ratio * bitmap.getHeight());
+
+        if (width <= 0 && height <=0) {
+            return bitmap;
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 }
