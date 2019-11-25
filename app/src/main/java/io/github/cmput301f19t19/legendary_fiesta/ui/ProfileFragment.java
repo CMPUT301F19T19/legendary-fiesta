@@ -21,6 +21,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,6 +31,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
+import io.github.cmput301f19t19.legendary_fiesta.LoginActivity;
 import io.github.cmput301f19t19.legendary_fiesta.MainActivity;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
@@ -44,6 +46,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private Button cancelButton;
     private Button doneButton;
+    private Button logoutButton;
 
     // Fragment view
     private View mView;
@@ -72,6 +75,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Buttons
         cancelButton = mView.findViewById(R.id.cancel_button);
         doneButton = mView.findViewById(R.id.done_button);
+        logoutButton = mView.findViewById(R.id.log_out_button);
 
         // EditText
         userEditText = mView.findViewById(R.id.usernameEditText);
@@ -84,6 +88,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         birthDateEditText.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
         doneButton.setOnClickListener(this);
+        logoutButton.setOnClickListener(this);
 
         userEditText.setText(user.getUsername());
         if (user.getDescription() != null) {
@@ -162,6 +167,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.done_button:
                 onDoneClicked();
+                break;
+            case R.id.log_out_button:
+                FirebaseAuth.getInstance().signOut();
+                Intent signInIntent = new Intent(getActivity(), LoginActivity.class);
+                signInIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(signInIntent);
                 break;
         }
     }
