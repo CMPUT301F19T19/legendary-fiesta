@@ -199,9 +199,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             try {
                 originalPhotoURL = moodEvent.getPhotoURL();
                 URL photoURL = new URL(originalPhotoURL);
-                Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
                 addPictureButton.setImageResource(0);
-                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), moodEventBmp));
+                Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(),
+                        scaleDown(moodEventBmp, addPictureButton.getHeight())));
             } catch (MalformedURLException ex) {
                 Toast.makeText(getContext(), "Invalid image URL",
                         Toast.LENGTH_SHORT).show();
@@ -674,6 +675,10 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
         // Width and height reduction
         int width = Math.round(ratio * bitmap.getWidth());
         int height = Math.round(ratio * bitmap.getHeight());
+
+        if (width <= 0 && height <=0) {
+            return bitmap;
+        }
 
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
