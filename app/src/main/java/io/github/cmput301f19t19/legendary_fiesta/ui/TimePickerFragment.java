@@ -16,11 +16,10 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class TimePickerFragment extends AppCompatDialogFragment implements TimePickerDialog.OnTimeSetListener {
-    private static final String TAG = "TimePickerFragment";
-    final Calendar calendar = Calendar.getInstance();
-
     public static final String HOUR_TAG = "TIME_HOUR";
     public static final String MINUTE_TAG = "TIME_MIN";
+    private static final String TAG = "TimePickerFragment";
+    final Calendar calendar = Calendar.getInstance();
 
     @NonNull
     @Override

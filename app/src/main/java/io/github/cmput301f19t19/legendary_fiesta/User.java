@@ -14,6 +14,17 @@ import java.util.Date;
  * Username is unique to each user and not changeable
  */
 public class User implements Parcelable {
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @NotNull
     private String username;
     @Nullable
@@ -22,7 +33,6 @@ public class User implements Parcelable {
     private String description;
     @NotNull
     private String uid;
-
     private ArrayList<String> following;
     private ArrayList<String> followedBy;
     private ArrayList<String> requestedBy;
@@ -48,7 +58,8 @@ public class User implements Parcelable {
      * Constructor for a user (for use with Serializers)
      * for Firebase database automated serialization
      */
-    public User() { }
+    public User() {
+    }
 
     protected User(Parcel in) {
         username = in.readString();
@@ -70,18 +81,6 @@ public class User implements Parcelable {
         in.readStringList(followedBy);
         in.readStringList(requestedBy);
     }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     /**
      * @return String unique username
@@ -161,6 +160,7 @@ public class User implements Parcelable {
 
     /**
      * removes a freind
+     *
      * @param uid the userId of the requesting user
      */
     public void removeFollowing(String uid) {

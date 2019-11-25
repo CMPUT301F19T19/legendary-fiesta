@@ -28,7 +28,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         if (actionBar != null)
             actionBar.hide();
         //hide notification bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         showLogin(button);
     }
 
@@ -66,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         // Parse user information to the MainActivity
         startActivity(
                 new Intent(this, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("USER_PROFILE", profile)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra("USER_PROFILE", profile)
         );
     }
 
@@ -126,17 +132,17 @@ public class LoginActivity extends AppCompatActivity {
                 showProgressOverlay(false);
                 if (!document.isEmpty()) {
                     new AlertDialog.Builder(ctx)
-                        .setTitle("Username taken!")
-                        .setMessage("Please try a different username")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Go back without changing anything
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .create()
-                        .show();
+                            .setTitle("Username taken!")
+                            .setMessage("Please try a different username")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //Go back without changing anything
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
                 } else {
                     firebaseHelper.addUser(user, new FirebaseHelper.FirebaseCallback<DocumentReference>() {
                         @Override

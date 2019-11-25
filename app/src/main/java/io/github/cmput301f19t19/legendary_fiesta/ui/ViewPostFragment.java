@@ -77,8 +77,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
                              ViewGroup container, Bundle savedInstanceState) {
         // to allow loading images on main thread
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -115,15 +114,15 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         emotionRadioGroup.setOnCheckedChangeListener(this);
 
         emotionRadioGroup.setClickable(false);
-        for(int i = 0; i < emotionRadioGroup.getChildCount(); i++){
-            RadioButton currentButton = (RadioButton)emotionRadioGroup.getChildAt(i);
+        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
+            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
             currentButton.setClickable(false);
             currentButton.setFocusable(false);
         }
 
         try {
             navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
         }
 
@@ -210,7 +209,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
             RadioButton currentButton = (RadioButton) group.getChildAt(i);
 
             if (currentButton.getId() == selectedId) {
-                currentButton.getBackground().setColorFilter( ContextCompat.getColor(mActivity,R.color.selected_color), PorterDuff.Mode.MULTIPLY);
+                currentButton.getBackground().setColorFilter(ContextCompat.getColor(mActivity, R.color.selected_color), PorterDuff.Mode.MULTIPLY);
             } else {
                 // Make the unselected buttons white
                 currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
@@ -220,10 +219,10 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
 
     private void disableEditText(EditText editText) {
         editText.setFocusable(false);
-        editText.setFocusableInTouchMode(false) ;
+        editText.setFocusableInTouchMode(false);
         editText.setClickable(false);
         editText.setLongClickable(false);
-        editText.setCursorVisible(false) ;
+        editText.setCursorVisible(false);
     }
 
 
@@ -296,7 +295,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         int width = Math.round(ratio * bitmap.getWidth());
         int height = Math.round(ratio * bitmap.getHeight());
 
-        if (width <= 0 && height <=0) {
+        if (width <= 0 && height <= 0) {
             return bitmap;
         }
 
