@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -54,6 +55,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
     private User user;
     private HashMap<String, String> friendUsernames;
     private Button mapButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     //Filter spinner related variables
     private Spinner moodFilter;
@@ -78,6 +80,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
 
         friendUsernames = new HashMap<>();
         moodDataList = new ArrayList<>();
+
         if (getTag() != FRIENDS_MOOD_UI_TEST_TAG) {
             loadData();
         }
@@ -121,6 +124,17 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
                     intent.putStringArrayListExtra("FRIENDS", createNamesList(filteredMoodList));
                 }
                 startActivity(intent);
+            }
+        });
+
+        swipeRefreshLayout = mView.findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
