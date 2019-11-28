@@ -160,6 +160,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
             }
         }
 
+        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
+            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
+            currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        }
+
         return mView;
     }
 
