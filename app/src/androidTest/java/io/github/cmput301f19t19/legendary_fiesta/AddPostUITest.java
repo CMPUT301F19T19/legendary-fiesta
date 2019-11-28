@@ -145,6 +145,8 @@ public class AddPostUITest {
 
     @Test
     public void SocialConditionSpinner(){
+        onView(withId(R.id.scroll_view)).perform(swipeUp());
+
         //check that filter start with None as default
         onView(withText(endsWith("None"))).check(matches(isDisplayed()));
 
