@@ -68,6 +68,8 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private boolean isDeleting = false;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,6 +77,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
         friendsListView = mView.findViewById(R.id.friend_list);
         requestButton = mView.findViewById(R.id.follow_request_button);
+        refreshButton = mView.findViewById(R.id.refresh_button);
         friendView = mView.findViewById(R.id.friendView);
         followView = mView.findViewById(R.id.followView);
         swipeRefreshLayout = mView.findViewById(R.id.friend_swipe_refresh);
@@ -105,6 +108,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         friendsListView.setAdapter(friendsArrayAdapter);
 
         requestButton.setOnClickListener(this);
+        refreshButton.setOnClickListener(this);
 
         search = mView.findViewById(R.id.search_friends_edittext);
 
@@ -153,20 +157,26 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void onDeleteCallback(int position) {
-        String toUID = friends.get(position).getUid();
-        firebaseHelper.unfollowUser(user.getUid(), toUID, new FirebaseHelper.FirebaseCallback<Void>() {
-            @Override
-            public void onSuccess(Void document) {
-                friends.remove(position);
-                user.removeFollowing(toUID);
-                friendsArrayAdapter.notifyDataSetChanged();
-            }
+        if (!isDeleting) {
+            isDeleting = true;
+            String toUID = friends.get(position).getUid();
+            firebaseHelper.unfollowUser(user.getUid(), toUID, new FirebaseHelper.FirebaseCallback<Void>() {
+                @Override
+                public void onSuccess(Void document) {
+                    friends.remove(position);
+                    user.removeFollowing(toUID);
+                    friendsArrayAdapter.notifyDataSetChanged();
+                    isDeleting = false;
+                }
 
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(mActivity, "Could not unfollow user", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(mActivity, "Could not unfollow user", Toast.LENGTH_LONG).show();
+                    isDeleting = false;
+                }
+            });
+        }
+
     }
 
     @Override
@@ -183,6 +193,16 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                         .putExtra("USER_PROFILE", user)
                         .putParcelableArrayListExtra("USERS", users);
                 startActivityForResult(followIntent, 1);
+            case R.id.refresh_button:
+                NavController navController = null;
+                try {
+                    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                } catch (IllegalArgumentException e) {
+                    Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
+                }
+                if (navController != null) {
+                    navController.navigate(R.id.navigation_friends);
+                }
         }
     }
 

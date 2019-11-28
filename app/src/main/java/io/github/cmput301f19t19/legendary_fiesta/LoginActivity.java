@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         // Parse user information to the MainActivity
         startActivity(
                 new Intent(this, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION)
                         .putExtra("USER_PROFILE", profile)
         );
     }
