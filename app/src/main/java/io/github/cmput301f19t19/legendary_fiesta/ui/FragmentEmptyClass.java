@@ -16,7 +16,7 @@ Acts as an Empty container to contain a fragment. Used in fragment testing
  */
 public class FragmentEmptyClass extends AppCompatActivity {
 
-    String uid = "TPgV90AKmsZM33xpgblYQYH6Abh1";
+    String uid = "yLXJlS4EVbZMGbuJggP68BePZDm2";
     User user;
     FirebaseFirestore db;
 

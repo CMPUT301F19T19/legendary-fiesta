@@ -19,6 +19,7 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.FragmentEmptyClass;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
@@ -130,6 +131,7 @@ public class AddPostUITest {
 
     @Test
     public void DescriptionTextTest(){
+        onView(withId(R.id.scroll_view)).perform(swipeUp());
         //Test for basic text
         onView(withId(R.id.description_edittext)).check(matches(isDisplayed())).perform(typeText("TEST"));
 
@@ -143,6 +145,8 @@ public class AddPostUITest {
 
     @Test
     public void SocialConditionSpinner(){
+        onView(withId(R.id.scroll_view)).perform(swipeUp());
+
         //check that filter start with None as default
         onView(withText(endsWith("None"))).check(matches(isDisplayed()));
 
