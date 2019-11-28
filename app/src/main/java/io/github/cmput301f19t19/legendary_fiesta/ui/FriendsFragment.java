@@ -234,10 +234,13 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         if (!searchName.equals("")) {
             toggleControls(false);
             //Loop through all friends to find matching names
-            for (User user : users) {
-                if (user.getUsername().toUpperCase().contains(searchName.toUpperCase())) {
-                    searchFriendsArray.add(user);
+            for (User searchUser : users) {
+                if(!user.getFollowing().contains(searchUser.getUid())){
+                    if (searchUser.getUsername().toUpperCase().contains(searchName.toUpperCase())) {
+                        searchFriendsArray.add(searchUser);
+                    }
                 }
+
             }
             requestArrayAdapter = new FriendsAdapter(mActivity, R.layout.friend_request_list_content, searchFriendsArray, user, new FriendsAdapter.AdapterCallback() {
                 @Override
