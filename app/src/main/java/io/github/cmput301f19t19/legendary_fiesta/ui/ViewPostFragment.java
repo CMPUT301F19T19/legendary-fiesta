@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -92,11 +93,11 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         addPictureButton.setFocusable(false);
 
         cancelButton = mView.findViewById(R.id.cancel_button);
-        cancelButton.setText(R.string.add_post_done_button);
-        cancelButton.setOnClickListener(this);
+        cancelButton.setVisibility(View.GONE);
 
         doneButton = mView.findViewById(R.id.done_button);
-        doneButton.setVisibility(View.GONE);
+        doneButton.setTextSize(30);
+        doneButton.setOnClickListener(this);
 
         // EditText
         dateET = mView.findViewById(R.id.dateEditText);
@@ -210,10 +211,12 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
                     startActivity(intent);
                 }
                 break;
-            case R.id.cancel_button:
-                if (navController != null) {
-                    navController.navigate(R.id.navigation_friends_moods);
-                }
+            case R.id.done_button:
+                Fragment replacement = new FriendsMoodsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+                transaction.replace(R.id.nav_host_fragment, replacement);
+                transaction.commit();
                 break;
         }
     }

@@ -77,7 +77,6 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
         friendsListView = mView.findViewById(R.id.friend_list);
         requestButton = mView.findViewById(R.id.follow_request_button);
-        refreshButton = mView.findViewById(R.id.refresh_button);
         friendView = mView.findViewById(R.id.friendView);
         followView = mView.findViewById(R.id.followView);
         swipeRefreshLayout = mView.findViewById(R.id.friend_swipe_refresh);
@@ -108,7 +107,6 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         friendsListView.setAdapter(friendsArrayAdapter);
 
         requestButton.setOnClickListener(this);
-        refreshButton.setOnClickListener(this);
 
         search = mView.findViewById(R.id.search_friends_edittext);
 
@@ -134,7 +132,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
             }
         });
 
-        //Search EditText onchange listener
+        // Search EditText onchange listener
         search.addTextChangedListener(this);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -193,16 +191,6 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                         .putExtra("USER_PROFILE", user)
                         .putParcelableArrayListExtra("USERS", users);
                 startActivityForResult(followIntent, 1);
-            case R.id.refresh_button:
-                NavController navController = null;
-                try {
-                    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                } catch (IllegalArgumentException e) {
-                    Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
-                }
-                if (navController != null) {
-                    navController.navigate(R.id.navigation_friends);
-                }
         }
     }
 
