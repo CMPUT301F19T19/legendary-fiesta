@@ -186,7 +186,11 @@ public class AddPostFragment extends Fragment implements View.OnClickListener,
 
         // Set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
-        socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
+        if (conditionsArray.indexOf(moodSocialCondition) >= 0) {
+            socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
+        } else {
+            socialSpinner.setSelection(conditionsArray.size() - 1);
+        }
 
         // Set description
         descET.setText(moodEvent.getDescription());
