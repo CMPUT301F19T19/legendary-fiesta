@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -37,19 +40,33 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
     private View mView;
     private Activity mActivity;
     private User user;
-    // text views
+
+    // TextViews
     private TextView friendView;
     private TextView followView;
-    //Friend's List variables
+
+    // Friend's List variables
     private ListView friendsListView;
     private FriendsAdapter friendsArrayAdapter;
-    //Variables for Search
-    private EditText search;        //Refers to the Search EditText in fragment_friends.xml
-    private String searchName;      //searchName is the text that is entered in the Search EditText
-    private ArrayList<User> searchFriendsArray;   //A list temporarily used to contain all names that match the search text
-    private ArrayList<User> users; // all the users
+
+    // Variables for Search
+    // Refers to the Search EditText in fragment_friends.xml
+    private EditText search;
+
+    // searchName is the text that is entered in the Search EditText
+    private String searchName;
+
+    // A list temporarily used to contain all names that match the search text
+    private ArrayList<User> searchFriendsArray;
+
+    // All the users
+    private ArrayList<User> users;
+
     private ArrayList<User> friends;
     private ImageButton requestButton;
+    private ImageButton refreshButton;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private boolean isDeleting = false;
 
@@ -60,8 +77,10 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
         friendsListView = mView.findViewById(R.id.friend_list);
         requestButton = mView.findViewById(R.id.follow_request_button);
+        refreshButton = mView.findViewById(R.id.refresh_button);
         friendView = mView.findViewById(R.id.friendView);
         followView = mView.findViewById(R.id.followView);
+        swipeRefreshLayout = mView.findViewById(R.id.friend_swipe_refresh);
         friends = new ArrayList<>();
         user = requireActivity().getIntent().getParcelableExtra("USER_PROFILE");
 
@@ -74,7 +93,8 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         assert user != null;
         firebaseHelper.finishFriendRequest(user, new FirebaseHelper.FirebaseCallback<Void>() {
             @Override
-            public void onSuccess(Void document) {}
+            public void onSuccess(Void document) {
+            }
 
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -88,6 +108,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
         friendsListView.setAdapter(friendsArrayAdapter);
 
         requestButton.setOnClickListener(this);
+        refreshButton.setOnClickListener(this);
 
         search = mView.findViewById(R.id.search_friends_edittext);
 
@@ -115,6 +136,22 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
         //Search EditText onchange listener
         search.addTextChangedListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                NavController navController = null;
+                try {
+                    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                } catch (IllegalArgumentException e) {
+                    Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
+                }
+                if (navController != null) {
+                    navController.navigate(R.id.navigation_friends);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         return mView;
     }
@@ -156,6 +193,16 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
                         .putExtra("USER_PROFILE", user)
                         .putParcelableArrayListExtra("USERS", users);
                 startActivityForResult(followIntent, 1);
+            case R.id.refresh_button:
+                NavController navController = null;
+                try {
+                    navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                } catch (IllegalArgumentException e) {
+                    Log.d("Error", "Illegal Argument for Navigation.findNavController, Message: " + e);
+                }
+                if (navController != null) {
+                    navController.navigate(R.id.navigation_friends);
+                }
         }
     }
 
