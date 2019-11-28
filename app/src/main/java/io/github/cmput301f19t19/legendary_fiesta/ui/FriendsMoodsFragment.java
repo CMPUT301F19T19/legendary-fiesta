@@ -102,7 +102,6 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 transaction.replace(R.id.nav_host_fragment, replacement);
-                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
