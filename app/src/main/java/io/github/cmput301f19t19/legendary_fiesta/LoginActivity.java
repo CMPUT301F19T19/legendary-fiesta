@@ -113,14 +113,27 @@ public class LoginActivity extends AppCompatActivity {
         String birthDateString = birthDate.getText().toString();
         Date birth = null;
 
-        if (!birthDateString.isEmpty()) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.CANADA);
-            try {
-                birth = dateFormat.parse(birthDateString);
-            } catch (ParseException ignored) {
-                submit_button.setEnabled(true);
-                Toast.makeText(this, R.string.login_invalid_date, Toast.LENGTH_LONG).show();
-            }
+        if (userName.isEmpty()) {
+            submit_button.setEnabled(true);
+            showProgressOverlay(false);
+            Toast.makeText(this, R.string.login_no_username, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (birthDateString.isEmpty()) {
+            submit_button.setEnabled(true);
+            showProgressOverlay(false);
+            Toast.makeText(this, R.string.login_no_date, Toast.LENGTH_LONG).show();
+            return;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.CANADA);
+        try {
+            birth = dateFormat.parse(birthDateString);
+        } catch (ParseException ignored) {
+            submit_button.setEnabled(true);
+            showProgressOverlay(false);
+            Toast.makeText(this, R.string.login_invalid_date, Toast.LENGTH_LONG).show();
+            return;
         }
 
         user = new User(userName, birth, description);
