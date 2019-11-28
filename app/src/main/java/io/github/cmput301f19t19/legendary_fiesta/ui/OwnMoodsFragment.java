@@ -115,7 +115,12 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MapActivity.class);
-                intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                // Check for filtered data list
+                if (chosenMoodType != -1) {
+                    intent.putParcelableArrayListExtra("EVENTS", filteredMoodList);
+                } else {
+                    intent.putParcelableArrayListExtra("EVENTS", moodDataList);
+                }
                 startActivity(intent);
             }
         });
@@ -123,7 +128,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         return mView;
     }
 
-    public void loadMoodData() {
+    private void loadMoodData() {
         firebaseHelper.getMoodEventsById(user.getUid(), new FirebaseHelper.FirebaseCallback<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -286,7 +291,7 @@ public class OwnMoodsFragment extends Fragment implements AdapterView.OnItemSele
         //If chosenMoodType is a number between 0-6, filter!
         if (chosenMoodType != -1) {
             for (MoodEvent mood : moodDataList) {
-                if (mood.getMoodType() == chosenMoodType) {
+                if (mood.getMoodType().equals(chosenMoodType)) {
                     filteredMoodList.add(mood);
                 }
             }

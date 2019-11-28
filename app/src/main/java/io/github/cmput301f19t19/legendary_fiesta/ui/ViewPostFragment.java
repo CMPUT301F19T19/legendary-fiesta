@@ -75,7 +75,7 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        // to allow loading images on main thread
+        // To allow loading images on main thread
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -92,7 +92,8 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         addPictureButton.setFocusable(false);
 
         cancelButton = mView.findViewById(R.id.cancel_button);
-        cancelButton.setVisibility(View.GONE);
+        cancelButton.setText(R.string.add_post_done_button);
+        cancelButton.setOnClickListener(this);
 
         doneButton = mView.findViewById(R.id.done_button);
         doneButton.setVisibility(View.GONE);
@@ -137,31 +138,42 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
             }
         }
 
+        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
+            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
+            currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        }
+
         return mView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        // get reference to associated activity
+        // Get reference to associated activity
         mActivity = (Activity) context;
     }
 
+    /**
+     * Set up the view for a given MoodEvent
+     *
+     * @param moodEvent MoodEvent to display to the user
+     */
     public void setViewMoodEvent(MoodEvent moodEvent) {
-        // set social condition
+        // Set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
         socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
 
-        // set description
+        // Set description
         descET.setText(moodEvent.getDescription());
 
-        // set image if moodEvent has one
+        // Set image if moodEvent has one
         if (moodEvent.getPhotoURL() != null) {
             try {
                 URL photoURL = new URL(moodEvent.getPhotoURL());
                 Bitmap moodEventBmp = BitmapFactory.decodeStream(photoURL.openConnection().getInputStream());
                 addPictureButton.setImageResource(0);
-                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(), scaleDown(moodEventBmp, addPictureButton.getMaxHeight())));
+                addPictureButton.setBackground(new BitmapDrawable(mView.getResources(),
+                        scaleDown(moodEventBmp, addPictureButton.getMaxHeight())));
             } catch (MalformedURLException ex) {
                 Toast.makeText(getContext(), "Invalid image URL",
                         Toast.LENGTH_SHORT).show();
@@ -196,6 +208,11 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
                     moodDataList.add(moodEvent);
                     intent.putParcelableArrayListExtra("EVENTS", moodDataList);
                     startActivity(intent);
+                }
+                break;
+            case R.id.cancel_button:
+                if (navController != null) {
+                    navController.navigate(R.id.navigation_friends_moods);
                 }
                 break;
         }
@@ -252,6 +269,10 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
         socialSpinner.setOnItemSelectedListener(new FilterEventHandlers());
     }
 
+    /**
+     * @param moodId moodId of the mood selected
+     * @return Return the id of mood in emotion radio group
+     */
     private int getEmotionRadioId(@Mood.MoodType int moodId) {
         switch (moodId) {
             case Mood.NEUTRAL:
