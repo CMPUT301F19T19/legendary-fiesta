@@ -29,13 +29,14 @@ public class MoodEventTest {
 
     @Before
     public void setUp() {
-        //moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
+        moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
     }
 
     @Test
     public void parcelTest() {
         Parcel parcel = Parcel.obtain();
         moodEvent.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
 
         MoodEvent deFrosted = MoodEvent.CREATOR.createFromParcel(parcel);
 

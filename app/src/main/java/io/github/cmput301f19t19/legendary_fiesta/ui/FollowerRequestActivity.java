@@ -10,6 +10,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.FirebaseApp;
 
@@ -33,6 +34,8 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     private ArrayList<FriendRequest> requestDataList;
     private RequestAdapter requestAdapter;
     private FirebaseHelper helper;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,18 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
         //hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //swipe to refresh
+        swipeRefreshLayout = findViewById(R.id.swipe_to_refresh_request);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getRequest();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
