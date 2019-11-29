@@ -231,7 +231,26 @@ public class FirebaseHelper {
     }
 
     /**
-     * Add a mood event to the database
+     * update the user information in the database on demand
+     *
+     * @param user     user to be updated
+     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     */
+    public void updateUser(User user, final FirebaseCallback<DocumentSnapshot> callback) {
+        db.collection("users").document(user.getUid())
+                .update("username", user.getUsername(),
+                        "birthDate", user.getBirthDate(),
+                        "description", user.getDescription())
+                .addOnSuccessListener(Void -> {
+                    db.collection("users").document(user.getUid()).get()
+                            .addOnSuccessListener(callback::onSuccess)
+                            .addOnFailureListener(callback::onFailure);
+                })
+                .addOnFailureListener(callback::onFailure);
+    }
+
+    /**
+     * add a mood event to the database
      *
      * @param moodEvent MoodEvent to be added
      * @param photo     Photo to be attached
