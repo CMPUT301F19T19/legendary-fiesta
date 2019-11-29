@@ -51,7 +51,6 @@ public class UserTest {
         user.setDescription(newDescription);
         Assert.assertEquals(newDescription, user.getDescription());
     }
-
     @Test
     public void uidTest() {
         String newUid = "newUserId";
