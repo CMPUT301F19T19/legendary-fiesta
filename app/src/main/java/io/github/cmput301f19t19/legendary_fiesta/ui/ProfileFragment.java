@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -218,6 +219,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
                     SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
                     Date date = null;
+                    if (bio.equals("/about")) {
+                        startActivity(new Intent(getContext(), OssLicensesMenuActivity.class));
+                        return;
+                    }
                     try {
                         date = format.parse(birthDateEditText.getText().toString());
                     } catch (Exception e) {
