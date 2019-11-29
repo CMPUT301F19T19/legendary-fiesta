@@ -305,7 +305,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * @param socialCondition Selected social condition from the dropdown (spinner)
      * @return Returns an integer that corresponds to the selected social condition
      */
-    // TODO: TEST
     private String getSelectedSocialCondition(@Nullable Integer socialCondition) {
         if (socialCondition == null) {
             return "None";
