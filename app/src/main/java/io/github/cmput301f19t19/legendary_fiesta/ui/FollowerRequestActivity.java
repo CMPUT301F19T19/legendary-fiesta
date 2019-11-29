@@ -71,6 +71,8 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
             public void onRefresh() {
                 requestDataList.clear();
                 getRequest();
+                requestAdapter = new RequestAdapter(getApplicationContext(), R.layout.request_list_content, requestDataList, users, user);
+                requestList.setAdapter(requestAdapter);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
