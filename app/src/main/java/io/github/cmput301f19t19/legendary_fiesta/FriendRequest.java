@@ -1,5 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+/*
+ * FriendRequest is a class
+ */
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -23,7 +27,7 @@ public class FriendRequest implements Parcelable {
     private String to;
 
     /**
-     * Non-argument default constructor for Firebase
+     * Non-argument default constructor for FireBase
      */
     public FriendRequest() {
         this.date = null;

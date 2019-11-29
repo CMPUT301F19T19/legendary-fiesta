@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 import io.github.cmput301f19t19.legendary_fiesta.ui.ProxyLatLng;
 
 /**
- * Represents a single mood event
+ * Represents a single mood event.
  */
 public class MoodEvent implements Parcelable {
     public static final Creator<MoodEvent> CREATOR = new Creator<MoodEvent>() {

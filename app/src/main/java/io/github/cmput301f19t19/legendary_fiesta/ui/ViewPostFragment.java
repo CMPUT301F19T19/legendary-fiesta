@@ -1,5 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * ViewPostFragment deals with displaying user's following's MoodEvent in detail.
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

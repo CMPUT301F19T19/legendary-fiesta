@@ -1,5 +1,12 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * TimePickerFragment deals with displaying a time picker dialog fragment so that the user can
+ * add/edit the time of the user's MoodEvent.
+ * TimePickerFragment will automatically default to the current time (when adding MoodEvent) or
+ * default to the preset time of the selected MoodEvent (when editing MoodEvent)
+ */
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;

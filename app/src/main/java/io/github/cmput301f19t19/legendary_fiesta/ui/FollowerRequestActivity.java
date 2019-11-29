@@ -60,7 +60,7 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         requestAdapter = new RequestAdapter(this, R.layout.request_list_content, requestDataList, users, user);
         requestList.setAdapter(requestAdapter);
 
-        //hide action bar
+        // Hide action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
@@ -78,10 +78,10 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         });
 
 
-        //hide notification bar
+        // Hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //swipe to refresh
+        // Swipe to refresh
         swipeRefreshLayout = findViewById(R.id.follow_request_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
