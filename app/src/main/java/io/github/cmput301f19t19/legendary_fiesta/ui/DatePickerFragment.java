@@ -1,5 +1,12 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * DatePickerFragment deals with displaying a date picker dialog fragment so that the user can
+ * add/edit the date of the user's MoodEvent.
+ * DatePickerFragment will automatically default to the current date (when adding MoodEvent) or
+ * default to the preset date of the selected MoodEvent (when editing MoodEvent)
+ */
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;

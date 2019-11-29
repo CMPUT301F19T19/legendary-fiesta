@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+/*
+ * Customer ArrayAdapter to display user's follow requests from other users.
+ * This adapter allows the user to accept or reject other users' follow request.
+ */
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,15 +16,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.lang.reflect.Array;
+import com.google.firebase.FirebaseApp;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-import com.google.firebase.FirebaseApp;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
-import org.jetbrains.annotations.NotNull;
 
 public class RequestAdapter extends ArrayAdapter<FriendRequest> {
 

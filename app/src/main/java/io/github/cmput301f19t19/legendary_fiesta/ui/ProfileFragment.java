@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * ProfileFragment deals with displaying the user's personal information, allows the user to edit
+ * their own information (username, birth date and bio) and logging out of their account.
+ */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

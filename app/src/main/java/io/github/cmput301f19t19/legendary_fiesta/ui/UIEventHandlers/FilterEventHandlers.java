@@ -1,5 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.UIEventHandlers;
 
+/*
+ * FilterEventHandlers is a helper class to handle filtering events.
+ */
+
 import android.view.View;
 import android.widget.AdapterView;
 

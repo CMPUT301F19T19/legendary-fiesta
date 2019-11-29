@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+  FollowerRequestActivity deals with displaying the user's follow requests by other users and also
+  allowing the user to accept or reject other user's request to follow the user.
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +30,7 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter
 
 public class FollowerRequestActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //UI Elements
+    // UI Elements
     private ImageButton backButton;
     private ListView requestList;
     private User user;
@@ -34,7 +39,6 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     private ArrayList<FriendRequest> requestDataList;
     private RequestAdapter requestAdapter;
     private FirebaseHelper helper;
-
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -56,16 +60,29 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         requestAdapter = new RequestAdapter(this, R.layout.request_list_content, requestDataList, users, user);
         requestList.setAdapter(requestAdapter);
 
-        //hide action bar
+        // Hide action bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
 
-        //hide notification bar
+        swipeRefreshLayout = findViewById(R.id.follow_request_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestDataList.clear();
+                getRequest();
+                requestAdapter = new RequestAdapter(getApplicationContext(), R.layout.request_list_content, requestDataList, users, user);
+                requestList.setAdapter(requestAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+
+        // Hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //swipe to refresh
-        swipeRefreshLayout = findViewById(R.id.swipe_to_refresh_request);
+        // Swipe to refresh
+        swipeRefreshLayout = findViewById(R.id.follow_request_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -79,9 +96,8 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back_button:
-                finish();
+        if (v.getId() == R.id.back_button) {
+            finish();
         }
     }
 

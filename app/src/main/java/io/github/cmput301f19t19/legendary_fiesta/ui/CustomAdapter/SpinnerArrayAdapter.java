@@ -1,8 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
-import android.app.Activity;
+/*
+ * Custom ArrayAdapter to display moods in a dropdown used for filtering MoodEvents.
+ */
+
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +15,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import org.w3c.dom.Text;
 
 import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.R;
-
-import static android.provider.Settings.System.getString;
 
 public class SpinnerArrayAdapter extends ArrayAdapter<String> {
 

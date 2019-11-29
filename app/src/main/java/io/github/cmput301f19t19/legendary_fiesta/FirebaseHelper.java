@@ -1,10 +1,14 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+/*
+ * FireBaseHelper is a helper class to for FireBase Operations.
+ */
+
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,14 +25,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A helper class for Firebase operations
+ * A helper class for FireBase operations
  */
 public class FirebaseHelper {
     private FirebaseFirestore db;
     private FirebaseStorage storage;
 
     /**
-     * @param app the FirebaseApp instance, you can use `FirebaseApp.getInstance()` to get one
+     * @param app the FireBaseApp instance, you can use `FireBaseApp.getInstance()` to get one
      *            when you are inside an Activity
      */
     public FirebaseHelper(FirebaseApp app) {
@@ -40,7 +44,7 @@ public class FirebaseHelper {
      * check if the username has already been taken
      *
      * @param name     the username to check
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     * @param callback Called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void checkUserExists(String name, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("users").whereEqualTo("username", name).get()
@@ -49,11 +53,11 @@ public class FirebaseHelper {
     }
 
     /**
-     * check if there is already a friend request concerning the two users
+     * Check if there is already a friend request concerning the two users
      *
-     * @param fromUID
-     * @param toUID
-     * @param callback
+     * @param fromUID  Requester
+     * @param toUID    Requestee
+     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<Boolean>
      */
     public void checkRequestExists(String fromUID, String toUID, final FirebaseCallback<Boolean> callback) {
         if (fromUID.equals(toUID)) {
@@ -69,8 +73,8 @@ public class FirebaseHelper {
     /**
      * get all the pending requests for the specified user
      *
-     * @param UID
-     * @param callback
+     * @param UID      Current user
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<List<FriendRequest>>
      */
     public void getPendingRequests(String UID, final FirebaseCallback<List<FriendRequest>> callback) {
         db.collection("requests").whereEqualTo("to", UID).whereEqualTo("status", false)
@@ -84,11 +88,11 @@ public class FirebaseHelper {
     }
 
     /**
-     * add new friend request to the database
+     * Add new friend request to the database
      *
-     * @param fromUID
-     * @param toUID
-     * @param callback
+     * @param fromUID  Requester
+     * @param toUID    Requestee
+     * @param callback Called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void sendFriendRequest(String fromUID, String toUID, final FirebaseCallback<Void> callback) {
         FriendRequest friendRequest = new FriendRequest(new Date(), fromUID, false, toUID);
@@ -98,11 +102,12 @@ public class FirebaseHelper {
     }
 
     /**
-     * flip the friend request (either approve or deny)
+     * Flip the friend request (either approve or deny)
      *
-     * @param fromUID
-     * @param toUser
-     * @param approve
+     * @param fromUID  Requester
+     * @param toUser   Requestee
+     * @param approve  Approve or deny request
+     * @param callback Called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void flipFriendRequest(String fromUID, User toUser, boolean approve, final FirebaseCallback<Void> callback) {
         db.collection("requests").whereEqualTo("from", fromUID).whereEqualTo("to", toUser.getUid())
@@ -140,10 +145,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * finish the friend request "hand-shaking" process
+     * Finish the friend request "hand-shaking" process
      *
-     * @param myUser
-     * @param callback
+     * @param myUser   Current user
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void finishFriendRequest(User myUser, final FirebaseCallback<Void> callback) {
         db.collection("requests").whereEqualTo("from", myUser.getUid()).get()
@@ -157,7 +162,7 @@ public class FirebaseHelper {
                         }
                     }
                     db.runBatch(writeBatch -> {
-                        // delete all the completed requests
+                        // Delete all the completed requests
                         for (DocumentReference reference : pendingDeletion) {
                             writeBatch.delete(reference);
                         }
@@ -170,11 +175,11 @@ public class FirebaseHelper {
     }
 
     /**
-     * unfollows the toUser by the myUser
+     * Un-follows the toUser by the myUser
      *
-     * @param fromUID
-     * @param toUID
-     * @param callback
+     * @param fromUID  Follower
+     * @param toUID    Followee
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void unfollowUser(String fromUID, String toUID, final FirebaseCallback<Void> callback) {
         db.collection("users").document(fromUID)
@@ -189,10 +194,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * get the user with specific UID
+     * Get the user with specific UID
      *
-     * @param uid      UID generated and tracked by Firebase
-     * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
+     * @param uid      UID generated and tracked by FireBase
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
     public void getUserByUID(String uid, final FirebaseCallback<DocumentSnapshot> callback) {
         db.collection("users").document(uid).get()
@@ -201,9 +206,9 @@ public class FirebaseHelper {
     }
 
     /**
-     * get all the users from the database
+     * Get all the users from the database
      *
-     * @param callback callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
+     * @param callback Callback, Called when the query finishes, needs to be of type FirebaseCallback<DocumentSnapshot>
      */
     public void getAllUsers(final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("users")
@@ -214,10 +219,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * add an user to the database, can also be an update action
+     * Add an user to the database, can also be an update action
      *
      * @param user     user to be added or updated
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<DocumentReference>
      */
     public void addUser(User user, final FirebaseCallback<DocumentReference> callback) {
         db.collection("users").document(user.getUid()).set(user)
@@ -226,11 +231,11 @@ public class FirebaseHelper {
     }
 
     /**
-     * add a mood event to the database
+     * Add a mood event to the database
      *
      * @param moodEvent MoodEvent to be added
-     * @param photo     photo to be attached
-     * @param callback  callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
+     * @param photo     Photo to be attached
+     * @param callback  Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void addMoodEvent(MoodEvent moodEvent, @Nullable byte[] photo, final FirebaseCallback<Void> callback) {
         if (photo != null) {
@@ -251,6 +256,12 @@ public class FirebaseHelper {
         }
     }
 
+    /**
+     * Add MoodEvent to FireBase
+     *
+     * @param moodEvent MoodEvent to be added
+     * @param callback  Callback, called called when the query finishes, needs to be of type FirebaseCallback<Void>
+     */
     private void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodEvent.getMoodId())
                 .set(moodEvent)
@@ -259,10 +270,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * get mood events by a user
+     * Get mood events by a user
      *
      * @param uid      User's UserID
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getMoodEventsById(String uid, final FirebaseCallback<QuerySnapshot> callback) {
         db.collection("moodEvents")
@@ -274,13 +285,13 @@ public class FirebaseHelper {
     }
 
     /**
-     * get friend's mood events
+     * Get friend's mood events
      *
      * @param uids     User's UserIDs
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
-        for (String uid: uids) {
+        for (String uid : uids) {
             db.collection("moodEvents")
                     .whereEqualTo("user", uid)
                     .orderBy("date", Query.Direction.DESCENDING)
@@ -292,10 +303,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * delete mood event by ID
+     * Delete mood event by ID
      *
      * @param moodId   MoodEvent ID
-     * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
+     * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void deleteMoodEventById(String moodId, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodId)
@@ -305,10 +316,10 @@ public class FirebaseHelper {
     }
 
     /**
-     * upload files to the firestore storage
+     * Upload files to the FireStore storage
      *
-     * @param filename filename on the firestore storage
-     * @param data     data to be uploaded
+     * @param filename filename on the FireStore storage
+     * @param data     Data to be uploaded
      * @param callback callback of type FirebaseCallback<Uri>, called when upload and public sharing link creation
      *                 has finished, returns public URL to the uploaded file
      */
@@ -322,16 +333,16 @@ public class FirebaseHelper {
 
     public interface FirebaseCallback<T> {
         /**
-         * callback handler for handling success cases, returned the value is stored in `document` variable
+         * Callback handler for handling success cases, returned the value is stored in `document` variable
          *
          * @param document depending on the operation, this variable can hold different type of values
          */
         void onSuccess(T document);
 
         /**
-         * callback handler for handling failure cases
+         * Callback handler for handling failure cases
          *
-         * @param e Exception thrown by the Firebase library
+         * @param e Exception thrown by the FireBase library
          */
         void onFailure(@NonNull Exception e);
     }

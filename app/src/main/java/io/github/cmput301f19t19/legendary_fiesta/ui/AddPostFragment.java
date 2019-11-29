@@ -1,5 +1,11 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * AddPostFragment deals with adding/viewing/editing a MoodEvent.
+ * When an MoodEvent is added, the MoodEvent will also be added to FireBase.
+ * When an MoodEvent is edited, the MoodEvent will also be updated on FireBase.
+ */
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;

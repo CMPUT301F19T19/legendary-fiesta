@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+/*
+ * LoginActivity handles the user login process and also user account creation.
+ */
+
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;

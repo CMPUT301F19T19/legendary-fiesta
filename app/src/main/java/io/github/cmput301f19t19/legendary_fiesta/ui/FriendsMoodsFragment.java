@@ -1,5 +1,13 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * FriendsMoodsFragment deals with displaying the user's following's MoodEvents in a interactive list,
+ * launching a map to visualize the locations of the user's following's MoodEvents and allowing the
+ * user to filter MoodEvents his/her following's MoodEvents.
+ * FriendsMoodsFragment also allows the user to click a MoodEvent to see their following's
+ * MoodEvent in detail.
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -126,7 +134,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
             }
         });
 
-        swipeRefreshLayout = mView.findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout = mView.findViewById(R.id.friends_moods_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

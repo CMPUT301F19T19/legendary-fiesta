@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+/*
+ * This MainActivity sets up the navigation bar so that the user can switch between
+ * OwnMoodsFragment, FriendsMoodsFragment, AddPostFragment, FriendsFragment and ProfileFragment.
+ */
+
 import android.os.Bundle;
 import android.view.WindowManager;
 

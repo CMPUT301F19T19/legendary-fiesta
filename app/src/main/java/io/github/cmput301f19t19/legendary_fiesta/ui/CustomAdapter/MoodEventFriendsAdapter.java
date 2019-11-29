@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+/*
+ * Custom ArrayAdapter to display user's followings' MoodEvents in a beautiful list.
+ */
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +32,7 @@ public class MoodEventFriendsAdapter extends ArrayAdapter<MoodEvent> {
     private HashMap<String, String> friendsUsernames;
     private Context context;
 
-    public MoodEventFriendsAdapter(Context context, ArrayList<MoodEvent> moodEventList, HashMap<String, String> friendsUsernames){
+    public MoodEventFriendsAdapter(Context context, ArrayList<MoodEvent> moodEventList, HashMap<String, String> friendsUsernames) {
         super(context, 0, moodEventList);
         this.moodEventList = moodEventList;
         this.friendsUsernames = friendsUsernames;

@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
+/*
+ * MapActivity sets up a map display that has markers of the user's MoodEvents (if any) or the user's
+ * following's MoodEvents (if any) on the map.
+ */
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;

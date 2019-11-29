@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * ProxyLatLng is a replacement implementation for `LatLng` so that `LatLng` could be made
+ * parcelable to FireBase.
+ */
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
