@@ -31,7 +31,7 @@ public class MoodEventAdapter extends ArraySwipeAdapter<MoodEvent> {
     private Context context;
     AdapterCallback callback;
 
-    public interface AdapterCallback{
+    public interface AdapterCallback {
         void onDelete(int position);
     }
 

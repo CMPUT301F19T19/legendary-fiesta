@@ -16,15 +16,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import java.lang.reflect.Array;
+import com.google.firebase.FirebaseApp;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-import com.google.firebase.FirebaseApp;
 import io.github.cmput301f19t19.legendary_fiesta.FirebaseHelper;
 import io.github.cmput301f19t19.legendary_fiesta.FriendRequest;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 import io.github.cmput301f19t19.legendary_fiesta.User;
-import org.jetbrains.annotations.NotNull;
 
 public class RequestAdapter extends ArrayAdapter<FriendRequest> {
 

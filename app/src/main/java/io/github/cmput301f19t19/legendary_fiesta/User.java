@@ -11,7 +11,6 @@ import java.util.Date;
 
 /**
  * A Class representing a user of the app.
- *
  */
 public class User implements Parcelable {
     public static final Creator<User> CREATOR = new Creator<User>() {

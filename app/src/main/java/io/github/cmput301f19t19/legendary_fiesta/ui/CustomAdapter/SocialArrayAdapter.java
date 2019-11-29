@@ -4,21 +4,16 @@ package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
  * Custom ArrayAdapter to display social conditions of a MoodEvent.
  */
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import io.github.cmput301f19t19.legendary_fiesta.Mood;
 import io.github.cmput301f19t19.legendary_fiesta.R;
 
 public class SocialArrayAdapter extends ArrayAdapter<String> {

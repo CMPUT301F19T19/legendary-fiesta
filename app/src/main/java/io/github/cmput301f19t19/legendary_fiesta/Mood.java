@@ -39,6 +39,7 @@ public class Mood {
     private int colorId;
     private int nameId;
     private int moodType;
+
     /**
      * Constructor for a mood instance
      *

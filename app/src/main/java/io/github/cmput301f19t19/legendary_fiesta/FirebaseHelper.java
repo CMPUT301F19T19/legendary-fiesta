@@ -8,6 +8,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -54,8 +55,8 @@ public class FirebaseHelper {
     /**
      * Check if there is already a friend request concerning the two users
      *
-     * @param fromUID Requester
-     * @param toUID Requestee 
+     * @param fromUID  Requester
+     * @param toUID    Requestee
      * @param callback callback, called when the query finishes, needs to be of type FirebaseCallback<Boolean>
      */
     public void checkRequestExists(String fromUID, String toUID, final FirebaseCallback<Boolean> callback) {
@@ -72,7 +73,7 @@ public class FirebaseHelper {
     /**
      * get all the pending requests for the specified user
      *
-     * @param UID Current user
+     * @param UID      Current user
      * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<List<FriendRequest>>
      */
     public void getPendingRequests(String UID, final FirebaseCallback<List<FriendRequest>> callback) {
@@ -89,8 +90,8 @@ public class FirebaseHelper {
     /**
      * Add new friend request to the database
      *
-     * @param fromUID Requester
-     * @param toUID Requestee
+     * @param fromUID  Requester
+     * @param toUID    Requestee
      * @param callback Called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void sendFriendRequest(String fromUID, String toUID, final FirebaseCallback<Void> callback) {
@@ -102,9 +103,10 @@ public class FirebaseHelper {
 
     /**
      * Flip the friend request (either approve or deny)
-     * @param fromUID Requester
-     * @param toUser Requestee
-     * @param approve Approve or deny request
+     *
+     * @param fromUID  Requester
+     * @param toUser   Requestee
+     * @param approve  Approve or deny request
      * @param callback Called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void flipFriendRequest(String fromUID, User toUser, boolean approve, final FirebaseCallback<Void> callback) {
@@ -145,7 +147,7 @@ public class FirebaseHelper {
     /**
      * Finish the friend request "hand-shaking" process
      *
-     * @param myUser Current user
+     * @param myUser   Current user
      * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void finishFriendRequest(User myUser, final FirebaseCallback<Void> callback) {
@@ -175,8 +177,8 @@ public class FirebaseHelper {
     /**
      * Un-follows the toUser by the myUser
      *
-     * @param fromUID Follower
-     * @param toUID Followee
+     * @param fromUID  Follower
+     * @param toUID    Followee
      * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     public void unfollowUser(String fromUID, String toUID, final FirebaseCallback<Void> callback) {
@@ -256,8 +258,9 @@ public class FirebaseHelper {
 
     /**
      * Add MoodEvent to FireBase
+     *
      * @param moodEvent MoodEvent to be added
-     * @param callback Callback, called called when the query finishes, needs to be of type FirebaseCallback<Void>
+     * @param callback  Callback, called called when the query finishes, needs to be of type FirebaseCallback<Void>
      */
     private void addMoodEvent(MoodEvent moodEvent, final FirebaseCallback<Void> callback) {
         db.collection("moodEvents").document(moodEvent.getMoodId())
@@ -288,7 +291,7 @@ public class FirebaseHelper {
      * @param callback Callback, called when the query finishes, needs to be of type FirebaseCallback<QuerySnapshot>
      */
     public void getFriendsMoodEvents(ArrayList<String> uids, final FirebaseCallback<QuerySnapshot> callback) {
-        for (String uid: uids) {
+        for (String uid : uids) {
             db.collection("moodEvents")
                     .whereEqualTo("user", uid)
                     .orderBy("date", Query.Direction.DESCENDING)
