@@ -28,6 +28,7 @@ import androidx.navigation.Navigation;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.Format;
@@ -226,15 +227,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
                     User updatedUser = new User(username, date, bio);
                     updatedUser.setUid(user.getUid());
-                    firebaseHelper.addUser(updatedUser,
-                            new FirebaseHelper.FirebaseCallback<DocumentReference>() {
+                    firebaseHelper.updateUser(updatedUser,
+                            new FirebaseHelper.FirebaseCallback<DocumentSnapshot>() {
                                 @Override
-                                public void onSuccess(DocumentReference doc) {
+                                public void onSuccess(DocumentSnapshot doc) {
                                     Toast.makeText(getContext(), "Successfully updated user details",
                                             Toast.LENGTH_SHORT).show();
+                                    User receivedUser = doc.toObject(User.class);
                                     mActivity.setIntent(
                                             new Intent(mActivity, MainActivity.class)
-                                                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("USER_PROFILE", updatedUser)
+                                                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("USER_PROFILE", receivedUser)
                                     );
                                     closeFragment();
                                 }
