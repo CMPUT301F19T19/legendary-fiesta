@@ -139,11 +139,6 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
             }
         }
 
-        for (int i = 0; i < emotionRadioGroup.getChildCount(); i++) {
-            RadioButton currentButton = (RadioButton) emotionRadioGroup.getChildAt(i);
-            currentButton.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        }
-
         return mView;
     }
 
@@ -162,7 +157,11 @@ public class ViewPostFragment extends Fragment implements View.OnClickListener,
     public void setViewMoodEvent(MoodEvent moodEvent) {
         // Set social condition
         String moodSocialCondition = MoodEvent.SocialCondition.SocialConditionStrings.get(moodEvent.getCondition());
-        socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
+        if (conditionsArray.indexOf(moodSocialCondition) >= 0) {
+            socialSpinner.setSelection(conditionsArray.indexOf(moodSocialCondition));
+        } else {
+            socialSpinner.setSelection(conditionsArray.size() - 1);
+        }
 
         // Set description
         descET.setText(moodEvent.getDescription());
