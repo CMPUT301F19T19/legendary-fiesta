@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * FragmentEmptyClass acts as an Empty container to contain a fragment.
+ * Used in Fragment testing.
+ */
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -11,9 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import io.github.cmput301f19t19.legendary_fiesta.User;
 
-/*
-Acts as an Empty container to contain a fragment. Used in fragment testing
- */
+
 public class FragmentEmptyClass extends AppCompatActivity {
 
     String uid = "yLXJlS4EVbZMGbuJggP68BePZDm2";

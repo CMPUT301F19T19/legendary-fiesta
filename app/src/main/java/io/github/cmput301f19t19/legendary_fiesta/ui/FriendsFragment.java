@@ -1,5 +1,15 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * FriendsFragment deals with displaying who the user is following, displaying user's following
+ * requests when the "requestButton" is clicked, and allowing the user to search for other user's
+ * to follow.
+ * When there are names displayed under "Following", the user can delete their Following if they
+ * choose to.
+ * When searching for other users, the user can follow those users and a follow request will be send
+ * to them.
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +74,6 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
 
     private ArrayList<User> friends;
     private ImageButton requestButton;
-    private ImageButton refreshButton;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -235,7 +244,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener, A
             toggleControls(false);
             //Loop through all friends to find matching names
             for (User searchUser : users) {
-                if(!user.getFollowing().contains(searchUser.getUid())){
+                if (!user.getFollowing().contains(searchUser.getUid())) {
                     if (searchUser.getUsername().toUpperCase().contains(searchName.toUpperCase())) {
                         searchFriendsArray.add(searchUser);
                     }

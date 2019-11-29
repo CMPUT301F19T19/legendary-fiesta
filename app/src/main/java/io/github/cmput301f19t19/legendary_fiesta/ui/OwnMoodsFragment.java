@@ -1,5 +1,13 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+ * OwnMoodsFragment deals with displaying the user's MoodEvents in a interactive list, launching
+ * a map to visualize the locations of his/her MoodEvents and allowing the user to filter MoodEvents
+ * his/her MoodEvents.
+ * OwnMoodsFragment also allows the user to delete his/her MoodEvents and clicking a MoodEvent allows
+ * the user to see/edit their MoodEvent in detail.
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;

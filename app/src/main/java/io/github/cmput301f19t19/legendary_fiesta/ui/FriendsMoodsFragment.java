@@ -126,7 +126,7 @@ public class FriendsMoodsFragment extends Fragment implements AdapterView.OnItem
             }
         });
 
-        swipeRefreshLayout = mView.findViewById(R.id.swipe_to_refresh);
+        swipeRefreshLayout = mView.findViewById(R.id.friends_moods_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
