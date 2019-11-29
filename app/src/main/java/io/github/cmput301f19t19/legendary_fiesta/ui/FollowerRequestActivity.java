@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui;
 
+/*
+  FollowerRequestActivity deals with displaying the user's follow requests by other users and also
+  allowing the user to accept or reject other user's request to follow the user.
+ */
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +15,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.FirebaseApp;
 
@@ -33,6 +39,7 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     private ArrayList<FriendRequest> requestDataList;
     private RequestAdapter requestAdapter;
     private FirebaseHelper helper;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,17 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.hide();
+
+        swipeRefreshLayout = findViewById(R.id.follow_request_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestDataList.clear();
+                getRequest();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         //hide notification bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
