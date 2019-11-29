@@ -58,19 +58,4 @@ public class UserTest {
         user.setUid(newUid);
         Assert.assertEquals(newUid, user.getUid());
     }
-
-    @Test
-    public void acceptFollowRequestTest() {
-        // TODO
-    }
-
-    @Test
-    public void rejectFollowRequestTest() {
-        // TODO
-    }
-
-    @Test
-    public void requestToFollowTest() {
-        // TODO
-    }
 }
