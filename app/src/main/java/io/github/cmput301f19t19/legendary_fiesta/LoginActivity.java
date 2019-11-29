@@ -270,8 +270,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // TODO: better error handling
-                        Log.e("FeelsLog", "onFailure: ", e);
+                        Toast.makeText(context, "Login error.", Toast.LENGTH_SHORT).show();;
                     }
                 });
             } else {
