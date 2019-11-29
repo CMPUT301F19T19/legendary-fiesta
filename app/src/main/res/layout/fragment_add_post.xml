@@ -117,7 +117,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
+            android:baselineAligned="false" android:orientation="horizontal">
 
 
             <RelativeLayout
@@ -293,7 +293,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:orientation="horizontal">
+            android:baselineAligned="false" android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/socialSpinnerLayout"
