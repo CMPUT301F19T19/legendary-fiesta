@@ -5,3 +5,5 @@
 Licensed under MIT license
 
 Mood icons taken from https://logomakr.com/ under permission
+
+Other third-party libraries: [Other third-party libraries](https://github.com/CMPUT301F19T19/legendary-fiesta/blob/master/ThirdPartyNotices.md)

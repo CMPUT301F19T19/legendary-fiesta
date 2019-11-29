@@ -63,7 +63,6 @@
             android:id="@+id/imageViewFriends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/social_spinner"
             android:layout_alignParentLeft="false"
             android:adjustViewBounds="true"
             android:paddingLeft="0dp"
