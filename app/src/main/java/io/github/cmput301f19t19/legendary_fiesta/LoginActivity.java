@@ -125,6 +125,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (userName.contains(" ")) {
+            submit_button.setEnabled(true);
+            showProgressOverlay(false);
+            Toast.makeText(this, R.string.login_username_whitespace, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (birthDateString.isEmpty()) {
             submit_button.setEnabled(true);
             showProgressOverlay(false);

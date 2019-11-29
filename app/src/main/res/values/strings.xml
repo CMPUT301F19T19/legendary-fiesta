@@ -43,6 +43,7 @@
     <string name="login_invalid_date">The date is invalid</string>
     <string name="login_no_date">Birth Date cannot be empty</string>
     <string name="login_no_username">Username cannot be empty</string>
+    <string name="login_username_whitespace">Username cannot have whitespaces</string>
     <string name="log_out_button">Log Out</string>
     <string name="add_post_location_button">Location</string>
     <string name="birth_date_button_text">Birthdate</string>
