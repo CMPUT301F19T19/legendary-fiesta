@@ -30,7 +30,7 @@ import io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter.RequestAdapter
 
 public class FollowerRequestActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //UI Elements
+    // UI Elements
     private ImageButton backButton;
     private ListView requestList;
     private User user;
@@ -84,9 +84,8 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back_button:
-                finish();
+        if (v.getId() == R.id.back_button) {
+            finish();
         }
     }
 
