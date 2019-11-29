@@ -1,5 +1,9 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+/*
+ * Custom ArrayAdapter to display the user's MoodEvents in a beautiful list.
+ */
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

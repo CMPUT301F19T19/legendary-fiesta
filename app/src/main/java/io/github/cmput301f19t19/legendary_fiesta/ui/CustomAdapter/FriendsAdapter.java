@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+/*
+ * Custom ArrayAdapter to display other users' user names when searching for other users.
+ * This adapter allows the user to follow other users.
+ */
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;

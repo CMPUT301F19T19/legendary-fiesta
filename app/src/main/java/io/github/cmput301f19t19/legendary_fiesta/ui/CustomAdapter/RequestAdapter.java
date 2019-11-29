@@ -1,5 +1,10 @@
 package io.github.cmput301f19t19.legendary_fiesta.ui.CustomAdapter;
 
+/*
+ * Customer ArrayAdapter to display user's follow requests from other users.
+ * This adapter allows the user to accept or reject other users' follow request.
+ */
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
