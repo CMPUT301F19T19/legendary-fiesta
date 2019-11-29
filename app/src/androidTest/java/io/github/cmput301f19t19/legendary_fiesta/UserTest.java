@@ -28,6 +28,7 @@ public class UserTest {
     public void parcelTest() {
         Parcel parcel = Parcel.obtain();
         user.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
         User deFrost = User.CREATOR.createFromParcel(parcel);
         Assert.assertEquals(deFrost.getUsername(), username);
         Assert.assertEquals(deFrost.getBirthDate(), birthDate);

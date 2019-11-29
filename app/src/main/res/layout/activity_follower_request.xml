@@ -35,7 +35,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/follow_request_refresh"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
         android:dividerHeight="-0.5dp"
