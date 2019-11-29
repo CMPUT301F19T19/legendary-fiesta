@@ -41,8 +41,6 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
     private FirebaseHelper helper;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +82,7 @@ public class FollowerRequestActivity extends AppCompatActivity implements View.O
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //swipe to refresh
-        swipeRefreshLayout = findViewById(R.id.swipe_to_refresh_request);
+        swipeRefreshLayout = findViewById(R.id.follow_request_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
