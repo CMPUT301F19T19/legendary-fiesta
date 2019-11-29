@@ -1,6 +1,7 @@
 package io.github.cmput301f19t19.legendary_fiesta;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -29,13 +30,14 @@ public class MoodEventTest {
 
     @Before
     public void setUp() {
-        //moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
+        moodEvent = new MoodEvent(moodType, user, description, date, condition, photoURL, location);
     }
 
     @Test
     public void parcelTest() {
         Parcel parcel = Parcel.obtain();
         moodEvent.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
 
         MoodEvent deFrosted = MoodEvent.CREATOR.createFromParcel(parcel);
 
